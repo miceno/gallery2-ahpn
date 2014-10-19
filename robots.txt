@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /main.php?g2_
+Disallow: /srss
+Disallow: /*?g2_
+
