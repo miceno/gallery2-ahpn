@@ -26,16 +26,20 @@
 # Untracked folders
 ###################
 
-addviaemail
-bulkitemupdate
-bulkmanage
-bulkupload
-customderivatives
-download
-favourites
-geturls
-integrity
+# addviaemail
+# bulkitemupdate
+# bulkmanage
+# bulkupload
+# customderivatives
+# download
+# favourites
+# geturls
+# integrity
 
+
+###################
+# Pending to review folders
+###################
 # itemadd
 # jpegtran
 # keyalbum
