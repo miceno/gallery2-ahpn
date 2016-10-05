@@ -344,13 +344,13 @@ div.gbTabBar {
     font-weight: bold;
     margin: 0.8em 0 0;
     padding: 6px;
-    background: url('../matrix/images/tab_bg.gif') repeat-x bottom;
+    background: url('images/tab_bg.gif') repeat-x bottom;
     white-space: nowrap;
 }
 
 div.gbTabBar span.o {
     padding: 6px 0 5px 8px;
-    background: url('../matrix/images/tab_left.jpg') no-repeat left top;
+    background: url('images/tab_left.jpg') no-repeat left top;
 }
 #gallery.IE div.gbTabBar span.o {
     display: inline-block;   /* IE loses padding-left on wrapped inline nowrap element */
@@ -362,7 +362,7 @@ div.gbTabBar span.o {
 
 #gallery div.gbTabBar span span {
     padding: 6px 12px 5px 4px;
-    background: url('../matrix/images/tab_right.jpg') no-repeat right top;
+    background: url('images/tab_right.jpg') no-repeat right top;
 }
 
 #gallery div.gbTabBar a {
@@ -376,13 +376,13 @@ div.gbTabBar span.o {
 
 #gallery div.gbTabBar span.giSelected {
     padding-bottom: 6px;
-    background-image: url('../matrix/images/tab_left_on.jpg');
+    background-image: url('images/tab_left_on.jpg');
 }
 
 #gallery div.gbTabBar span.giSelected span {
     color: #333;
     padding-bottom: 6px;
-    background-image: url('../matrix/images/tab_right_on.jpg');
+    background-image: url('images/tab_right_on.jpg');
 }
 
 .autoCompleteShadow {
@@ -666,4 +666,40 @@ div#gsContent {
    display: block;
    margin: 6px 0;
    content: " ";
+}
+
+/*==========  Non-Mobile First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px) {
+    .theme-thumb{
+        width: 100%;
+    }
+}
+
+/* Custom, iPhone Retina */ 
+@media only screen and (max-width : 320px) {
+    .theme-content{
+        float: right;
+    }
+
+    .theme-thumb{
+        float: left;
+        width: 100%;
+    }
 }

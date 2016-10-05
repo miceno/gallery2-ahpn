@@ -5,6 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="{g->language}" xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+          
     {* Let Gallery print out anything it wants to put into the <head> element *}
     {g->head}
 
@@ -72,6 +74,12 @@
      * at the end of the <body> tag.  If you take this out, some code won't work properly.
      *}
     {g->trailer}
+    {php}
+    $includefilepath = GALLERY_CONFIG_DIR . '/ga.js';
+    if (file_exists($includefilepath)) {
+        include($includefilepath);
+    }
+    {/php}
 
     {* Put any debugging output here, if debugging is enabled *}
     {g->debug}
