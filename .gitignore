@@ -1,0 +1,80 @@
+
+*.mo
+
+# Folders to keep under version control
+# albumselect
+# archiveupload
+# captcha
+# cart
+# comment
+# customfield
+# dcraw
+# debug
+# dynamicalbum
+# exif
+# ffmpeg
+# flashvideo
+# gd
+# hidden
+# httpauth
+# icons
+# imageblock
+# imagemagick
+
+
+###################
+# Untracked folders
+###################
+
+addviaemail
+bulkitemupdate
+bulkmanage
+bulkupload
+customderivatives
+download
+favourites
+geturls
+integrity
+
+# itemadd
+# jpegtran
+# keyalbum
+# linkitem
+# linksinthehead
+# map
+# members
+# mime
+# multilang
+# netpbm
+# newitems
+# nokiaupload
+# notification
+# orestes-utils
+# panorama
+# permalinks
+# publishxp
+# quotas
+# randomhighlight
+# rating
+# rearrange
+# remote
+# replica
+# reupload
+# rewrite
+# rss
+# search
+# share
+# sitemap
+# sizelimit
+# slideshow
+# squarethumb
+# statistics
+# tags
+# thumbnail
+# thumbpage
+# title
+# uploadapplet
+# userinfo
+# watermark
+# webdav
+# zipcart
