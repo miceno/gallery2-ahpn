@@ -1,0 +1,501 @@
+# $Id: header.txt 17580 2008-04-13 00:38:13Z tnalmdal $
+#
+# Gallery - a web based photo album viewer and editor
+# Copyright (C) 2000-2008 Bharat Mediratta
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Gallery: Tags 1.3.6\n"
+"Report-Msgid-Bugs-To: gallery-translations@lists.sourceforge.net\n"
+"POT-Creation-Date: 2009-03-07 16:32+0100\n"
+"PO-Revision-Date: 2009-03-07 12:00+0100\n"
+"Last-Translator: Orestes Sánchez <orestes@acm.org>\n"
+"Language-Team: Catalonian <gallery-translations@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "bulk tags edit"
+msgstr "edició massiva d'etiquetes"
+
+msgid "Enter the number of CSS classes wanted"
+msgstr "Introduïx el numero de classes CSS desitjades"
+
+msgid "Update"
+msgstr "Actualitzar"
+
+msgid "Tag Class "
+msgstr "Classe Etiqueta "
+
+msgid "Font Size: "
+msgstr "Grandària de Font"
+
+msgid "Font Color: "
+msgstr "Color de Font: "
+
+msgid "Select"
+msgstr "Seleccionar"
+
+msgid "Applying Album Tags to SubItems"
+msgstr "Assignar Etiquetes d'Álbum als subelements"
+
+msgid "Preparing..."
+msgstr "Preparant..."
+
+#, c-format
+msgid "Processing item %d of %d"
+msgstr "Processant element %d de %d"
+
+#, c-format
+msgid "Items Tagged: %s"
+msgstr "Elements etiquetats: %s"
+
+msgid "Tagged Items"
+msgstr "Elements Etiquetats"
+
+msgid "Tagged item"
+msgstr "Element etiquetat"
+
+msgid "Tags"
+msgstr "Etiquetes"
+
+msgid "Tag management system"
+msgstr "Sistema de Gestió d'Etiquetes"
+
+msgid "Extra Data"
+msgstr "Dades addicionals"
+
+msgid "Tags Management"
+msgstr "Gestiò d'Etiquetes"
+
+msgid "Tags Settings"
+msgstr "Opcions d'Etiquetatge"
+
+msgid "Edit Tags"
+msgstr "Editar Etiquetes"
+
+msgid "Bulk Edit Tags"
+msgstr "Edició massiva d'Etiquetes"
+
+msgid "Tag Cloud"
+msgstr "Núvol d'etiquetes"
+
+msgid "Tags:"
+msgstr "Etiquetes:"
+
+msgid "Short URL for the Tag Cloud"
+msgstr "URL curt per al núvol d'etiquetes"
+
+msgid "Tag Virtual Album"
+msgstr "Àlbum virtual d'etiquetes"
+
+msgid "Short URL for a virtual album based on a Tag"
+msgstr "URL curt per a l'àlbum virtual d'una etiqueta"
+
+msgid "Tag to use to create the Virtual Album"
+msgstr "Etiqueta utilitzada per a crear l'àlbum virtual"
+
+msgid "[Tags] Edit Tags"
+msgstr "[Etiquetes] Editar Etiquetes"
+
+msgid "Copy my Keywords into the tags"
+msgstr ""
+
+msgid ""
+"This task will go throught all the gallery item and copy all of the keywords into the tags, "
+"if the tag exists, it will not be duplicated existing tags will be kept"
+msgstr ""
+
+msgid "Migrating Keywords into Tags"
+msgstr ""
+
+#, c-format
+msgid "Item 0 of %d"
+msgstr ""
+
+#, c-format
+msgid "Item %d of %d"
+msgstr ""
+
+msgid "All Keywords Properly Inserted in the Tags"
+msgstr ""
+
+msgid "Tags Module"
+msgstr "Mòdul d'Etiquetes"
+
+msgid "Search Tags"
+msgstr "Buscar etiquetes"
+
+msgid "Tag Name"
+msgstr "Nom de l'etiqueta"
+
+msgid "Copy origination date into the tags"
+msgstr ""
+
+msgid ""
+"This task will go throught all the gallery item and copy all of the origination date "
+"information into three tags: year, month, and day. If the tag exists, it will not be "
+"duplicated.  Existing tags will be kept"
+msgstr ""
+
+msgid "Migrating origination date into tags"
+msgstr ""
+
+msgid "All date information properly inserted in the tags"
+msgstr ""
+
+msgid "Done"
+msgstr "Acabar"
+
+#, c-format
+msgid "You can also use the %scolor name%s for example: %sYour Text%s"
+msgstr ""
+
+msgid "Tag Settings"
+msgstr "Opcions d'Etiquetes"
+
+msgid "General Settings"
+msgstr "Opcions General"
+
+msgid "Cloud Settings"
+msgstr "Opcions de Núvol"
+
+msgid "There was a problem processing your request."
+msgstr ""
+
+msgid "The Settings were successfully saved"
+msgstr ""
+
+msgid "This allows to manage the settings of the tags module"
+msgstr ""
+
+msgid "Show the tag Cloud Link"
+msgstr ""
+
+msgid "Show Links & tags below Pictures in album view"
+msgstr "Mostrar Enllaços i Etiquetes sota les fotografies en la vista de l'Àlbum"
+
+msgid "Allow Tags to be added directly under pictures"
+msgstr ""
+
+msgid "Limit the amount of popular tags shown"
+msgstr ""
+
+msgid "Amount to limit to (only valid is above is checked)"
+msgstr ""
+
+msgid "Please enter a valid limit"
+msgstr ""
+
+msgid "This allows to manage the settings for the tag cloud (both block and main one)"
+msgstr ""
+
+msgid "Select a Template to use"
+msgstr ""
+
+msgid "Text Template"
+msgstr ""
+
+msgid "Template Specific Settings"
+msgstr ""
+
+#, c-format
+msgid "Tag Class %s"
+msgstr ""
+
+msgid "em"
+msgstr "em"
+
+msgid "Save Settings"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "The Tag and it's mappings have been successfully deleted."
+msgstr ""
+
+msgid "The New Tag was created successfully."
+msgstr ""
+
+msgid "The Tag was renamed successfully."
+msgstr ""
+
+msgid "This allows to add, remove and edit tags from the database"
+msgstr ""
+
+msgid "Enter a Tag Name and Click Add:"
+msgstr "Introdueixi el nom de l'Etiqueta i premi Afegir:"
+
+msgid "Add"
+msgstr "Afegir"
+
+msgid "You need to enter a name for your tag"
+msgstr "Ha d'indicar el nom de l'etiqueta"
+
+msgid "Select a Tag and Click Delete or Edit"
+msgstr "Seleccioni una Etiqueta i premi Eliminar o Editar"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "New Name:"
+msgstr "Nou Nom:"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Please Enter the new tag name"
+msgstr "Introdueixi el nom de la nova etiqueta"
+
+msgid "Currently existing tags and usage:"
+msgstr "Etiquetes existents i la seva utilització:"
+
+#, c-format
+msgid "(page %d of %d)"
+msgstr "pàgina %d de %d"
+
+msgid "There were errors saving some items"
+msgstr ""
+
+msgid "There were errors saving all items"
+msgstr ""
+
+msgid "Successfully saved all items"
+msgstr ""
+
+msgid "This album contains no items"
+msgstr "Aquest àlbum no té elements"
+
+#, c-format
+msgid "Item '%s' Current Tags:"
+msgstr "Etiquetes de l'element '%s':"
+
+msgid "none"
+msgstr "Cap"
+
+msgid "New Tags"
+msgstr "Noves etiquetes"
+
+msgid "Saved successfully."
+msgstr "Enregistrament correcte."
+
+msgid "This item was modified by somebody else at the same time.  Your changes were lost."
+msgstr ""
+
+msgid "You do not have permissions to modify this item."
+msgstr "No té permisos per a modificar aquest element"
+
+msgid "Save and Done"
+msgstr "Guardar i Acabar"
+
+#, c-format
+msgid "Save and Edit Previous %s"
+msgstr "Guardar i Editar les %s anteriors"
+
+#, c-format
+msgid "Save and Edit Next %s"
+msgstr "Guardar i Editar les %s següents"
+
+msgid "Cancel"
+msgstr "Cancel·lar"
+
+msgid "Search Tag: "
+msgstr "Buscar Etiqueta: "
+
+msgid "Click to view Album"
+msgstr "Premi per a veure l'Àlbum"
+
+msgid "You have not defined any tags yet, you may do so "
+msgstr "No has definit etiquetes encara, ara pots fer-lo"
+
+msgid "by clicking here."
+msgstr "prement aquí."
+
+msgid "Current Tags"
+msgstr "Etiquetes"
+
+msgid "Popular Tags"
+msgstr "Etiquetes populars"
+
+msgid "Tags from Exif"
+msgstr "Etiquetes d'EXIF"
+
+msgid "The selection could not be extended, no children for this item"
+msgstr ""
+
+msgid "Remove"
+msgstr "Eliminar"
+
+msgid "There are no tags defined for this item!"
+msgstr ""
+
+msgid "Add Tag(s)"
+msgstr "Afegir etiquetes"
+
+msgid "Note: You can add multiple tags separated by , or ;"
+msgstr "Nota: Pot afegir diverses etiquetes separades per coma (,) o punt i coma (;)"
+
+msgid "Extend this tag selection"
+msgstr ""
+
+msgid "Items in Album"
+msgstr ""
+
+msgid "All Items"
+msgstr ""
+
+msgid "All Albums"
+msgstr ""
+
+msgid "Items in Sub Albums"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Already Tagged"
+msgstr "Ja està etiquetat"
+
+msgid "Add this Tag"
+msgstr "Afegir etiquetes"
+
+msgid "There are no tags defined Anywhere!"
+msgstr ""
+
+msgid "Exif Info"
+msgstr "Informació EXIF"
+
+msgid "Click a Value to add it as a tag"
+msgstr "Prem sobre un valor per a afegir-lo com una etiqueta"
+
+msgid "New Tag(s): "
+msgstr "Afegir Etiquetes: "
+
+msgid "Tags: "
+msgstr "Etiquetes: "
+
+msgid "No Tags"
+msgstr "Sense Etiquetes"
+
+msgid "Ishihara Tag Cloud"
+msgstr ""
+
+msgid "Ishihara info"
+msgstr ""
+
+msgid "Redraw"
+msgstr ""
+
+msgid "Flash Tag Cloud"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "Remove Me"
+msgstr ""
+
+msgid "Item Tags"
+msgstr ""
+
+msgid "Tag cloud"
+msgstr ""
+
+msgid "Maximum number of tags (empty for no limit)"
+msgstr ""
+
+msgid "Tag table (best in sidebar)"
+msgstr ""
+
+msgid "Show tag quantity"
+msgstr ""
+
+msgid "Show tags greater that this weight (default: 1)"
+msgstr ""
+
+msgid "Flash Tag Pie Chart"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Div width in pixels. 500"
+msgstr ""
+
+msgid "Div height in pixels. 400"
+msgstr ""
+
+msgid "Title font size px (20)"
+msgstr ""
+
+msgid "Font Color (000000)"
+msgstr ""
+
+msgid "Background color (ffffff)"
+msgstr ""
+
+msgid "Show labels"
+msgstr ""
+
+msgid "Sort order"
+msgstr ""
+
+msgid "Random"
+msgstr ""
+
+msgid "No sort"
+msgstr ""
+
+msgid "Descending"
+msgstr ""
+
+msgid "Acending"
+msgstr ""
+
+msgid "Lable text font color. #000"
+msgstr ""
+
+msgid "Allow bubbles to overflow the div."
+msgstr ""
+
+msgid "Show Info image & refresh link"
+msgstr ""
+
+msgid "Show title of block"
+msgstr ""
+
+msgid "Text font color. (EBAF00)"
+msgstr ""
+
+msgid "Background color. (292929) Blank for transparent, but affects performance."
+msgstr ""
+
+msgid "Flash width in pixels. (500)"
+msgstr ""
+
+msgid "Flash height in pixels. 3/4 of width for best results. (400)"
+msgstr ""
+
+msgid "Rotation speed percentage. (100)"
+msgstr "Percentatge de la velocitat de rotació. (100)"
+
+msgid "Font size magnifier. (5)"
+msgstr "Amplicació de font. (5)"
