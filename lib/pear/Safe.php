@@ -11,7 +11,7 @@
  * @author     Roman Ivanov <thingol@mail.ru>
  * @copyright  2004-2005 Roman Ivanov
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id: Safe.php 20960 2009-12-16 06:54:53Z mindless $
+ * @version    CVS: $Id: Safe.php 15342 2006-12-01 21:14:46Z andy_st $
  * @link       http://pear.php.net/package/HTML_Safe
  */
 
@@ -608,7 +608,7 @@ class HTML_Safe
        //$doc = $this->repackUTF7($doc);
 
        // Instantiate the parser
-       $parser = new XML_HTMLSax3();
+       $parser=& new XML_HTMLSax3();
 
        // Set up the parser
        $parser->set_object($this);

@@ -23,7 +23,7 @@
  * @package Themes
  * @subpackage Hybrid
  * @author Alan Harder <alan.harder@sun.com>
- * @version $Revision: 20936 $
+ * @version $Revision: 18172 $
  */
 class HybridTheme extends GalleryTheme {
 
@@ -33,7 +33,7 @@ class HybridTheme extends GalleryTheme {
 	$this->setId('hybrid');
 	$this->setName($gallery->i18n('Hybrid'));
 	$this->setDescription($gallery->i18n('Combined album/image/slideshow dynamic view'));
-	$this->setVersion('1.1.10');
+	$this->setVersion('1.1.9');
 	$this->setRequiredCoreApi(array(7, 36));
 	$this->setRequiredThemeApi(array(2, 5));
 	$this->setStandardSettings(array(

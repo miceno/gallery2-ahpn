@@ -23,7 +23,7 @@
  * @package GalleryCore
  * @subpackage Classes
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17980 $
  */
 
 /* Require the ADOdb libraries */
@@ -287,8 +287,7 @@ class GalleryStorage {
 	if (!isset($this->_extras)) {
 	    GalleryCoreApi::requireOnce(
 		'modules/core/classes/GalleryStorage/GalleryStorageExtras.class', true);
-	    $tmp = new GalleryStorageExtras($this);
-	    $this->_extras =& $tmp;
+	    $this->_extras =& new GalleryStorageExtras($this);
 	}
 	return $this->_extras;
     }
@@ -1118,7 +1117,7 @@ class GalleryStorage {
      */
     function _translateQuery($query) {
 	/* Change '[Class::member]' to 'table.column' or 'alias.column' */
-	while (preg_match('#\[([\w_=]*)::([\w_]*)\]#', $query, $regs)) {
+	while (ereg('\[([[:alnum:]_=]*)::([[:alnum:]_]*)\]', $query, $regs)) {
 	    $class = $regs[1];
 	    $member = $regs[2];
 	    list ($table, $alias) = $this->_translateTableName($class);
@@ -1134,7 +1133,7 @@ class GalleryStorage {
 	}
 
 	/* Change '[Class]' to 'table' */
-	while (preg_match('#\[([\w_=]*)\]#', $query, $regs)) {
+	while (ereg('\[([[:alnum:]_=]*)\]', $query, $regs)) {
 	    $class = $regs[1];
 	    list ($table, $alias) = $this->_translateTableName($class);
 	    if ($alias == null) {

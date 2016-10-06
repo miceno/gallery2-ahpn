@@ -1,7 +1,7 @@
 /****************************
  * Hybrid theme for Gallery2
  * @author Alan Harder <alan.harder@sun.com>
- * $Revision: 20996 $
+ * $Revision: 16849 $
  */
 
 //Class app
@@ -11,7 +11,6 @@ var app_ww, app_wh, // Window width/height
     app_is_ie = app_agent.indexOf('msie') >= 0 && app_agent.indexOf('opera') < 0,
     app_is_ie7 = app_agent.indexOf('msie 7') >= 0 && app_agent.indexOf('opera') < 0,
     app_is_safari = app_agent.indexOf('safari') >= 0,
-    app_is_chrome = app_agent.indexOf('chrome') >= 0,
     app_body; // Scrollable document container (<body> element, or html for IE)
 if (window.attachEvent) {
   window.attachEvent("onload", app_onload);
@@ -37,11 +36,7 @@ function app_init() {
   iframe.frameBorder = 0;
   popup.replaceChild(iframe, popup.firstChild);
 
-  if (app_is_chrome) {
-    document.onkeydown = app_onkeypress;
-  } else {
-    document.onkeypress = app_onkeypress;
-  }
+  document.onkeypress = app_onkeypress;
   if (window.attachEvent) window.attachEvent("onresize", app_onresize);
   else if (window.addEventListener) window.addEventListener("resize", app_onresize, false);
 
@@ -96,7 +91,7 @@ function app_getcookie() {
 	case 3: if (n) sidebar_onoff(); break;
 	case 4: if (!n) album_detailsonoff(); break;
 	case 5: if (n) album_itemlinksonoff(); break;
-	case 6: if (!n) text_onoff(); break;
+	case 6: if (n) text_onoff(); break;
       }
     }
   }
@@ -240,8 +235,8 @@ var image_on=0, // Image is visible
     image_cache = new Image, // For precaching an image
     image_iscached = new Array(data_count), // Track precached images
     imagearea, imagediv, textdiv, // Containers
-    text_on=1, // Description text is visible
-    text_empty=1; // Description text is empty
+    text_on=0, // Description text is visible
+    text_empty=0; // Description text is empty
 function image_setsize() {
   imagearea.style.height = (app_wh - textdiv.offsetHeight) + 'px';
 }
@@ -350,22 +345,17 @@ function image_setbuttons() {
   ui_vis('prev_img', j >= 0, 1);
   ui_vis('prev_off', j < 0 && !has_prev_page, 1);
   ui_vis('prev_page', j < 0 && has_prev_page, 1);
-  var last_empty = text_empty;
   text_empty = document.getElementById('text_'+image_index).innerHTML ?0:1;
   if (!text_on) {
     ui_vis('text_on', !text_empty, 1);
     ui_vis('text_none', text_empty, 1);
-  }
-  else if (last_empty != text_empty) {
-    ui_vis('text', !text_empty);
-    if (image_on) { image_setsize(); image_fit(); }
   }
 }
 function text_onoff() {
   if ((text_on = text_on?0:1) && data_count > 0) text_fill();
   ui_vis(text_empty ? 'text_none' : 'text_on', !text_on, 1);
   ui_vis('text_off', text_on, 1);
-  ui_vis('text', text_on && !text_empty);
+  ui_vis('text', text_on);
   if (image_on) { image_setsize(); image_fit(); }
 }
 function text_fill() {

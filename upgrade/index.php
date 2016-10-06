@@ -10,7 +10,7 @@
  *
  * ----------------------------------------------------------------------------
  *
- * $Id: index.php 20960 2009-12-16 06:54:53Z mindless $
+ * $Id: index.php 17580 2008-04-13 00:38:13Z tnalmdal $
  *
  * Gallery - a web based photo album viewer and editor
  * Copyright (C) 2000-2008 Bharat Mediratta
@@ -168,7 +168,7 @@ if (!$error) {
     $currentStep =& $steps[$stepNumber];
 } else {
     require_once(dirname(__FILE__) . '/steps/RedirectToInstallerStep.class');
-    $currentStep = new RedirectToInstallerStep();
+    $currentStep =& new RedirectToInstallerStep();
 }
 
 if (!empty($_GET['doOver'])) {

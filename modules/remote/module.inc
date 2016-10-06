@@ -21,7 +21,7 @@
 /**
  * @package Remote
  * @author Pierre-Luc Paour <paour@users.sourceforge.net>
- * @version $Revision: 20954 $
+ * @version $Revision: 18172 $
  */
 class RemoteModule extends GalleryModule {
 
@@ -30,7 +30,7 @@ class RemoteModule extends GalleryModule {
 	$this->setId('remote');
 	$this->setName($gallery->i18n('Remote'));
 	$this->setDescription($gallery->i18n('Implementation for the remote control protocol'));
-	$this->setVersion('1.0.18');
+	$this->setVersion('1.0.17');
 	$this->_templateVersion = 1;
 	$this->setGroup('interfaces', $gallery->i18n('Remote Interfaces'));
 	$this->setCallbacks('getSiteAdminViews');

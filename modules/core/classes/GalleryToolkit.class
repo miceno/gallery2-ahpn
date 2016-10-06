@@ -29,7 +29,7 @@
  * @subpackage Classes
  * @author Ernesto Baschny <ernst@baschny.de>
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17580 $
  * @abstract
  */
 class GalleryToolkit {
@@ -107,9 +107,9 @@ class GalleryToolkit {
 		}
 
 		$newOperations = array();
-		foreach (explode(';', $targetOperations) as $operation) {
+		foreach (split(';', $targetOperations) as $operation) {
 		    if (!strncmp($operation, 'crop', 4)) {
-			list ($x, $y, $width, $height) = explode(',', substr($operation, 5));
+			list ($x, $y, $width, $height) = split(',', substr($operation, 5));
 
 			switch ($rotationAmount) {
 			case '90':

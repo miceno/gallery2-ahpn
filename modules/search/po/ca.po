@@ -97,7 +97,7 @@ msgid "Please enter a search term."
 msgstr "Si us plau, introdueix les paraules clau per buscar."
 
 msgid "Searching in progress, please wait!"
-msgstr ""
+msgstr "Recerca en curs, si us plau esperi"
 
 msgid "Advanced Search"
 msgstr "Recerca Avançada"
@@ -107,3 +107,9 @@ msgstr "Caixa de recerca"
 
 msgid "Show advanced link"
 msgstr "Mostrar enllaç avançat"
+
+msgid "Search Photo"
+msgstr "Recerca de foto"
+
+msgid "Enter Search Word"
+msgstr "Indiqui la paraula buscada"

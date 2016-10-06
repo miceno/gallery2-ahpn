@@ -1,4 +1,4 @@
-# $Id: hu.po 20954 2009-12-14 20:10:04Z mindless $
+# $Id: hu.po 18173 2008-10-17 07:14:30Z andy_st $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -21,8 +21,8 @@
 # - Gergely Dömsödi <doome@uhulinux.hu>
 #
 # , fuzzy
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Gallery: Debugging 1.0.8\n"

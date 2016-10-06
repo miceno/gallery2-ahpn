@@ -7,7 +7,7 @@
  *   email                : support@phpbb.com
  *
  *   phpBB  Id: smtp.php,v 1.16.2.9 2003/07/18 16:34:01 acydburn
- *      G2 $Id: smtp.php 20954 2009-12-14 20:10:04Z mindless $
+ *      G2 $Id: smtp.php 15342 2006-12-01 21:14:46Z andy_st $
  *
  ***************************************************************************/
 
@@ -46,10 +46,10 @@ function smtpmail($config, $to, $subject, $body, $headers=null) {
 	$headers = preg_replace('#(?<!\r)\n#si', "\r\n", $headers);
 
 	if (preg_match('#^cc:\s*(.*?)\s*$#mi', $headers, $match)) {
-	    $cc = preg_split('/, */', $match[1]);
+	    $cc = split(', *', $match[1]);
 	}
 	if (preg_match('#^bcc:\s*(.*?)\s*$#mi', $headers, $match)) {
-	    $bcc = preg_split('/, */', $match[1]);
+	    $bcc = split(', *', $match[1]);
 	    $headers = preg_replace('#^bcc:.*$#mi', '', $headers);
 	}
     }

@@ -25,7 +25,7 @@
  * @package GalleryCore
  * @subpackage Classes
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17991 $
  */
 class GalleryTemplateAdapter {
 
@@ -366,6 +366,33 @@ class GalleryTemplateAdapter {
 	return array(null, $html);
     }
 
+    function _javascript($smarty) {
+    	global $gallery;
+    	$urlGenerator =& $gallery->getUrlGenerator();
+    	$templateVars =& $smarty->get_template_vars();
+    	$head = $templateVars['head'];
+    	$output = array('');
+    
+	$gallery->debug("javascript init");
+    
+    	/* Javascript */
+    	if (!empty($head['javascript'])) {
+    	    $theme = $templateVars['theme'];
+    	    if (empty($theme['pageType']) || $theme['pageType'] != 'error') {
+    		$this->_combineJavascriptFiles(array_keys($head['javascript']), $output);
+    	    } else {
+    		foreach (array_keys($head['javascript']) as $file) {
+    		    $output[] = sprintf('<script type="text/javascript" src="%s"></script>',
+    			$urlGenerator->generateUrl(array('href' => $file)));
+    		}
+    	    }
+    	}
+        
+        $gallery->debug("javascript output: <pre>\n". implode("\n", $output). "</pre>");
+        $gallery->debug("javascript end");
+        return $output;
+    }
+    
     /**
      * Render head content
      *
@@ -390,18 +417,18 @@ class GalleryTemplateAdapter {
 	    $output[] = $linkHtml;
 	}
 
-	/* Javascript */
-	if (!empty($head['javascript'])) {
-	    $theme = $templateVars['theme'];
-	    if (empty($theme['pageType']) || $theme['pageType'] != 'error') {
-		$this->_combineJavascriptFiles(array_keys($head['javascript']), $output);
-	    } else {
-		foreach (array_keys($head['javascript']) as $file) {
-		    $output[] = sprintf('<script type="text/javascript" src="%s"></script>',
-			$urlGenerator->generateUrl(array('href' => $file)));
-		}
-	    }
-	}
+        /* Javascript */
+        if (!empty($head['javascript'])) {
+            $theme = $templateVars['theme'];
+            if (empty($theme['pageType']) || $theme['pageType'] != 'error') {
+                $this->_combineJavascriptFiles(array_keys($head['javascript']), $output);
+            } else {
+                foreach (array_keys($head['javascript']) as $file) {
+                    $output[] = sprintf('<script type="text/javascript" src="%s"></script>',
+                        $urlGenerator->generateUrl(array('href' => $file)));
+                }
+            }
+        }
 
 	/* Tpl to include. */
 	foreach ($head['tpl'] as $path => $l10Domain) {
@@ -709,9 +736,10 @@ class GalleryTemplateAdapter {
      * @access private
      */
     function _safeCssName($string) {
-	$string = preg_replace('/[^-A-Za-z0-9_]+/', '_', $string);
-	$string = preg_replace('/__+/', '_', $string);
-	return preg_replace('/[-_][-_]+/', '-', $string);
+	$string = ereg_replace("[^-A-Za-z0-9_]", "_", $string);
+	$string = ereg_replace('__+', '_', $string);
+	$string = ereg_replace('[-_][-_]+', '-', $string);
+	return $string;
     }
 
     /**
@@ -844,13 +872,15 @@ class GalleryTemplateAdapter {
 	    if (!$isAdminOrShowAll) {
 		return;
 	    }
-	    return sprintf(
-		    '<img src="%s" alt="%s" title="%s" style="%s" width="80" height="15"/>',
+	    return; /* sprintf(
+		    '%s<img src="%s" alt="%s" title="%s" style="%s" width="80" height="15"/>%s',
+		    $useLink ? '' : '',
 		    $urlGenerator->generateUrl(
 			array('href' => 'modules/core/data/g23-skidoo.png')),
 		    $core->translate('G2.3: Skidoo'),
 		    $core->translate('G2.3: Skidoo'),
-		    'border-style: none');
+		    'border-style: none',
+		    $useLink ? '' : ''); */
 	}
     }
 
@@ -865,16 +895,16 @@ class GalleryTemplateAdapter {
 	$buf = '';
 	if ($debug == 'buffered' || $profiling) {
 	    /* don't worry about localizing this -- it's only debug output */
-	    $buf .= '<div id="gpDebug"> <h3> Debug Output </h3>';
+	    $buf .= '<div id="gpDebug"> <h3> Debug Output </h3><pre>';
 	    if ($debug == 'buffered') {
 		$buf .= $gallery->getDebugBuffer();
 	    }
 
 	    if ($profiling) {
 		$storage =& $gallery->getStorage();
-		$buf .= '<span>' . $storage->getProfilingHtml() . '</span>';
+		$buf .= '</pre><span>' . $storage->getProfilingHtml() . '</span><pre>';
 	    }
-	    $buf .= '</div>';
+	    $buf .= '</pre></div>';
 	}
 	if ($debug == 'buffered') {
 	    /* Smarty debug console */
@@ -1104,6 +1134,7 @@ class GalleryTemplateAdapter {
 		}
 	    }
 	}
+        
     }
 
     /**

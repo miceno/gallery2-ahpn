@@ -1,9 +1,9 @@
 # $Id: strings.raw 17316 2007-12-28 17:43:45Z mindless $
 
 /* KeywordAlbum.inc */
-gettext("Keyword Album: %s")
-gettext("Keyword Album") /* also in: module.inc */
-gettext("keyword album")
+gettext("Keyword Album: %s") /* also in: local/KeywordAlbum.inc */
+gettext("Keyword Album") /* also in: module.inc local/KeywordAlbum.inc local/module.inc */
+gettext("keyword album") /* also in: local/KeywordAlbum.inc */
 
 /* KeywordAlbumSiteAdmin.inc */
 gettext("All album views")
@@ -13,13 +13,13 @@ gettext("None")
 gettext("&laquo; default theme &raquo;")
 
 /* module.inc */
-gettext("Keyword Albums")
-gettext("Dynamic albums based on keyword search")
-gettext("Display")
-gettext("Keywords:") /* also in: templates/blocks/KeywordLinks.tpl */
-gettext("Short URL for Keyword Albums")
-gettext("Keyword to use for dynamic album")
-gettext("Page number in a dynamic album")
+gettext("Keyword Albums") /* also in: local/module.inc */
+gettext("Dynamic albums based on keyword search") /* also in: local/module.inc */
+gettext("Display") /* also in: local/module.inc */
+gettext("Keywords:") /* also in: local/module.inc templates/blocks/KeywordLinks.tpl templates/blocks/local/KeywordLinks.tpl */
+gettext("Short URL for Keyword Albums") /* also in: local/module.inc */
+gettext("Keyword to use for dynamic album") /* also in: local/module.inc */
+gettext("Page number in a dynamic album") /* also in: local/module.inc */
 
 /* templates/KeywordAlbumSiteAdmin.tpl */
 gettext("Keyword Album Settings")
@@ -44,7 +44,7 @@ gettext("Save")
 gettext("Reset")
 
 /* templates/blocks/KeywordLinks.tpl */
-gettext("&laquo; Keyword Album &raquo;")
+gettext("&laquo; Keyword Album &raquo;") /* also in: templates/blocks/local/KeywordLinks.tpl */
 
 /* templates/blocks/blocks.inc */
 gettext("Keyword album links")

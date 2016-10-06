@@ -21,7 +21,7 @@
  * Perform all necessary initialization of the Gallery framework
  * @package Gallery
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20967 $
+ * @version $Revision: 17962 $
  */
 
 require_once(dirname(__FILE__) . '/modules/core/classes/GalleryUtilities.class');
@@ -31,10 +31,6 @@ function GalleryInitFirstPass($params=array()) {
 
     ini_set('magic_quotes_runtime', 0);
     ini_set('magic_quotes_sybase', 0);
-    if (function_exists('date_default_timezone_set')) {
-	/* PHP 5.3 requires a default be set before using any date/time functions */
-	@date_default_timezone_set(date_default_timezone_get());
-    }
 
     /* Specify that when an assertion fails, we terminate right away */
     assert_options(ASSERT_WARNING, 1);
@@ -42,27 +38,11 @@ function GalleryInitFirstPass($params=array()) {
 
     /* Load all the core Gallery classes */
     $galleryBase = dirname(__FILE__) . '/';
-
-    /*
-     * Conditional class loading confuses APC resulting in
-     *   "Cannot redeclare class gallerycoreapi"
-     * log spam.  Only load GalleryCoreApi if it isn't loaded.
-     */
-    if (!class_exists("GalleryCoreApi")) {
-      require_once($galleryBase . 'modules/core/classes/GalleryCoreApi.class');
-    }
+    require_once($galleryBase . 'modules/core/classes/GalleryCoreApi.class');
     GalleryCoreApi::requireOnce('modules/core/classes/GalleryConstants.class');
     GalleryCoreApi::requireOnce('modules/core/classes/GalleryCapabilities.class');
     GalleryCoreApi::requireOnce('modules/core/classes/GalleryView.class');
     GalleryCoreApi::requireOnce('modules/core/classes/GalleryModule.class');
-
-    /*
-     * Extra hack code for APC: preload some common classes.
-     */
-    if (function_exists("apc_add")) {
-      GalleryCoreApi::requireOnce('modules/core/classes/GalleryPhotoItem.class');
-      GalleryCoreApi::requireOnce('modules/core/classes/GalleryMovieItem.class');
-    }
 
     if (!strncasecmp(PHP_OS, 'win', 3)) {
 	GalleryCoreApi::requireOnce('modules/core/classes/GalleryPlatform/WinNtPlatform.class');

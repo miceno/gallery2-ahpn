@@ -24,7 +24,7 @@
  *
  * @package ItemAdd
  * @author Alan Harder <alan.harder@sun.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 18172 $
  */
 class ItemAddModule extends GalleryModule {
 
@@ -33,7 +33,7 @@ class ItemAddModule extends GalleryModule {
 	$this->setId('itemadd');
 	$this->setName($gallery->i18n('Add Items'));
 	$this->setDescription($gallery->i18n('Add items from local server or the web'));
-	$this->setVersion('1.0.9');
+	$this->setVersion('1.0.8');
 	$this->_templateVersion = 1;
 	$this->setGroup('import', $gallery->i18n('Import'));
 	$this->setCallbacks('getSiteAdminViews');
