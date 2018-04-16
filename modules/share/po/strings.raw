@@ -1,0 +1,26 @@
+# $Id: strings.raw 1906 2009-10-19 22:20:06Z siliconfiend $
+
+/* module.inc */
+gettext("Share") /* also in: templates/blocks/ShareBlock.tpl */
+gettext("Share link to Gallery pictures on social media sites such as Facebook")
+gettext("Export")
+
+/* templates/ShareSiteAdmin.tpl */
+gettext("Share Settings") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("Settings have been saved") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("An error occured") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("General settings") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("These control the settings which apply globally to the Share link blocks on your Gallery") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("Show Share links only when logged in (hide for guests)") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("Save Settings") /* also in: templates/local/ShareSiteAdmin.tpl */
+gettext("Reset") /* also in: templates/local/ShareSiteAdmin.tpl */
+
+/* templates/blocks/blocks.inc */
+gettext("Link Share button")
+
+/* templates/blocks/local/ShareBlock.tpl */
+gettext("Comparte:")
+gettext("More")
+
+/* templates/local/ShareSiteAdmin.tpl */
+gettext("addThis.com account ID")

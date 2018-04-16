@@ -1263,8 +1263,8 @@ ngettext("(%d item total)", "(%d items total)")
 gettext("Views: %d")
 
 /* templates/blocks/ItemLinks.tpl */
-gettext("&laquo; album actions &raquo;")
-gettext("&laquo; item actions &raquo;")
+gettext("&laquo; album actions &raquo;") /* also in: templates/blocks/local/ItemLinks.tpl */
+gettext("&laquo; item actions &raquo;") /* also in: templates/blocks/local/ItemLinks.tpl */
 
 /* templates/blocks/LanguageSelector.tpl */
 gettext("Go")
@@ -1280,7 +1280,7 @@ gettext("first")
 gettext("previous")
 
 /* templates/blocks/Pager.tpl */
-gettext("Page:")
+gettext("Page:") /* also in: templates/blocks/local/Pager.tpl */
 
 /* templates/blocks/PeerList.tpl */
 gettext("%d. %s")

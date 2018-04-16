@@ -45,7 +45,7 @@ class AdminModerateSpamController extends GalleryController {
 
 	$status = $error = array();
 	if (isset($form['action']['deleteAllSpam'])) {
-	    $batchSize = 100;
+	    $batchSize = 10;
 	    while (true) {
 		/** @todo use a progress bar here */
 		list ($ret, $comments, $count) = GalleryCommentHelper::fetchAllComments(

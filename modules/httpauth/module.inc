@@ -22,7 +22,7 @@
  * HTTP Auth Module.  Login using HTTP authentication.
  * @package HttpAuth
  * @author Jack Bates <ms419@freezone.co.uk>
- * @version $Revision: 20960 $
+ * @version $Revision: 18172 $
  */
 class HttpAuthModule extends GalleryModule /* and GalleryEventListener */ {
 
@@ -31,7 +31,7 @@ class HttpAuthModule extends GalleryModule /* and GalleryEventListener */ {
 
 	$this->setId('httpauth');
 	$this->setName($gallery->i18n('HTTP Auth'));
-	$this->setVersion('1.0.4'); /* Update upgrade() too! */
+	$this->setVersion('1.0.3'); /* Update upgrade() too! */
 	$this->_templateVersion = 1;
 	$this->setDescription($gallery->i18n('Login using HTTP authentication.'));
 	$this->setGroup('authentication', $gallery->i18n('Authentication'));
@@ -213,7 +213,6 @@ class HttpAuthModule extends GalleryModule /* and GalleryEventListener */ {
 	case '1.0.1':
 	    /* Refactored to new event registration from core API 7.34 */
 	case '1.0.2':
-	case '1.0.3':
 
 	case 'end of upgrade path':
 	    break;

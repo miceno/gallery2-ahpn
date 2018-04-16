@@ -121,11 +121,13 @@ class ItemEditWatermark extends ItemEditPlugin {
 
 	$message = $module->translate($message);
 	$templateAdapter =& $gallery->getTemplateAdapter();
+        $offset = null;
+        $limit = null;
 	$templateAdapter->updateProgressBar($message, $module->translate('Preparing...'), 0);
 
 	if ($recursive) {
 	    list ($ret, $itemIds) =
-		GalleryCoreApi::fetchDescendentItemIds($item, null, null, 'core.edit');
+		GalleryCoreApi::fetchDescendentItemIds($item, $offset, $limit, 'core.edit');
 	    if ($ret) {
 		return $ret;
 	    }
@@ -139,6 +141,7 @@ class ItemEditWatermark extends ItemEditPlugin {
 
 	$i = 0;
 	$total = count($itemIds);
+        $message .= " from " . $offset . " to " . $total . " derivatives";
 	while (!empty($itemIds)) {
 	    $batchIds = array_splice($itemIds, 0, 100);
 	    list ($ret, $items) = GalleryCoreApi::loadEntitiesById($batchIds, 'GalleryItem');

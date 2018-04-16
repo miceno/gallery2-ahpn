@@ -24,7 +24,7 @@
  * @package GalleryCore
  * @subpackage UserInterface
  * @author Jay Rossiter <cryptographite@users.sf.net>
- * @version $Revision: 20996 $
+ * @version $Revision: 17580 $
  */
 class UserRecoverPasswordAdminController extends GalleryController {
 
@@ -192,9 +192,11 @@ class UserRecoverPasswordAdminView extends GalleryView {
 	global $gallery;
 	$session =& $gallery->getSession();
 
-        GalleryCoreApi::requireOnce('lib/joomla/crypt.php');
-        $j = new JCrypt();
-        $rand = $j->genRandomBytes(32);
+	for ($len=64, $rand='';
+	     strlen($rand) < $len;
+	     $rand .= chr(!mt_rand(0, 2) ? mt_rand(48, 57) :
+			  (!mt_rand(0, 1) ? mt_rand(65, 90) :
+			   mt_rand(97, 122))));
 	$session->put('core.UserRecoverPasswordAdminAuthKey', md5($rand));
     }
 }

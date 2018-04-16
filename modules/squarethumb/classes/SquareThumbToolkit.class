@@ -44,6 +44,12 @@ class SquareThumbToolkit extends GalleryToolkit {
 	global $gallery;
 	$platform =& $gallery->getPlatform();
 
+        $gallery->debug("Square Thumbnail performOperation");
+        foreach( array('mimeType', 'operationName', 'sourceFilename',
+                              'destFilename', 'parameters', 'context') as $p){
+                $gallery->debug_r(array($p => $$p));
+        }
+
 	if ($operationName != 'thumbnail') {
 	    return array(GalleryCoreApi::error(ERROR_UNSUPPORTED_OPERATION, __FILE__, __LINE__,
 					      "$operationName $mimeType"), null, null);
@@ -114,6 +120,9 @@ class SquareThumbToolkit extends GalleryToolkit {
 		return array($ret, null, null);
 	    }
 	    $sourceFilename = $destFilename;
+            $gallery->debug("Square Thumbnail performOperation crop result");
+            $gallery->debug_r($subContext);
+
 	}
 
 	if ($subContext['width'] > $parameters[0] || $subContext['height'] > $parameters[0]) {
@@ -211,6 +220,7 @@ class SquareThumbToolkit extends GalleryToolkit {
 
 	$context['width'] = $subContext['width'];
 	$context['height'] = $subContext['height'];
+
 	return array(null, $mimeType, $context);
     }
 

@@ -1,0 +1,112 @@
+if ! test -d '/homepages/8/d228439513/htdocs/private/gallery2-data/'; then \
+	    echo "************************************************************"; \
+	    echo "WARNING: We detected the following as your g2data dir but"; \
+	    echo "this directory does not appear to exist.  We will be unable"; \
+	    echo "to copy new .mo files into the g2data/locale directory until"; \
+	    echo "this is fixed."; \
+	    echo ""; \
+	    echo '/homepages/8/d228439513/htdocs/private/gallery2-data/'; \
+	    echo ""; \
+	    echo "Alternatively, point your browser at gallery2/lib/support, "; \
+	    echo "click the \"Filesystem Permissions\" link and then click "; \
+	    echo "the 'Make the locale folder read/write' link"; \
+	    echo "************************************************************"; \
+	fi
+php -f "../../../lib/tools"/po/extract.php "/kunden/homepages/8/d228439513/htdocs/gallery2/modules/geturls" > strings.raw.tmp
+# Don't extract right to strings.raw because extract.php tries to preserve
+# some old data from strings.raw and the > redirect blanks it out.
+mv strings.raw.tmp strings.raw
+xgettext --keyword=_ -C --no-location --add-comments=HINT: \
+		  --msgid-bugs-address=gallery-translations@lists.sourceforge.net strings.raw
+sed '1,4 d' < messages.po > messages.tmp
+cat "../../../lib/tools"/po/header.txt messages.tmp > messages.po
+rm -f messages.tmp
+perl "../../../lib/tools"/po/premerge-messages.pl ca.po messages.po > messages.tmp
+# ignore errors from msgmerge, we'll catch them on the msgfmt command:
+if [ -s messages.tmp ]; then \
+	    msgmerge --quiet --width=95  ca.po messages.tmp > ca.po.tmp; \
+	    if [ -s ca.po.tmp ]; then mv ca.po.tmp ca.po; else rm -f ca.po.tmp; fi; \
+	    perl -pi "../../../lib/tools"/po/header.pl ca.po; \
+	  elif [ -z "" ]; then \
+	    if [ -n "" ]; then \
+	      perl "../../../lib/tools"/po/premerge-messages.pl -2 messages.po  > ca.po; \
+	    else cp messages.po ca.po; fi; \
+	    perl -pi "../../../lib/tools"/po/header.pl ca.po; \
+	  fi
+rm -f messages.tmp
+if ! test -z ""; then set -x; fi; \
+	if test "" = "solaris"; then \
+	    echo "You'll probably get some warnings on Solaris. This is normal."; \
+	    MSGFMT_CMD="msgfmt -v -o"; \
+	else \
+	    MSGFMT_CMD="msgfmt -v -c -o"; \
+	fi; \
+	FAIL=0; \
+	COPY_FAIL=0; \
+	echo "Updating ca"; \
+	for LOCALE in `ls ca.po | grep -v messages.po | sed 's/\.[^.]*$//g'`; do \
+	    INSTALL_FILE=""; \
+	    if test -z "${QUIET}"; then echo ${LOCALE}; fi; \
+	    if test -d ../locale; then \
+		if ! "../../../lib/tools"/po/shtool mkdir -p ../locale/${LOCALE}/LC_MESSAGES; then \
+		    echo "Could not create directory: ../locale/${LOCALE}/LC_MESSAGES"; \
+		    exit 1; \
+		fi; \
+		MO_FILE=../locale/${LOCALE}/LC_MESSAGES/modules_geturls.mo; \
+	    elif test "modules_geturls" = "gallery2_install" \
+		   || test "modules_geturls" = "gallery2_upgrade";  then \
+		if ! ../../../lib/tools/po/shtool mkdir -p ../../locale/${LOCALE}/LC_MESSAGES; then \
+		    echo "Could not create directory: ../../locale/${LOCALE}/LC_MESSAGES"; \
+		    exit 1; \
+		fi; \
+		MO_FILE=../../locale/${LOCALE}/LC_MESSAGES/modules_geturls.mo; \
+	    else \
+		MO_FILE=${LOCALE}.mo; \
+		if test -d '/homepages/8/d228439513/htdocs/private/gallery2-data/'; then \
+		    INSTALL_DIR='/homepages/8/d228439513/htdocs/private/gallery2-data/'/locale/${LOCALE}/LC_MESSAGES; \
+		    INSTALL_FILE="${INSTALL_DIR}/modules_geturls.mo"; \
+		fi; \
+	    fi; \
+	    php -f ../../../lib/tools/po/trim-po.php `pwd`/${LOCALE}.po > tmp.po; \
+	    if ${MSGFMT_CMD} ${MO_FILE} tmp.po; then \
+		if test -n "${QUIET}"; then \
+		    echo -n '.'; \
+		fi; \
+		if test -n "${INSTALL_FILE}"; then \
+		    if ! test -d "${INSTALL_DIR}"; then \
+			echo ">> Creating ${INSTALL_DIR}"; \
+			if ! ../../../lib/tools/po/shtool mkdir -p ${INSTALL_DIR}; then \
+			    echo "** Unable to create ${INSTALL_DIR}!"; \
+			    COPY_FAIL=1; \
+			fi \
+		    fi; \
+		    if test -d "${INSTALL_DIR}"; then \
+			if cp ${MO_FILE} ${INSTALL_FILE}; then \
+			    chmod 777 ${INSTALL_FILE} 2>/dev/null ; \
+			else \
+			    echo "** Unable to install ${INSTALL_FILE}!"; \
+			    COPY_FAIL=1; \
+			fi; \
+		    fi \
+		fi \
+	    else \
+		echo -n "Fail: ${LOCALE}"; \
+		FAIL=1; \
+	    fi; \
+	    rm -f tmp.po; \
+	    if test -z "${QUIET}"; then echo; fi; \
+	done; \
+	if test ${COPY_FAIL} -gt 0; then \
+	    echo "************************************************************"; \
+	    echo "WARNING: Failed to copy some .mo files to the g2data/locale"; \
+	    echo "directory! Try changing the permissions on your g2data dir: "; \
+	    echo ""; \
+	    echo 'chmod -R 777 /homepages/8/d228439513/htdocs/private/gallery2-data//locale'; \
+	    echo ""; \
+	    echo "Alternatively, point your browser at gallery2/lib/support, "; \
+	    echo "click the \"Filesystem Permissions\" link and then click "; \
+	    echo "the 'Make the locale folder read/write' link"; \
+	    echo "************************************************************"; \
+	fi; \
+	if test ${FAIL} -gt 0; then exit 1; fi;
+echo '';

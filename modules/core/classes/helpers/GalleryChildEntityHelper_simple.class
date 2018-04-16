@@ -18,6 +18,9 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+
+GalleryCoreApi::requireOnce('modules/orestes-utils/orestes-debug.php');
+
 /**
  * Helper class for GalleryChildEntities
  * @package GalleryCore
@@ -146,6 +149,9 @@ class GalleryChildEntityHelper_simple {
 	if (!GalleryUtilities::isA($item, 'GalleryItem')) {
 	    return array(GalleryCoreApi::error(ERROR_BAD_PARAMETER), null);
 	}
+ 
+
+	// print_r_tree( $item);
 
 	list ($ret, $query, $data) = GalleryChildEntityHelper_simple::buildItemQuery(
 		'GalleryChildEntity', 'id', '[GalleryChildEntity::parentId] = ?',

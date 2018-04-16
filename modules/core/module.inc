@@ -22,7 +22,7 @@
  * Gallery core module.
  * @package GalleryCore
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20996 $
+ * @version $Revision: 18172 $
  */
 class CoreModule extends GalleryModule {
 
@@ -31,10 +31,10 @@ class CoreModule extends GalleryModule {
 
 	$this->setId('core');
 	$this->setName($gallery->i18n('Core'));
-	$this->setGalleryVersion('2.3.2');
+	$this->setGalleryVersion('2.3');
 
 	/* Don't forget to update CoreModuleExtras::upgrade and _prepareConfigUpgrade too! */
-	$this->setVersion('1.3.0.2');
+	$this->setVersion('1.3.0');
 	$this->_templateVersion = 1;
 
 	$this->setDescription($gallery->i18n('Gallery 2 Core Module'));

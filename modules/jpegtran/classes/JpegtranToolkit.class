@@ -115,7 +115,7 @@ class JpegtranToolkit extends GalleryToolkit {
 	    return array(GalleryCoreApi::error(ERROR_UNSUPPORTED_OPERATION), null, null);
 	}
 
-	$cmd = array_merge($cmd, array('-outfile', $tmpFilename, $sourceFilename));
+	$cmd = array_merge($cmd, array('-maxmemory', '8192', '-outfile', $tmpFilename, $sourceFilename));
 
 	$gallery->guaranteeTimeLimit(90);
 	$oldCwd = $platform->getcwd();

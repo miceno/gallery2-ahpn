@@ -23,7 +23,7 @@
  * @package ArchiveUpload
  * @subpackage UserInterface
  * @author Alan Harder <alan.harder@sun.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17580 $
  */
 class ArchiveUploadSiteAdminController extends GalleryController {
 
@@ -149,7 +149,7 @@ class ArchiveUploadSiteAdminView extends GalleryView {
 	    return array($ret, null);
 	}
 	$form['isConfigure'] = !$isActive;
-	$form['canExec'] = !in_array('exec', preg_split('/,\s*/', ini_get('disable_functions')));
+	$form['canExec'] = !in_array('exec', split(',\s*', ini_get('disable_functions')));
 
 	if (isset($form['action']['test'])) {
 	    if (empty($form['error']['unzipPath'])) {

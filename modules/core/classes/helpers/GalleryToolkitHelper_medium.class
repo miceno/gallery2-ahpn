@@ -27,7 +27,7 @@
  * @package GalleryCore
  * @subpackage Helpers
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17580 $
  * @static
  */
 class GalleryToolkitHelper_medium {
@@ -502,11 +502,11 @@ class GalleryToolkitHelper_medium {
     function isSupportedOperationSequence($mimeType, $operations) {
 
 	$isSupported = true;
-	foreach (explode(';', $operations) as $operation) {
+	foreach (split(';', $operations) as $operation) {
 	    if (strpos($operation, '|') === false) {
 		list($operationName, $operationArgs) = array($operation, null);
 	    } else {
-		list($operationName, $operationArgs) = explode('|', $operation);
+		list($operationName, $operationArgs) = split('\|', $operation);
 	    }
 
 	    /* Get the appropriate toolkit */

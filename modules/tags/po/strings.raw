@@ -1,0 +1,191 @@
+# $Id$
+
+/* BulkTagsEdit.inc */
+gettext("bulk tags edit")
+
+/* TagsAdminCallback.inc */
+gettext("Enter the number of CSS classes wanted") /* also in: templates/AdminSettingsTags.tpl */
+gettext("Update") /* also in: templates/AdminSettingsTags.tpl */
+gettext("Tag Class ")
+gettext("Font Size: ") /* also in: templates/AdminSettingsTags.tpl */
+gettext("Font Color: ") /* also in: templates/AdminSettingsTags.tpl */
+gettext("Select") /* also in: templates/AdminSettingsTags.tpl */
+
+/* TagsItemEdit.inc */
+gettext("Applying Album Tags to SubItems")
+gettext("Preparing...")
+gettext("Processing item %d of %d")
+
+/* VirtualAlbum.inc */
+gettext("Items Tagged: %s")
+gettext("Tagged Items")
+gettext("Tagged item")
+
+/* module.inc */
+gettext("Tags") /* also in: classes/TagsSearch.class */
+gettext("Tag management system")
+gettext("Extra Data")
+gettext("Tags Management") /* also in: templates/AdminTags.tpl */
+gettext("Tags Settings")
+gettext("Edit Tags") /* also in: templates/TagsItemEdit.tpl */
+gettext("Bulk Edit Tags") /* also in: templates/BulkTagsEdit.tpl */
+gettext("Tag Cloud") /* also in: templates/TagCloud.tpl */
+gettext("Tags:")
+gettext("Short URL for the Tag Cloud")
+gettext("Tag Virtual Album")
+gettext("Short URL for a virtual album based on a Tag")
+gettext("Tag to use to create the Virtual Album")
+gettext("[Tags] Edit Tags")
+
+/* classes/KeywordsToTags.class */
+gettext("Copy my Keywords into the tags")
+gettext("This task will go throught all the gallery item and copy all of the keywords into the tags, if the tag exists, it will not be duplicated existing tags will be kept")
+gettext("Migrating Keywords into Tags")
+gettext("Item 0 of %d") /* also in: classes/TimestampToTags.class */
+gettext("Item %d of %d") /* also in: classes/TimestampToTags.class */
+gettext("All Keywords Properly Inserted in the Tags")
+
+/* classes/TagsSearch.class */
+gettext("Tags Module")
+gettext("Search Tags")
+gettext("Tag Name")
+
+/* classes/TimestampToTags.class */
+gettext("Copy origination date into the tags")
+gettext("This task will go throught all the gallery item and copy all of the origination date information into three tags: year, month, and day. If the tag exists, it will not be duplicated.  Existing tags will be kept")
+gettext("Migrating origination date into tags")
+gettext("All date information properly inserted in the tags")
+
+/* templates/AdminSettingsTags.tpl */
+gettext("Done")
+gettext("You can also use the %scolor name%s for example: %sYour Text%s")
+gettext("Tag Settings")
+gettext("General Settings")
+gettext("Cloud Settings")
+gettext("There was a problem processing your request.") /* also in: templates/AdminTags.tpl */
+gettext("The Settings were successfully saved")
+gettext("This allows to manage the settings of the tags module")
+gettext("Show the tag Cloud Link")
+gettext("Show Links & tags below Pictures in album view")
+gettext("Allow Tags to be added directly under pictures")
+gettext("Limit the amount of popular tags shown")
+gettext("Amount to limit to (only valid is above is checked)")
+gettext("Please enter a valid limit")
+gettext("This allows to manage the settings for the tag cloud (both block and main one)")
+gettext("Select a Template to use")
+gettext("Text Template")
+gettext("Template Specific Settings")
+gettext("Tag Class %s")
+gettext("em")
+gettext("Save Settings")
+gettext("Reset")
+
+/* templates/AdminTags.tpl */
+gettext("The Tag and it's mappings have been successfully deleted.")
+gettext("The New Tag was created successfully.")
+gettext("The Tag was renamed successfully.")
+gettext("This allows to add, remove and edit tags from the database")
+gettext("Enter a Tag Name and Click Add:")
+gettext("Add")
+gettext("You need to enter a name for your tag")
+gettext("Select a Tag and Click Delete or Edit")
+gettext("Delete")
+gettext("Edit")
+gettext("New Name:")
+gettext("Save") /* also in: templates/BulkTagsEdit.tpl */
+gettext("Please Enter the new tag name")
+gettext("Currently existing tags and usage:")
+
+/* templates/BulkTagsEdit.tpl */
+gettext("(page %d of %d)")
+gettext("There were errors saving some items")
+gettext("There were errors saving all items")
+gettext("Successfully saved all items")
+gettext("This album contains no items")
+gettext("Item '%s' Current Tags:")
+gettext("none") /* also in: templates/TagsItemEdit.tpl */
+gettext("New Tags")
+gettext("Saved successfully.")
+gettext("This item was modified by somebody else at the same time.  Your changes were lost.")
+gettext("You do not have permissions to modify this item.")
+gettext("Save and Done")
+gettext("Save and Edit Previous %s")
+gettext("Save and Edit Next %s")
+gettext("Cancel") /* also in: templates/TagsItemEdit.tpl */
+
+/* templates/TagCloud.tpl */
+gettext("Search Tag: ")
+gettext("Click to view Album")
+gettext("You have not defined any tags yet, you may do so ")
+gettext("by clicking here.")
+
+/* templates/TagsItemEdit.tpl */
+gettext("Current Tags")
+gettext("Popular Tags")
+gettext("Tags from Exif")
+gettext("The selection could not be extended, no children for this item")
+gettext("Remove")
+gettext("There are no tags defined for this item!")
+gettext("Add Tag(s)")
+gettext("Note: You can add multiple tags separated by , or ;")
+gettext("Extend this tag selection")
+gettext("Items in Album")
+gettext("All Items")
+gettext("All Albums")
+gettext("Items in Sub Albums")
+gettext("Apply")
+gettext("Already Tagged")
+gettext("Add this Tag")
+gettext("There are no tags defined Anywhere!")
+gettext("Exif Info")
+gettext("Click a Value to add it as a tag")
+
+/* templates/TagsSummaryEdit.tpl */
+gettext("New Tag(s): ")
+
+/* templates/blocks/ImageTags.tpl */
+gettext("Tags: ")
+gettext("No Tags")
+
+/* templates/blocks/TagBubble.tpl */
+gettext("Ishihara Tag Cloud") /* also in: templates/blocks/blocks.inc */
+gettext("Ishihara info")
+gettext("Redraw")
+
+/* templates/blocks/TagFlash.tpl */
+gettext("Flash Tag Cloud") /* also in: templates/blocks/blocks.inc */
+
+/* templates/blocks/TagPieChart.tpl */
+gettext("Items")
+
+/* templates/blocks/blocks.inc */
+gettext("Remove Me")
+gettext("Item Tags")
+gettext("Tag cloud")
+gettext("Maximum number of tags (empty for no limit)")
+gettext("Tag table (best in sidebar)")
+gettext("Show tag quantity")
+gettext("Show tags greater that this weight (default: 1)")
+gettext("Flash Tag Pie Chart")
+gettext("Title")
+gettext("Div width in pixels. 500")
+gettext("Div height in pixels. 400")
+gettext("Title font size px (20)")
+gettext("Font Color (000000)")
+gettext("Background color (ffffff)")
+gettext("Show labels")
+gettext("Sort order")
+gettext("Random")
+gettext("No sort")
+gettext("Descending")
+gettext("Acending")
+gettext("Lable text font color. #000")
+gettext("Allow bubbles to overflow the div.")
+gettext("Show Info image & refresh link")
+gettext("Show title of block")
+gettext("Text font color. (EBAF00)")
+gettext("Background color. (292929) Blank for transparent, but affects performance.")
+gettext("Flash width in pixels. (500)")
+gettext("Flash height in pixels. 3/4 of width for best results. (400)")
+gettext("Rotation speed percentage. (100)")
+gettext("Font size magnifier. (5)")

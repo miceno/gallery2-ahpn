@@ -26,7 +26,7 @@ GalleryCoreApi::requireOnce('modules/core/classes/helpers/UserRecoverPasswordHel
  * @package GalleryCore
  * @subpackage UserInterface
  * @author Jay Rossiter <cryptographite@users.sf.net>
- * @version $Revision: 20996 $
+ * @version $Revision: 17580 $
  */
 class UserRecoverPasswordController extends GalleryController {
     /**
@@ -111,8 +111,10 @@ class UserRecoverPasswordController extends GalleryController {
 		}
 
 		if (isset($user) && $user->getEmail() != '') {
+
 		    /* Generate a unique auth string based on userName, time of request and IP */
-		    $authString = $this->_generateAuthString();
+		    $authString = $phpVm->md5(
+			$user->getUserName() . time() . GalleryUtilities::getRemoteHostAddress());
 
 		    /* Generate the request expiration: Now + 7 Days */
 		    $requestExpires = mktime(date('G'), date('i'), date('s'),
@@ -226,16 +228,6 @@ class UserRecoverPasswordController extends GalleryController {
 	$results['error'] = $error;
 
 	return array(null, $results);
-    }
-
-    /**
-     * Generate the authorization string used for login.txt
-     * @access private
-     */
-    function _generateAuthString() {
-        GalleryCoreApi::requireOnce('lib/joomla/crypt.php');
-        $j = new JCrypt();
-        return md5($j->genRandomBytes(32));
     }
 }
 

@@ -30,7 +30,7 @@
  * @package GalleryCore
  * @subpackage Classes
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17582 $
  * @static
  */
 class GalleryUtilities {
@@ -851,8 +851,7 @@ class GalleryUtilities {
 	GalleryCoreApi::requireOnce('lib/pear/Safe.php');
 	static $parser;
 	if (!isset($parser)) {
-	    $tmp = new HTML_Safe();
-	    $parser =& $tmp;
+	    $parser =& new HTML_Safe();
 	}
 	if ($decode) {
 	    GalleryUtilities::unsanitizeInputValues($html, false);

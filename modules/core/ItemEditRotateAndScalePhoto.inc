@@ -23,7 +23,7 @@
  * @package GalleryCore
  * @subpackage UserInterface
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20954 $
+ * @version $Revision: 17580 $
  */
 class ItemEditRotateAndScalePhoto extends ItemEditPlugin {
 
@@ -69,7 +69,7 @@ class ItemEditRotateAndScalePhoto extends ItemEditPlugin {
 		 * down the derivative tree, if necessary
 		 */
 		$remainingOperations = array();
-		foreach (explode(';', $preferred->getDerivativeOperations()) as $tmpOperation) {
+		foreach (split(';', $preferred->getDerivativeOperations()) as $tmpOperation) {
 		    if (preg_match("/^(rotate|resize|scale)\|/", $tmpOperation)) {
 			$ret = GalleryCoreApi::adjustDependentDerivatives($preferred->getId(),
 									  $tmpOperation,

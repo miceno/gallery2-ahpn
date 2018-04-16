@@ -26,7 +26,7 @@
  * @package GalleryCore
  * @subpackage Classes
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 20960 $
+ * @version $Revision: 17580 $
  */
 class Gallery {
 
@@ -171,6 +171,9 @@ class Gallery {
     function Gallery() {
 	$this->_activeUser = null;
 
+	/* Set up a shutdown function to release any hanging locks */
+	register_shutdown_function(array(&$this, '_shutdown'));
+
 	/* Default config settings (can be overridden via config.php or embedded environment) */
 	$this->_config = array(
 	    'login' => true,		/* Offer UserAdmin links (Login/Logout/Your Account) */
@@ -189,16 +192,6 @@ class Gallery {
 	    'breadcrumbRootId' => null,  /* Can omit parents above this id in fetchParentSequence */
 	    'anonymousUserId' => null,   /* Alternate user account for guest sessions */
 	);
-    }
-
-    /**
-     * Register shutdown function to release any hanging locks.
-     * This used to be done in the constructor, but moved here to avoid php4 vs php5 issue
-     * ($gallery =& new Gallery() needed for php4, but this is deprecated in php5.3).
-     */
-    function init() {
-	/* Set up a shutdown function to release any hanging locks */
-	register_shutdown_function(array(&$this, '_shutdown'));
     }
 
     /**
@@ -669,7 +662,7 @@ class Gallery {
 	}
 	if (!empty($this->_debug)) {
 	    /* PHP 6 includes E_STRICT in E_ALL. Hardcode since PHP 4 does not know that constant */
-	    error_reporting(E_ALL &~ 2048);
+	    error_reporting(E_ALL &~ 2048 &~ E_DEPRECATED);
 	    ini_set('display_errors', 1);
 	    ini_set('log_errors', 1);
 	    ini_set('short_open_tag', false);
@@ -874,7 +867,7 @@ class Gallery {
 	    header('Content-length: ' . $contentLength);
 	    header('Expires: ' . $this->getHttpDate(2147483647));
 	    header('Cache-Control: public');
-	    if (get_magic_quotes_runtime()) @set_magic_quotes_runtime(0);/* deprecated in PHP5.3 */
+	    set_magic_quotes_runtime(0);
 	    set_time_limit(0);
 	    while (!feof($fd)) {
 		print fread($fd, 4096);

@@ -1,0 +1,267 @@
+# $Id: header.txt 17580 2008-04-13 00:38:13Z tnalmdal $
+#
+# Gallery - a web based photo album viewer and editor
+# Copyright (C) 2000-2008 Bharat Mediratta
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Gallery: Formatted URLs 0.9.5\n"
+"Report-Msgid-Bugs-To: gallery-translations@lists.sourceforge.net\n"
+"POT-Creation-Date: 2009-11-29 13:51+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <gallery-translations@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Get item URLs"
+msgstr "Compartir la URL"
+
+msgid "Show BBcode/HTML formatted URLs"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "[URLs] View formatted URLs"
+msgstr ""
+
+msgid "Formatted URLs"
+msgstr ""
+
+msgid "Quick URLs"
+msgstr ""
+
+msgid "Show URLs"
+msgstr ""
+
+msgid ""
+"Warning! The permissions for this item are set so that unauthenticated users may not view "
+"it. If you are planning on linking to this item in a public forum or HTML page, the viewers "
+"will most likely not be able to access it."
+msgstr ""
+
+msgid ""
+"Warning! The permissions for this item are set so that unauthenticated users may not view "
+"the full sized version, but the resized version is available. Links to the resized version "
+"are being used, this may not be what you want."
+msgstr ""
+
+msgid "Through this page you can quickly get formatted URLs for this item."
+msgstr ""
+
+msgid ""
+"These can be used to post the item/image in forums and HTML pages by copying the code in the "
+"boxes below and pasting it into your application/browser."
+msgstr ""
+
+msgid "HTML Formatted Links"
+msgstr ""
+
+msgid "Link to the page of the item:"
+msgstr ""
+
+msgid "CLK"
+msgstr ""
+
+msgid "Show image directly:"
+msgstr ""
+
+msgid "Show image directly (resized version will be shown):"
+msgstr ""
+
+msgid "Show clickable resized image linking to original:"
+msgstr ""
+
+msgid "Show a clickable thumbnail linking to the item:"
+msgstr ""
+
+msgid "TMB"
+msgstr ""
+
+msgid "BBCode Formatted Links"
+msgstr ""
+
+msgid "Show a clickable resized image linking to the original:"
+msgstr ""
+
+msgid "Show a clickable thumbnail linking to the original:"
+msgstr ""
+
+msgid "Misc."
+msgstr ""
+
+#, c-format
+msgid "The ID for this item is %s"
+msgstr ""
+
+msgid "Download URL for original item:"
+msgstr ""
+
+#, c-format
+msgid "The ID of the resized version that we're using is %s,"
+msgstr ""
+
+msgid "URL for resized version:"
+msgstr ""
+
+#, c-format
+msgid "The ID of the thumbnail is %s."
+msgstr ""
+
+msgid "URL for thumbnail:"
+msgstr ""
+
+msgid "Formatted URLs Admin"
+msgstr ""
+
+msgid "Settings saved successfully"
+msgstr ""
+
+msgid "Formatted URL Options"
+msgstr ""
+
+msgid ""
+"You may choose which formatted URL options you would like to have available to your users."
+msgstr ""
+
+msgid "HTML link to page with image"
+msgstr ""
+
+msgid "HTML inline image"
+msgstr ""
+
+msgid "HTML clickable thumbnail"
+msgstr ""
+
+msgid "HTML clickable resized to full"
+msgstr ""
+
+msgid "BBCode link to page with image"
+msgstr ""
+
+msgid "BBCode inline image"
+msgstr ""
+
+msgid "BBCode clickable thumbnail"
+msgstr ""
+
+msgid "BBCode clickable resized to full"
+msgstr ""
+
+msgid "Show URLs available for:"
+msgstr ""
+
+msgid "Anonymous users"
+msgstr ""
+
+msgid "Active user"
+msgstr ""
+
+msgid "Miscellaneous Data"
+msgstr ""
+
+msgid "If you are running an embedded installation you may find item Id reporting handy."
+msgstr ""
+
+msgid "Report item Id"
+msgstr ""
+
+msgid "Report thumbnail Id"
+msgstr ""
+
+msgid "Report resize Id (if loaded)"
+msgstr ""
+
+msgid "Item Summaries"
+msgstr ""
+
+msgid "Show formatted URLs for each thumbnail in album views"
+msgstr ""
+
+msgid "Width of formatted URL in album views"
+msgstr ""
+
+msgid "Show IE Links"
+msgstr ""
+
+msgid "Show links to copy the markup code to the clipboard (Internet Explorer Only)"
+msgstr ""
+
+msgid "Warning Handling"
+msgstr ""
+
+msgid ""
+"If you try to get the formatted URLs for an image which may not be publicly accessible, we "
+"warn you that this may result in broken links. If you wish, you may choose to suppress these "
+"warnings."
+msgstr ""
+
+msgid "Suppress warnings about images not being publicly viewable"
+msgstr ""
+
+msgid "Suppress warnings about images not having full sized versions publicly viewable"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Width of the fields"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
+msgid "15"
+msgstr ""
+
+msgid "20"
+msgstr ""
+
+msgid "30"
+msgstr ""
+
+msgid "40"
+msgstr ""
+
+msgid "50"
+msgstr ""
+
+msgid "60"
+msgstr ""
+
+msgid "70"
+msgstr ""
+
+msgid "85"
+msgstr ""
+
+msgid "100"
+msgstr ""
+
+msgid "120"
+msgstr ""
+
+msgid "150"
+msgstr ""
+
+msgid "Show warnings"
+msgstr ""
