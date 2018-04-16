@@ -144,9 +144,9 @@ $gallery->setDebugLogFile('/kunden/homepages/8/d228439513/htdocs/private/gallery
 */
 // orestes
 $gallery->setDebug(false);
-#$gallery->setDebug('buffered');
-#$gallery->setDebug('log');
-#$gallery->setDebug('immediate');
+# $gallery->setDebug('buffered');
+# $gallery->setDebug('log');
+# $gallery->setDebug('immediate');
 
 /*
  * Profiling mode.  You can enable profiling for different parts of G2 to get an
