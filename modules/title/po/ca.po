@@ -1,0 +1,115 @@
+# $Id: header.txt 17580 2008-04-13 00:38:13Z tnalmdal $
+#
+# Gallery - a web based photo album viewer and editor
+# Copyright (C) 2000-2008 Bharat Mediratta
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Gallery: Title Search 0.1.0\n"
+"Report-Msgid-Bugs-To: gallery-translations@lists.sourceforge.net\n"
+"POT-Creation-Date: 2009-03-30 01:49+0200\n"
+"PO-Revision-Date: 2009-03-30 01:49+0200\n"
+"Last-Translator: Orestes Sanchez <orestes@acm.org>\n"
+"Language-Team: ca <gallery-translations@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Items that begin with"
+msgstr ""
+
+msgid "Begin"
+msgstr ""
+
+msgid "begin"
+msgstr ""
+
+msgid "Items whose titles begin a particular way"
+msgstr ""
+
+msgid "Items whose titles contain"
+msgstr ""
+
+msgid "Contain"
+msgstr ""
+
+msgid "contain"
+msgstr ""
+
+msgid "Items whose titles contain a given string"
+msgstr ""
+
+msgid "&laquo; default theme &raquo;"
+msgstr ""
+
+msgid "Title Search"
+msgstr ""
+
+msgid "Dynamic albums of items whose titles match given search strings"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Titles Begin"
+msgstr ""
+
+msgid "Short URL for dynamic album of items whose names begin with a sequence of characters"
+msgstr ""
+
+msgid "Titles Contain"
+msgstr ""
+
+msgid "Short URL for dynamic album of items whose names contain a sequence of characters"
+msgstr ""
+
+msgid "Theme-based Settings for Title (Contain/Begin) Albums"
+msgstr ""
+
+msgid "Settings saved successfully"
+msgstr ""
+
+msgid "There was a problem processing your request."
+msgstr ""
+
+msgid "Theme"
+msgstr ""
+
+#, c-format
+msgid "Settings for %s theme in Title Albums"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Display items containing:"
+msgstr "Mostrar els elements que comencen per:"
+
+msgid "View"
+msgstr "Veure"
+
+msgid "Items beginning with:"
+msgstr "Elements que comencen per:"
+
+msgid "Find Item Titles"
+msgstr ""
+
+msgid "Initial Letters"
+msgstr ""

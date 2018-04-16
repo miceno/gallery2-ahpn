@@ -53,5 +53,3 @@ if (restore) selObj.selectedIndex=0;
     </select>
 </div>
 </form>
-
-

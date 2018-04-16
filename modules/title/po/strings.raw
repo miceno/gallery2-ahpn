@@ -1,0 +1,45 @@
+# $Id$
+
+/* Begin.inc */
+gettext("Items that begin with")
+gettext("Begin")
+gettext("begin")
+gettext("Items whose titles begin a particular way")
+
+/* Contain.inc */
+gettext("Items whose titles contain")
+gettext("Contain")
+gettext("contain")
+gettext("Items whose titles contain a given string")
+
+/* TitleSiteAdmin.inc */
+gettext("&laquo; default theme &raquo;")
+
+/* module.inc */
+gettext("Title Search")
+gettext("Dynamic albums of items whose titles match given search strings")
+gettext("Display")
+gettext("Titles Begin")
+gettext("Short URL for dynamic album of items whose names begin with a sequence of characters")
+gettext("Titles Contain")
+gettext("Short URL for dynamic album of items whose names contain a sequence of characters")
+
+/* templates/TitleSiteAdmin.tpl */
+gettext("Theme-based Settings for Title (Contain/Begin) Albums")
+gettext("Settings saved successfully")
+gettext("There was a problem processing your request.")
+gettext("Theme")
+gettext("Settings for %s theme in Title Albums")
+gettext("Save")
+gettext("Reset")
+
+/* templates/blocks/FindTitles.tpl */
+gettext("Display items containing:")
+gettext("View")
+
+/* templates/blocks/InitialLetters.tpl */
+gettext("Items beginning with:")
+
+/* templates/blocks/blocks.inc */
+gettext("Find Item Titles")
+gettext("Initial Letters")
