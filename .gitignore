@@ -110,3 +110,12 @@ themes/siriux
 themes/slider
 themes/tile
 themes/x_treme
+
+.idea
+*.off
+*.clean
+*.tgz
+*.org
+
+
+modules/map/images/routes/
