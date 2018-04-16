@@ -117,5 +117,6 @@ themes/x_treme
 *.tgz
 *.org
 
+config.php
 
 modules/map/images/routes/
