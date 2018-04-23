@@ -213,7 +213,7 @@ class GalleryPhotoItem extends GalleryDataItem {
 	    
 	    /* Set a default value for class */
 	    if (!isset($params['class'])){
-		$params['class'][] = 'gcPhotoImage';
+		$params['class'] = ' gcPhotoImage';
 	    }
 
 	    /* Shrink our dimensions if necessary */
@@ -227,7 +227,7 @@ class GalleryPhotoItem extends GalleryDataItem {
 	    if ($width > 0 && $height > 0) {
 	        if($height > $width){
 	            /* Image orientation is portrait */
-		    $params['class'][] = "giPortrait";
+		    $params['class'] .= ' giPortrait';
 		}
 		$sizeStr = sprintf(' width="%s" height="%s"', $width, $height);
 	    }
@@ -241,7 +241,7 @@ class GalleryPhotoItem extends GalleryDataItem {
 	    unset($params['fallback']);
 	    unset($params['forceFullUrl']);
 	    unset($params['forceRawImage']);
-	    $classes = " class=\"". impode(" ", $params['class']) . "\"";
+	    $classes = " class=\"". $params['class'] . "\"";
 	    $html .= $classes;
 	    unset($params['class']);
 	    foreach ($params as $attr => $value) {
