@@ -212,9 +212,7 @@ class GalleryPhotoItem extends GalleryDataItem {
 	    list ($width, $height) = array($this->getWidth(), $this->getHeight());
 	    
 	    /* Set a default value for class */
-	    if (!isset($params['class'])){
-		$params['class'] = ' gcPhotoImage';
-	    }
+	    $params['class'] .= ' gcPhotoImage';
 
 	    /* Shrink our dimensions if necessary */
 	    if (isset($params['maxSize'])) {
