@@ -1268,6 +1268,8 @@ class GalleryTheme extends GalleryPlugin {
 		    }
 		}
 		if (isset($dataItemIndex)) {
+		    $theme['totalItems'] = count($peerDataItemIds);
+		    $theme['itemPosition'] = $dataItemIndex;
 		    if ($dataItemIndex > 0) {
 			$navigator['first'] = $peerDataItemIds[0];
 			$navigator['back'] = $peerDataItemIds[$dataItemIndex - 1];
