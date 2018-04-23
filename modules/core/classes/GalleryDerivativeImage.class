@@ -188,9 +188,11 @@ class GalleryDerivativeImage extends GalleryDerivative {
 		array('view' => 'core.DownloadItem', 'itemId' => $this->getId(),
 		      'serialNumber' => $this->getSerialNumber()),
 		array('forceFullUrl' => !empty($params['forceFullUrl'])));
-
 	    list ($width, $height) = array($this->getWidth(), $this->getHeight());
-
+	    
+	    /* Set a default value for class */
+	    $params['class'] .= ' gcPhotoImage';
+	    
 	    /* Shrink our dimensions if necessary */
 	    if (isset($params['maxSize'])) {
 		list ($width, $height) =
@@ -200,6 +202,10 @@ class GalleryDerivativeImage extends GalleryDerivative {
 
 	    $sizeStr = '';
 	    if ($width > 0 && $height > 0) {
+		if($height > $width){
+		    /* Image orientation is portrait */
+		    $params['class'] .= ' giPortrait';
+		}
 		$sizeStr = sprintf(' width="%s" height="%s"', $width, $height);
 	    }
 	    if (!isset($params['alt'])) {
