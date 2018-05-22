@@ -41,11 +41,11 @@ class JpegtranToolkit extends GalleryToolkit {
      **/
     function round_mcu($value, $mcu=16){
         
-        $result = $value;
-        $modulo = $value % $mcu;
+        $result = round($value);
+        $modulo = $result % $mcu;
         if ($modulo != 0) {
 		/* Move to nearest smaller MCU */
-                $result = $value - $modulo;
+                $result = $result - $modulo;
                 if ($result < 0) {
 		    $result = 0;
 		}
