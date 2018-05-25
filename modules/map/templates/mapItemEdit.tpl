@@ -5,7 +5,7 @@
 <div class="gbBlock">
   {if !empty($form.fields)}
   {if !empty($form.apiKey)}
-    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={$form.apiKey}" type="text/javascript"></script>
+    <script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key={$form.apiKey}" type="text/javascript"></script>
   {/if}
   <script type="text/javascript">
   // <![CDATA[

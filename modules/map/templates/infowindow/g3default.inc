@@ -39,7 +39,7 @@ $map['infowindows'][0]=$map['infowindows'][0]."
 
 $map['infowindows'][0]=$map['infowindows'][0]."
         +'<br/><br/><b>Directions To Location:</b><br/>'
-        + 'Start address:<form action=\"http://maps.google.com/maps?daddr='+lat+','+lon+'&saddr=\" target=\"gpop\" onsubmit=\"window.open(action+saddr.value, \'gpop\',\'left=20,top=20,scrollbars=yes\').focus();return false;\">'
+        + 'Start address:<form action=\"https://maps.google.com/maps?daddr='+lat+','+lon+'&saddr=\" target=\"gpop\" onsubmit=\"window.open(action+saddr.value, \'gpop\',\'left=20,top=20,scrollbars=yes\').focus();return false;\">'
         + '<input type=\"text\" size=30 maxlength=40 name=\"saddr\" id=\"saddr\" value=\"\" /><br>'
         + '<input type=\"hidden\" name=\"daddr\" value=\"'+lat+','+lon+'\"/>'
         + '<INPUT value=\"Get Directions\" TYPE=\"SUBMIT\"></form>'";

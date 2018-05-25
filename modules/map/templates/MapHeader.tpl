@@ -19,7 +19,7 @@ a:hover {ldelim} outline: none; {rdelim}
 {include file="modules/map/includes/GoogleMap.css"}
 <!-- Google Maps script -->
 {if isset($map.googleMapKey) and $map.googleMapKey neq 'f'}
-<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={$map.googleMapKey}" type="text/javascript"></script>
+<script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key={$map.googleMapKey}" type="text/javascript"></script>
 {if isset($map.GZoom) and $map.GZoom}
   <script src="{g->url href="modules/map/includes/gzoom.js"}" type="text/javascript"></script>
 {/if}
