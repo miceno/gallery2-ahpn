@@ -99,10 +99,10 @@ class GoogleEarthView extends GalleryView {
 	    . '<kml xmlns="http://earth.google.com/kml/2.0">'
 	    . "\n<Document><name>Gallery2</name><open>1</open>\n"
 	    . '<Style id="PhotoIconNormal"><IconStyle>' . "\n"
-	    . '<Icon><href>http://maps.google.com/mapfiles/kml/pal4/icon46.png</href></Icon>' . "\n"
+	    . '<Icon><href>https://maps.google.com/mapfiles/kml/pal4/icon46.png</href></Icon>' . "\n"
 	    . '</IconStyle></Style>' . "\n"
 	    . '<Style id="PhotoIconHighlight"><IconStyle><scale>1.1</scale>' . "\n"
-	    . '<Icon><href>http://maps.google.com/mapfiles/kml/pal4/icon38.png</href></Icon>' . "\n"
+	    . '<Icon><href>https://maps.google.com/mapfiles/kml/pal4/icon38.png</href></Icon>' . "\n"
 	    . '</IconStyle><LabelStyle><scale>1.1</scale></LabelStyle></Style>' . "\n"
 	    . '<StyleMap id="PhotoIconPair">' . "\n"
 	    . '<Pair><key>normal</key><styleUrl>#PhotoIconNormal</styleUrl></Pair>' . "\n"
