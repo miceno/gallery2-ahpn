@@ -23,7 +23,7 @@
  *
  */
 /* Written by Nic Roets. Placed in the public domain. */
-class mapPreloads {
+class mapv3Preloads {
     function preload(&$template, $preload, $paramSet) {
 	static $loaded = false;
 	$loaded = true;

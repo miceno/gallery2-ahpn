@@ -35,7 +35,7 @@ GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
  * @subpackage UserInterface
  *
  */
-class mapItemEdit extends ItemEditPlugin {
+class mapv3ItemEdit extends ItemEditPlugin {
 
     /**
      * @see ItemEditPlugin::handleRequest

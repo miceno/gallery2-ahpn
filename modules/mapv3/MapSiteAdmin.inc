@@ -250,7 +250,7 @@ class MapSiteAdminController extends GalleryController {
  * @package map
  * @subpackage UserInterface
  */
-class mapSiteAdminView extends GalleryView {
+class mapv3SiteAdminView extends GalleryView {
     /**
      * @see GalleryView::loadTemplate
      */

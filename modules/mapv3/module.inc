@@ -33,9 +33,9 @@
  *
  * @package map
  */
-class mapModule extends GalleryModule {
+class mapv3Module extends GalleryModule {
 
-    function mapModule() {
+    function mapv3Module() {
 	global $gallery;
 	$this->setId('mapv3');
 	$this->setName($gallery->i18n('Google Maps API v3 Module'));

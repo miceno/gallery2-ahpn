@@ -1,13 +1,13 @@
 <?php
 $blocks = array(
     'map' => array(
-	'description' => $gallery->i18n('Google Map Filters (Map View only)')),
+	'description' => $gallery->i18n('Google Map v3 Filters (Map View only)')),
     'Legend' => array (
-	'description' => $gallery->i18n('Google Map Marker Legend (Map View only)')),
+	'description' => $gallery->i18n('Google Map v3 Marker Legend (Map View only)')),
     'Thumb' => array (
-	'description' => $gallery->i18n('Google Map Thumbnail Bar (Map View only)')),
+	'description' => $gallery->i18n('Google Map v3 Thumbnail Bar (Map View only)')),
     'ItemCoords' => array(
-	'description' => $gallery->i18n('Item Map coordinates'),
+	'description' => $gallery->i18n('Item Map coordinates v3'),
 	'vars' => array(
 	    'coordStyle' => array(
 	    	'description' => $gallery->i18n('Coordinate display style'),
