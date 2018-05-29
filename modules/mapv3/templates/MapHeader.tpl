@@ -7,7 +7,7 @@
   {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
     <style type="text/css">
     .themap img {ldelim}
-    behavior: url("{g->url href="modules/map/pngbehavior.htc"}");
+    behavior: url("{g->url href="modules/mapv3/pngbehavior.htc"}");
     {rdelim}
     </style>
   {/if}
@@ -16,14 +16,14 @@
 a {ldelim}overflow: hidden;{rdelim}
 a:hover {ldelim} outline: none; {rdelim}
 </style>
-{include file="modules/map/includes/GoogleMap.css"}
+{include file="modules/mapv3/includes/GoogleMap.css"}
 <!-- Google Maps script -->
 {if isset($map.googleMapKey) and $map.googleMapKey neq 'f'}
 <script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key={$map.googleMapKey}" type="text/javascript"></script>
 {if isset($map.GZoom) and $map.GZoom}
-  <script src="{g->url href="modules/map/includes/gzoom.js"}" type="text/javascript"></script>
+  <script src="{g->url href="modules/mapv3/includes/gzoom.js"}" type="text/javascript"></script>
 {/if}
-<script src="{g->url href="modules/map/GoogleMap.js"}" type="text/javascript"></script>
+<script src="{g->url href="modules/mapv3/GoogleMap.js"}" type="text/javascript"></script>
 <!-- This is mostly boilerplate code from Google. See: http://www.google.com/apis/maps/documentation/ -->
 
 <script type="text/javascript">
@@ -108,13 +108,13 @@ a:hover {ldelim} outline: none; {rdelim}
       container.style.lineHeight = "0.1cm";
 
       var CenterBG = document.createElement("div");
-      this.setButtonStyle_(CenterBG,"{g->url href="modules/map/templates/controls/"}"+controlname+"/CenterBG.png","bk");
+      this.setButtonStyle_(CenterBG,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/CenterBG.png","bk");
       CenterBG.style.top = "0px";
       CenterBG.style.left = "0px";
       container.appendChild(CenterBG);
 
       var GoLeftDiv = document.createElement("div");
-      this.setButtonStyle_(GoLeftDiv,"{g->url href="modules/map/templates/controls/"}"+controlname+"/West.png","gw");
+      this.setButtonStyle_(GoLeftDiv,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/West.png","gw");
       GoLeftDiv.style.top = "17px";
       GoLeftDiv.style.left = "0px";
       container.appendChild(GoLeftDiv);
@@ -123,7 +123,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var GoUpDiv = document.createElement("div");
-      this.setButtonStyle_(GoUpDiv,"{g->url href="modules/map/templates/controls/"}"+controlname+"/North.png","gn");
+      this.setButtonStyle_(GoUpDiv,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/North.png","gn");
       GoUpDiv.style.top = "0px";
       GoUpDiv.style.left = "17px";
       container.appendChild(GoUpDiv);
@@ -132,7 +132,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var Center = document.createElement("div");
-      this.setButtonStyle_(Center,"{g->url href="modules/map/templates/controls/"}"+controlname+"/Center.png","gb");
+      this.setButtonStyle_(Center,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/Center.png","gb");
       Center.style.top = "17px";
       Center.style.left = "17px";
       container.appendChild(Center);
@@ -141,7 +141,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var GoDownDiv = document.createElement("div");
-      this.setButtonStyle_(GoDownDiv,"{g->url href="modules/map/templates/controls/"}"+controlname+"/South.png","gs");
+      this.setButtonStyle_(GoDownDiv,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/South.png","gs");
       GoDownDiv.style.top = "36px";
       GoDownDiv.style.left = "17px";
       container.appendChild(GoDownDiv);
@@ -150,7 +150,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var GoRightDiv = document.createElement("div");
-      this.setButtonStyle_(GoRightDiv,"{g->url href="modules/map/templates/controls/"}"+controlname+"/East.png","ge");
+      this.setButtonStyle_(GoRightDiv,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/East.png","ge");
       GoRightDiv.style.top = "17px";
       GoRightDiv.style.left = "36px";
       container.appendChild(GoRightDiv);
@@ -159,7 +159,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var ZoomIn = document.createElement("div");
-      this.setButtonStyle_(ZoomIn,"{g->url href="modules/map/templates/controls/"}"+controlname+"/ZoomIn.png","zi");
+      this.setButtonStyle_(ZoomIn,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/ZoomIn.png","zi");
       ZoomIn.style.top = "57px";
       ZoomIn.style.left = "17px";
       container.appendChild(ZoomIn);
@@ -173,7 +173,7 @@ a:hover {ldelim} outline: none; {rdelim}
         else ZoomSlide[{$smarty.section.loop.index}].style.top = "{math equation=56+x*7 x=$smarty.section.loop.index}px";
         ZoomSlide[{$smarty.section.loop.index}].style.left = "17px";
         if ({$smarty.section.loop.index} < 2) ZoomSlide[{$smarty.section.loop.index}].style.visibility = "hidden";
-        this.setButtonStyle_(ZoomSlide[{$smarty.section.loop.index}],"{g->url href="modules/map/templates/controls/"}"+controlname+"/SlideNotch.png","z{$smarty.section.loop.index}");
+        this.setButtonStyle_(ZoomSlide[{$smarty.section.loop.index}],"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/SlideNotch.png","z{$smarty.section.loop.index}");
         container.appendChild(ZoomSlide[{$smarty.section.loop.index}]);
         GEvent.addDomListener(ZoomSlide[{$smarty.section.loop.index}], "click", function() {ldelim}
           map.setZoom({math equation=19-x x=$smarty.section.loop.index});
@@ -181,7 +181,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {/section}
 
       ZoomOut = document.createElement("div");
-      this.setButtonStyle_(ZoomOut,"{g->url href="modules/map/templates/controls/"}"+controlname+"/ZoomOut.png","zo");
+      this.setButtonStyle_(ZoomOut,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/ZoomOut.png","zo");
       ZoomOut.style.top = "205px";
       ZoomOut.style.left = "17px";
       container.appendChild(ZoomOut);
@@ -201,7 +201,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var image = document.createElement("img");
       if (!IEVersion || (IEVersion && IEVersion >= 7)) image.src = imgfile;
       else {ldelim}
-        image.src = "{g->url href="modules/map/images/blank.gif"}";
+        image.src = "{g->url href="modules/mapv3/images/blank.gif"}";
         image.style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+imgfile+"')";
       {rdelim}
       image.id = id;
@@ -230,7 +230,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var container = document.createElement("div");
 
       var MapType = document.createElement("div");
-      this.setButtonStyle_(MapType,"{g->url href="modules/map/templates/controls/"}"+controlname+"/TypeBG.png","mt");
+      this.setButtonStyle_(MapType,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/TypeBG.png","mt");
       this.CreateTextEl_(MapType,"Map");
       MapType.style.top = "237px";
       MapType.style.left = "-7px";
@@ -247,7 +247,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var SatType = document.createElement("div");
-      this.setButtonStyle_(SatType,"{g->url href="modules/map/templates/controls/"}"+controlname+"/TypeBG.png","st");
+      this.setButtonStyle_(SatType,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/TypeBG.png","st");
       this.CreateTextEl_(SatType,"Satellite");
       SatType.style.top = "257px";
       SatType.style.left = "-7px";
@@ -264,7 +264,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim});
 
       var HybridType = document.createElement("div");
-      this.setButtonStyle_(HybridType,"{g->url href="modules/map/templates/controls/"}"+controlname+"/TypeBG.png","ht");
+      this.setButtonStyle_(HybridType,"{g->url href="modules/mapv3/templates/controls/"}"+controlname+"/TypeBG.png","ht");
       this.CreateTextEl_(HybridType,"Hybrid");
       HybridType.style.top = "277px";
       HybridType.style.left = "-7px";
@@ -302,7 +302,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var image = document.createElement("img");
       if (!IEVersion ||(IEVersion && IEVersion >= 7)) image.src = imgfile;
       else {ldelim}
-        image.src = "{g->url href="modules/map/images/blank.gif"}";
+        image.src = "{g->url href="modules/mapv3/images/blank.gif"}";
         image.style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+imgfile+"')";
       {rdelim}
       image.id = id;
@@ -409,7 +409,7 @@ a:hover {ldelim} outline: none; {rdelim}
       if (DEBUGINFO) GLog.write('Hiding the Icon');
       markerDisplay(number,0,type);
       var Icon = new GIcon();
-      Icon.image = "{g->url href="modules/map/images/arrow.png"}";
+      Icon.image = "{g->url href="modules/mapv3/images/arrow.png"}";
       Icon.iconSize = new GSize(20, 30);
       Icon.iconAnchor = new GPoint(10, 30);
       Icon.infoWindowAnchor = new GPoint(9, 2);
@@ -527,13 +527,13 @@ a:hover {ldelim} outline: none; {rdelim}
         var oldZoom = 19-oldZoom;
         {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
             if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-              document.images['z'+zoom].src = "{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideSel.png";
-              document.images['z'+oldZoom].src = "{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideNotch.png";
+              document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png";
+              document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png";
             {rdelim} else {ldelim}
-              document.images['z'+zoom].src = "{g->url href="modules/map/images/blank.gif"}";
-              document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideSel.png')";
-              document.images['z'+oldZoom].src = "{g->url href="modules/map/images/blank.gif"}";
-              document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideNotch.png')";
+              document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+              document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png')";
+              document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+              document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png')";
             {rdelim}
         {/if}
     {rdelim});
@@ -579,7 +579,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {rdelim}
 
     var BaseIcon = new GIcon();
-    BaseIcon.shadow = "{g->url href="modules/map/images/marker_shadow.png"}";
+    BaseIcon.shadow = "{g->url href="modules/mapv3/images/marker_shadow.png"}";
     BaseIcon.iconSize = new GSize({$map.MarkerSizeX},{$map.MarkerSizeY});
     BaseIcon.shadowSize = new GSize({$map.MarkerSizeX}+15,{$map.MarkerSizeY});
     BaseIcon.iconAnchor = new GPoint(6, 20);
@@ -590,7 +590,7 @@ a:hover {ldelim} outline: none; {rdelim}
     replaceIcon.iconSize = new GSize({$map.ReplaceMarkerSizeX},{$map.ReplaceMarkerSizeY});
     replaceIcon.shadowSize = new GSize({$map.ReplaceMarkerSizeX}+15,{$map.ReplaceMarkerSizeY});
     replaceIcon.iconAnchor = new GPoint({$map.replaceAnchorPos});
-    replaceIcon.image = "{g->url href="modules/map/images/multi/`$map.regroupIcon`.png"}";
+    replaceIcon.image = "{g->url href="modules/mapv3/images/multi/`$map.regroupIcon`.png"}";
 
     function CreateRegroup(lat,lon, showLow, showHigh, nbDirect, nbItems, nbGroups){ldelim}
       var point = new GLatLng(lat,lon);
@@ -661,26 +661,26 @@ a:hover {ldelim} outline: none; {rdelim}
 
    //Create the base for all icons
    var BaseIcon = new GIcon();
-   BaseIcon.shadow = "{g->url href="modules/map/images/marker_shadow.png"}";
+   BaseIcon.shadow = "{g->url href="modules/mapv3/images/marker_shadow.png"}";
    BaseIcon.iconSize = new GSize({$map.MarkerSizeX},{$map.MarkerSizeY});
    BaseIcon.shadowSize = new GSize({$map.MarkerSizeX}+15,{$map.MarkerSizeY});
    BaseIcon.iconAnchor = new GPoint(6, 20);
    BaseIcon.infoWindowAnchor = new GPoint(5, 1);
 
    var DefaultphotoIcon = new GIcon(BaseIcon);
-   DefaultphotoIcon.image = "{g->url href="modules/map/images/markers/`$map.useMarkerSet`/marker_`$map.defaultphotocolor`.png"}";
+   DefaultphotoIcon.image = "{g->url href="modules/mapv3/images/markers/`$map.useMarkerSet`/marker_`$map.defaultphotocolor`.png"}";
    DefaultphotoIcon.iconSize = new GSize({$map.MarkerSizeX},{$map.MarkerSizeY});
    DefaultphotoIcon.shadowSize = new GSize({$map.MarkerSizeX}+15,{$map.MarkerSizeY});
    DefaultphotoIcon.iconAnchor = new GPoint({$map.MarkerSizeX}/2, {$map.MarkerSizeY});
 
    var DefaultalbumIcon = new GIcon(BaseIcon);
-   DefaultalbumIcon.image = "{g->url href="modules/map/images/markers/`$map.useAlbumMarkerSet`/marker_`$map.defaultalbumcolor`.png"}";
+   DefaultalbumIcon.image = "{g->url href="modules/mapv3/images/markers/`$map.useAlbumMarkerSet`/marker_`$map.defaultalbumcolor`.png"}";
    DefaultalbumIcon.iconSize = new GSize({$map.AlbumMarkerSizeX},{$map.AlbumMarkerSizeY});
    DefaultalbumIcon.shadowSize = new GSize({$map.AlbumMarkerSizeX}+15,{$map.AlbumMarkerSizeY});
    DefaultalbumIcon.iconAnchor = new GPoint({$map.AlbumMarkerSizeX}/2,{$map.AlbumMarkerSizeY});
 
    var DefaultgroupIcon = new GIcon(BaseIcon);
-   DefaultgroupIcon.image = "{g->url href="modules/map/images/markers/`$map.useGroupMarkerSet`/marker_`$map.defaultgroupcolor`.png"}";
+   DefaultgroupIcon.image = "{g->url href="modules/mapv3/images/markers/`$map.useGroupMarkerSet`/marker_`$map.defaultgroupcolor`.png"}";
    DefaultgroupIcon.iconSize = new GSize({$map.GroupMarkerSizeX},{$map.GroupMarkerSizeY});
    DefaultgroupIcon.shadowSize = new GSize({$map.GroupMarkerSizeX}+15,{$map.GroupMarkerSizeY});
    DefaultgroupIcon.iconAnchor = new GPoint({$map.GroupMarkerSizeX}/2,{$map.GroupMarkerSizeY});
@@ -726,7 +726,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var {$itemType}Icon = new GIcon(Default{$itemType}Icon);
       {assign var=iconDef value=""}{* Clear the "Default" and flag that we declared the variable *}
       {assign var=markerColor value="`$point.color`"}
-      {$itemType}Icon.image = "{g->url href="modules/map/images/markers/`$markerSet`/marker_`$point.color`.png"}";
+      {$itemType}Icon.image = "{g->url href="modules/mapv3/images/markers/`$markerSet`/marker_`$point.color`.png"}";
       {/if}
       {* quick hacky fix for missing numbered markers *}
       {if $map.EnableRouteNumber}
@@ -737,7 +737,7 @@ a:hover {ldelim} outline: none; {rdelim}
           {assign var=iconDef value=""}{* Clear the "Default" text *}
           var {$itemType}Icon = new GIcon(Default{$itemType}Icon);
          {/if}
-         {$itemType}Icon.image = "{g->url href="modules/map/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
+         {$itemType}Icon.image = "{g->url href="modules/mapv3/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
         {/if} 
        {/foreach}
       {/foreach}
@@ -836,10 +836,10 @@ a:hover {ldelim} outline: none; {rdelim}
     zoom = map.getZoom();
     myZoom = 19-zoom;
    {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
-      if (!IEVersion ||(IEVersion && IEVersion >= 7)) document.images['z'+myZoom].src = "{g->url href="modules/map/templates/controls/`$map.MapControlType`/SlideSel.png"}";
+      if (!IEVersion ||(IEVersion && IEVersion >= 7)) document.images['z'+myZoom].src = "{g->url href="modules/mapv3/templates/controls/`$map.MapControlType`/SlideSel.png"}";
       else {ldelim}
-        document.images['z'+myZoom].src = "{g->url href="modules/map/images/blank.gif"}";
-        document.images['z'+myZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/map/templates/controls/`$map.MapControlType`/SlideSel.png"}')";
+        document.images['z'+myZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+        document.images['z'+myZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/`$map.MapControlType`/SlideSel.png"}')";
       {rdelim}
    {/if}
     for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
@@ -895,13 +895,13 @@ a:hover {ldelim} outline: none; {rdelim}
           var oldZoom = 19-oldZoomLevel;
           {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
               if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-                document.images['z'+zoom].src = "{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideSel.png";
-                document.images['z'+oldZoom].src = "{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideNotch.png";
+                document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png";
+                document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png";
               {rdelim} else {ldelim}
-                document.images['z'+zoom].src = "{g->url href="modules/map/images/blank.gif"}";
-                document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideSel.png')";
-                document.images['z'+oldZoom].src = "{g->url href="modules/map/images/blank.gif"}";
-                document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/map/templates/controls/"}{$map.MapControlType}/SlideNotch.png')";
+                document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+                document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png')";
+                document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+                document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png')";
               {rdelim}
           {/if}
         {rdelim});
@@ -922,7 +922,7 @@ a:hover {ldelim} outline: none; {rdelim}
             document.layers["albumlegend"].style.display = (displaystyle == "none" ? "block":"none");
         {rdelim}
         var imgsrc = document.albumarrow.id;
-        document.albumarrow.src = (imgsrc  == "down" ? "{g->url href="modules/map/images/up.png"}":"{g->url href="modules/map/images/down.png"}");
+        document.albumarrow.src = (imgsrc  == "down" ? "{g->url href="modules/mapv3/images/up.png"}":"{g->url href="modules/mapv3/images/down.png"}");
         document.albumarrow.id = (imgsrc == "down" ? "up":"down");
     {rdelim}
 
@@ -939,7 +939,7 @@ a:hover {ldelim} outline: none; {rdelim}
             document.layers["photolegend"].style.display = (displaystyle == "none" ? "block":"none");
         {rdelim}
         var imgsrc = document.photoarrow.id;
-        document.photoarrow.src = (imgsrc  == "down" ? "{g->url href="modules/map/images/up.png"}":"{g->url href="modules/map/images/down.png"}");
+        document.photoarrow.src = (imgsrc  == "down" ? "{g->url href="modules/mapv3/images/up.png"}":"{g->url href="modules/mapv3/images/down.png"}");
         document.photoarrow.id = (imgsrc == "down" ? "up":"down");
     {rdelim}
 

@@ -31,8 +31,8 @@
  * @package map
  */
 
-GalleryCoreApi::requireOnce('modules/map/includes/toolkit/JPEG.php');
-GalleryCoreApi::requireOnce('modules/map/includes/toolkit/EXIF.php');
+GalleryCoreApi::requireOnce('modules/mapv3/includes/toolkit/JPEG.php');
+GalleryCoreApi::requireOnce('modules/mapv3/includes/toolkit/EXIF.php');
 
 class GoogleMapUtilities {
 

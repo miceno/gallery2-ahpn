@@ -27,10 +27,10 @@
 /*
  * Session key for storing item admin mode
  */
-define('map_SESSION_KEY', 'map.adminMode.itemId');
+define('map_SESSION_KEY', 'mapv3.adminMode.itemId');
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapInterface_1_0.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapInterface_1_0.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * A helper class for the map module.
@@ -310,7 +310,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
      */
     function handleEvent($event) {
 
-        GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+        GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
         if ($event->getEventName() == 'GalleryEntity::delete') {
 	    $item = $event->getEntity();
@@ -1073,7 +1073,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 						
 			$explodedCoord = explode(",", $result[1]);
 			$itemLink = $gurl->generateUrl(
-			    array('view' => 'map.ShowMap', 'Group' => $result[0]),
+			    array('view' => 'mapv3.ShowMap', 'Group' => $result[0]),
 			    array('forceFullUrl' => true));
 			
 			$items[$result[0]] = array(

@@ -53,13 +53,13 @@ class mapv3Module extends GalleryModule {
      * @see GalleryModule::registerEventListeners()
      */
     function registerEventListeners() {
-	GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
 	GalleryCoreApi::registerEventListener('GalleryEntity::delete', new mapHelper());
 	GalleryCoreApi::registerEventListener('GalleryEntity::save', new mapHelper());
     }
 
     function needsConfiguration() {
-	GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
     	/* This module requires a Google Map API key. */
 	list ($ret, $profiles) = mapHelper::getAllKeyProfiles();
 	if ($ret) {
@@ -154,7 +154,7 @@ class mapv3Module extends GalleryModule {
 
     function activate($postActivationEvent = true) {
 	/* Register the Map Edit Permission, no error checking */
-	$ret = GalleryCoreApi::registerPermission($this->getId(), 'map.EditMap',
+	$ret = GalleryCoreApi::registerPermission($this->getId(), 'mapv3.EditMap',
 		$this->_translate('[Google Map] Allow Coordinate Editing'));
 
 	/* By default admin can edit everything */
@@ -193,7 +193,7 @@ class mapv3Module extends GalleryModule {
      * @see GalleryModule::getItemSummaries()
      */
     function getItemSummaries($items, $permissions) {
-	GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
 	GalleryCoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
 	$summaries = $data = array();
 
@@ -223,7 +223,7 @@ class mapv3Module extends GalleryModule {
 
 	$rule = array();
 	$rule['comment'] = 'View Google Map Group';
-	$rule['match'] = array('view' => 'map.ShowMap');
+	$rule['match'] = array('view' => 'mapv3.ShowMap');
 	$rule['pattern'] = 'Map/%Group%';
 	$rule['keywords'] = array(
 		'Group' => array(
@@ -242,7 +242,7 @@ class mapv3Module extends GalleryModule {
 	/* Register our item edit plugin */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 		'ItemEditPlugin', 'mapItemEdit', 'mapItemEdit',
-		'modules/map/mapItemEdit.inc', 'mapv3', null);
+		'modules/mapv2/mapItemEdit.inc', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
@@ -250,7 +250,7 @@ class mapv3Module extends GalleryModule {
 	/* Register interface implementation */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 		'mapInterface_1_0', 'mapHelper', 'mapv3',
-		'modules/map/classes/mapHelper.class', 'mapv3', null);
+		'modules/mapv3/classes/mapHelper.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
@@ -258,21 +258,21 @@ class mapv3Module extends GalleryModule {
 	/* Register search implementation */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 		'GallerySearchInterface_1_0', 'mapSearch', 'mapv3',
-		'modules/map/classes/mapSearch.class', 'mapv3', null);
+		'modules/mapv3/classes/mapSearch.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
 
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 		'MaintenanceTask', 'PopulateGPSEXIFInfos', 'PopulateGPSEXIFInfos',
-		'modules/map/classes/PopulateGPSEXIFInfos.class', 'mapv3', null);
+		'modules/mapv3/classes/PopulateGPSEXIFInfos.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
 
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 		'MaintenanceTask', 'WriteExifHeaderToPictures', 'WriteExifHeaderToPictures',
-		'modules/map/classes/WriteExifHeaderToPictures.class', 'mapv3', null);
+		'modules/mapv3/classes/WriteExifHeaderToPictures.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
@@ -285,7 +285,7 @@ class mapv3Module extends GalleryModule {
      */
     function getItemLinks($items, $wantsDetailedLinks, $permissions) {
 
-	GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
 	$links = array();
 
 	list ($ret, $linktype) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'linktype');
@@ -496,8 +496,8 @@ class mapv3Module extends GalleryModule {
 	     * @todo This is the only place CopyDir is used. If we can move that functionality
 	     * here, we can eliminate filecopy.class altogether.
 	     */
-	    GalleryCoreApi::requireOnce('modules/map/classes/filecopy.class');
-	    @CopyDir($basegallerydir . '../images/map', $basegallerydir . 'map/images/markers', 0777, 
+	    GalleryCoreApi::requireOnce('modules/mapv3/classes/filecopy.class');
+	    @CopyDir($basegallerydir . '../images/map', $basegallerydir . 'mapv3/images/markers', 0777,
 		    false);
 	    @rm($basegallerydir . 'images/map');
 
