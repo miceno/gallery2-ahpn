@@ -57,24 +57,24 @@ class WriteExifHeaderToPictures extends MaintenanceTask {
 	global $gallery;
 	$templateAdapter =& $gallery->getTemplateAdapter();
 
-	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'map');
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'mapv3');
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
 
 	$query = '
             SELECT
-              [PhotoItem::id], [mapMap::value]
+              [PhotoItem::id], [mapv3Map::value]
             FROM
               [PhotoItem]
             INNER JOIN
               [DataItem] ON [PhotoItem::id] = [DataItem::id]
             INNER JOIN
-              [mapMap] ON [mapMap::itemId] = [PhotoItem::id]
+              [mapv3Map] ON [mapv3Map::itemId] = [PhotoItem::id]
             WHERE
               [DataItem::mimeType] = \'image/jpeg\'
             AND
-              [mapMap::field] = \'GPS\'
+              [mapv3Map::field] = \'GPS\'
             ORDER BY [PhotoItem::id]';
 	list ($ret, $result) = $gallery->search($query);
 	if ($ret) {

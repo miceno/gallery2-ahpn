@@ -3,7 +3,7 @@
  * Read this before changing templates!  http://codex.gallery2.org/Gallery2:Editing_Templates
  *}
 
-{g->callback type="map.LoadFilters"}
+{g->callback type="mapv3.LoadFilters"}
 {if !empty($block.map.LoadFilters)}
 <div class="{$class}" {if $map.ShowFilters eq 2}style="right:10px;{if $map.ThumbBarPos eq '1'}position:relative;top:-{$map.ThumbHeight}px;{/if}"{/if}>
   {if isset($map.ShowFilters) and ($map.ShowFilters eq 3 or $map.ShowFilters eq 4)}

@@ -45,15 +45,15 @@ class mapSearch extends GallerySearchInterface_1_0 {
     function getSearchModuleInfo() {
 	global $gallery;
 
-	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'map');
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'mapv3');
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
 
-	$info = array('name' => $gallery->i18n('Google Map'),
-		      'description' => $gallery->i18n('Google Map Module'),
+	$info = array('name' => $gallery->i18n('Google Map v3'),
+		      'description' => $gallery->i18n('Google Map v3 Module'),
 		      'options' => array('map' => array('description' =>
-							$gallery->i18n('Search Google Map Fields'),
+							$gallery->i18n('Search Google Map v3 Fields'),
 							'enabled' => 1)));
 	return array(null, $info);
     }
@@ -77,32 +77,32 @@ class mapSearch extends GallerySearchInterface_1_0 {
 
 	$countQuery = sprintf('
 	SELECT
-	  COUNT([mapMap::itemId])
+	  COUNT([mapv3Map::itemId])
 	FROM
-	  [mapMap], [GalleryAccessSubscriberMap]
+	  [mapv3Map], [GalleryAccessSubscriberMap]
 	WHERE
-	  [mapMap::itemId] =  [GalleryAccessSubscriberMap::itemId] 
+	  [mapv3Map::itemId] =  [GalleryAccessSubscriberMap::itemId] 
 	  AND
 	  [GalleryAccessSubscriberMap::accessListId] IN (%s)
 	  AND
-	  [mapMap::value] LIKE ?
+	  [mapv3Map::value] LIKE ?
 	', $aclMarkers);
 
 	$query = sprintf('
 	SELECT
-	  [mapMap::itemId],
-	  [mapMap::field],
-	  [mapMap::value]
+	  [mapv3Map::itemId],
+	  [mapv3Map::field],
+	  [mapv3Map::value]
 	FROM
-	  [mapMap], [GalleryAccessSubscriberMap]
+	  [mapv3Map], [GalleryAccessSubscriberMap]
 	WHERE
-	  [mapMap::itemId] = [GalleryAccessSubscriberMap::itemId]
+	  [mapv3Map::itemId] = [GalleryAccessSubscriberMap::itemId]
 	  AND
 	  [GalleryAccessSubscriberMap::accessListId] IN (%s)
 	  AND
-	  [mapMap::value] LIKE ?
+	  [mapv3Map::value] LIKE ?
 	ORDER BY
-	  [mapMap::itemId] DESC
+	  [mapv3Map::itemId] DESC
 	', $aclMarkers);
 
 	$data = $aclIds;

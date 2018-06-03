@@ -162,7 +162,7 @@ class mapv3Module extends GalleryModule {
 		GalleryCoreApi::getPluginParameter('module', 'core', 'id.rootAlbum');
 	list ($ret, $siteadmins) =
 		GalleryCoreApi::getPluginParameter('module', 'core', 'id.adminGroup');
-	$ret = GalleryCoreApi::addGroupPermission($rootalbum, $siteadmins, 'map.EditMap', true);
+	$ret = GalleryCoreApi::addGroupPermission($rootalbum, $siteadmins, 'mapv3.EditMap', true);
 	if ($ret) {
 	    return array($ret->wrap(__FILE__, __LINE__), null);
 	}
@@ -177,7 +177,7 @@ class mapv3Module extends GalleryModule {
     }
 
     function getConfigurationView() {
-	return 'map.MapSiteAdmin';
+	return 'mapv3.MapSiteAdmin';
     }
 
     /**
@@ -186,7 +186,7 @@ class mapv3Module extends GalleryModule {
     function getSiteAdminViews() {
 	global $gallery;
 	return array(null, array(array('name' => $this->_translate('Google Map'),
-				       'view' => 'map.MapSiteAdmin')));
+				       'view' => 'mapv3.MapSiteAdmin')));
     }
 
     /**
@@ -242,7 +242,7 @@ class mapv3Module extends GalleryModule {
 	/* Register our item edit plugin */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 		'ItemEditPlugin', 'mapItemEdit', 'mapItemEdit',
-		'modules/mapv2/mapItemEdit.inc', 'mapv3', null);
+		'modules/mapv3/mapItemEdit.inc', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
@@ -326,14 +326,14 @@ class mapv3Module extends GalleryModule {
 		    if ($ExportGELink) {
 			$links[$itemId][] =
 				array('text' => $this->_translate('View in Google Earth'),
-				      'params' => array('view' => 'map.GoogleEarth',
+				      'params' => array('view' => 'mapv3.GoogleEarth',
 							'itemId' => $itemId));
 		    }
 		    /* The Google Map link */
 		    if ($goodalbum) {
 			$links[$itemId][] =
 				array('text' => $this->_translate('View Album on a Map'),
-				      'params' => array('view' => 'map.ShowMap',
+				      'params' => array('view' => 'mapv3.ShowMap',
 							'Mode' => 'Normal',
 							'Group' => '',
 							'album' => $name));
@@ -349,7 +349,7 @@ class mapv3Module extends GalleryModule {
                         if ($count) {
 			    /* There are some items to show in the Gallery Display the Map Link */
 			    $links[$itemId][] = array('text' => $this->_translate('Show a Google Map'),
-			    			      'params' => array('view' => 'map.ShowMap'));
+			    			      'params' => array('view' => 'mapv3.ShowMap'));
 			}
 		    }
 		}
@@ -434,7 +434,7 @@ class mapv3Module extends GalleryModule {
 
 		    $insertquery = '
 		    INSERT INTO
-		    [mapMap]
+		    [mapv3Map]
 		    VALUES (\'' . $result[0] . '\',\'' . $result[1] . '\',\'' . $result[2]
 			    . '\',\'' . $result[3] . '\',\'' . $result[4] . '\')
 		    ';
@@ -491,7 +491,8 @@ class mapv3Module extends GalleryModule {
 	     * @todo The substr() method is fragile. Change to use
 	     * GalleryCoreApi::getPluginBaseDir() for now, then getCodeBasePath() for Gallery 2.3+
 	     */
-	    $basegallerydir = substr(dirname(__FILE__), 0, -11);
+//	    $basegallerydir = substr(dirname(__FILE__), 0, -11);
+	    $basegallerydir = GalleryCoreApi::getCodeBasePath();
 	    /**
 	     * @todo This is the only place CopyDir is used. If we can move that functionality
 	     * here, we can eliminate filecopy.class altogether.
@@ -516,11 +517,11 @@ class mapv3Module extends GalleryModule {
 			/* Search for the itemid from the coordinate and replace */
 			$query = '					    
 			SELECT
-			  [mapMap::itemId]
+			  [mapv3Map::itemId]
 			FROM
-			  [mapMap]
+			  [mapv3Map]
 			WHERE
-			  [mapMap::value] = \'' . $routeinfos[$i] . '\'
+			  [mapv3Map::value] = \'' . $routeinfos[$i] . '\'
 			';
 			list ($ret, $results) = $storage->search($query);
 			if ($results->resultCount > 0) {
@@ -552,10 +553,10 @@ class mapv3Module extends GalleryModule {
 
 	    $query = '
 	    ALTER TABLE
-	      [mapMap]
+	      [mapv3Map]
 	    CHANGE
-	      [mapMap::itemId]
-	      [mapMap::itemId] VARCHAR(11) DEFAULT \'0\' NOT NULL
+	      [mapv3Map::itemId]
+	      [mapv3Map::itemId] VARCHAR(11) DEFAULT \'0\' NOT NULL
 	    ';
 
 	    $ret = $storage->execute($query); /* run the command */
@@ -580,7 +581,7 @@ class mapv3Module extends GalleryModule {
 	case '0.4.11b':
 	case '0.4.11c':
 	case '0.4.11d':
-	    $ret = $storage->configureStore($this->getId(), array('mapMap:1.2'));
+	    $ret = $storage->configureStore($this->getId(), array('mapv3Map:1.2'));
 	    if ($ret) {
 		return $ret;
 	    }
@@ -595,9 +596,9 @@ class mapv3Module extends GalleryModule {
 	    $query = '
 	    SELECT *
 	    FROM
-	      [mapMap]
+	      [mapv3Map]
 	    WHERE
-	      [mapMap::field] = \'GPS\'
+	      [mapv3Map::field] = \'GPS\'
 	    ';
 	    list ($ret, $results) = $gallery->search($query, array(), array());
 
@@ -611,17 +612,17 @@ class mapv3Module extends GalleryModule {
 
 		    $updatequery = '
 		    UPDATE
-		      [mapMap]
+		      [mapv3Map]
 		    SET
-		      [mapMap::value] = \'' . $result[2] . '\'
+		      [mapv3Map::value] = \'' . $result[2] . '\'
 		    WHERE
-		      [mapMap::itemId] = \'' . $result[0] . '\'
+		      [mapv3Map::itemId] = \'' . $result[0] . '\'
 		      AND
-		      [mapMap::field] = \'' . $result[1] . '\'
+		      [mapv3Map::field] = \'' . $result[1] . '\'
 		      AND
-		      [mapMap::setId] = \'' . $result[3] . '\'
+		      [mapv3Map::setId] = \'' . $result[3] . '\'
 		      AND
-		      [mapMap::setType] = \'' . $result[4] . '\'
+		      [mapv3Map::setType] = \'' . $result[4] . '\'
 		    ';
 
 		    $ret = $storage->execute($updatequery); /* put the values in Mapmap */
@@ -979,15 +980,15 @@ class mapv3Module extends GalleryModule {
 					/* Get Information for the "Colors", "AlbumColor" and "PhotoColor" fields and move all of it to "Color" */
 	    $updatequery = '
 	    UPDATE
-	      [mapMap]
+	      [mapv3Map]
 	    SET
-	      [mapMap::field] = \'Color\'
+	      [mapv3Map::field] = \'Color\'
 	    WHERE
-	      [mapMap::field] = \'Colors\'
+	      [mapv3Map::field] = \'Colors\'
 	      OR
-	      [mapMap::field] = \'AlbumColor\'
+	      [mapv3Map::field] = \'AlbumColor\'
 	      OR
-	      [mapMap::field] = \'PhotoColor\'
+	      [mapv3Map::field] = \'PhotoColor\'
 	    ';
 	    $ret = $storage->execute($updatequery); /* put the values in Mapmap */
 	    if ($ret) {

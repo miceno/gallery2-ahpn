@@ -28,8 +28,8 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
 
 class ShowMapController extends GalleryController {
     function handleRequest($form) {
@@ -62,7 +62,7 @@ class ShowMapController extends GalleryController {
 		$results['status'] = '';
 		$results['error'] = array();
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapGroupAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 		$results['redirect']['mode'] = 'AddGroup';
 	    }
 
@@ -71,7 +71,7 @@ class ShowMapController extends GalleryController {
 		$results['status'] = '';
 		$results['error'] = array();
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapSiteAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapSiteAdmin';
 	    }
 
 	    if ($form['plugin'] == 'Filters') {
@@ -79,7 +79,7 @@ class ShowMapController extends GalleryController {
 		$results['status'] = '';
 		$results['error'] = array();
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapFilterAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 		$results['redirect']['mode'] = 'AddFilter';
 	    }
 	}
@@ -94,25 +94,25 @@ class ShowMapController extends GalleryController {
 		$coordinate = $form['coord'];
 		$zoom = $form['zoom'];
 
-		$ret = GalleryCoreApi::removeMapEntry('mapMap',
+		$ret = GalleryCoreApi::removeMapEntry('mapv3Map',
 			array('itemId' => $id, 'field' => 'GPS'));
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}
 		/* Actually update the database with the coordinated passed on to the ItemID */
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id, 'field' => 'GPS', 'value' => $coordinate,
 			      'setId' => 0, 'setType' => 1));
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}
-		$ret = GalleryCoreApi::removeMapEntry('mapMap',
+		$ret = GalleryCoreApi::removeMapEntry('mapv3Map',
 			array('itemId' => $id, 'field' => 'ZoomLevel'));
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}
 		/* Actually update the database with the zoomlevel passed on to the ItemID */
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id, 'field' => 'ZoomLevel', 'value' => $zoom,
 			      'setId' => 0, 'setType' => 3));
 		if ($ret) {
@@ -123,12 +123,12 @@ class ShowMapController extends GalleryController {
 		    /* Get the coordinates and such in the map database */
 		    $query = '
 		    SELECT
-		      [mapMap::field],
-		      [mapMap::value]
+		      [mapv3Map::field],
+		      [mapv3Map::value]
 		    FROM
-		      [mapMap]
+		      [mapv3Map]
 		    WHERE
-		      [mapMap::itemId] = \'' . $id . '\'
+		      [mapv3Map::itemId] = \'' . $id . '\'
 		    ';
 		    list ($ret, $result) = $gallery->search($query, array(), array());
 
@@ -154,7 +154,7 @@ class ShowMapController extends GalleryController {
 		    $results['redirect']['itemId'] = $id;
 		} elseif ($form['plugin'] == 'GroupCoord') { /* return to the page "Edit Group" */
 		    $results['redirect']['view'] = 'core.SiteAdmin';
-		    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+		    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 		    $results['redirect']['mode'] = 'AddGroup';
 		} elseif ($form['plugin'] == 'quickEdit') { /* return to the page "quickEdit" */
                     $results['redirect']['itemId'] = $id;
@@ -172,7 +172,7 @@ class ShowMapController extends GalleryController {
 		$results['status'] = '';
 		$results['error'] = array();
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapSiteAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapSiteAdmin';
 	    }
 
 	    if ($form['plugin'] == 'GVMDefault') {
@@ -184,7 +184,7 @@ class ShowMapController extends GalleryController {
 		$results['status'] = '';
 		$results['error'] = array();
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapSiteAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapSiteAdmin';
 	    }
 
 	    if ($form['plugin'] == 'Filters') {
@@ -217,7 +217,7 @@ class ShowMapController extends GalleryController {
 		$results['status'] = '';
 		$results['error'] = array();
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapFilterAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 		$results['redirect']['mode'] = 'AddFilter';
 	    }
 
@@ -243,12 +243,12 @@ class ShowMapView extends GalleryView {
 
 	/* Get the real path for the map module installation */
 	/** @todo for gallery 2.3 and later change this to use getCodeBasePath() */
-	/*$mapModBaseDir = GalleryCoreApi::getPluginBaseDir('module', 'mapv3') . 'modules/map/';*/
+	/*$mapModBaseDir = GalleryCoreApi::getPluginBaseDir('module', 'mapv3') . 'modules/mapv3/';*/
 	$mapModBaseDir = dirname(__FILE__) . '/';
 
 	/* Include header that links to the Google Maps script */
 
-	$template->head('modules/map/templates/MapHeader.tpl');
+	$template->head('modules/mapv3/templates/MapHeader.tpl');
 
 	list ($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3');
 	if ($ret) {
@@ -377,7 +377,7 @@ class ShowMapView extends GalleryView {
 			if (!empty($theonegroup)) {
 			    $map['Filter'] = 'Group: ' . $theonegroup[1] . '  <a href='
 				    . $gurl->generateUrl(
-					array('view' => 'map.ShowMap', 'Group' => ''),
+					array('view' => 'mapv3.ShowMap', 'Group' => ''),
 					array('forceFullUrl' => true))
 				    . '>Show All</a>';
 			    $NumberOfIds = count($ids);
@@ -1250,12 +1250,12 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 		/* Get coordinates for this item */
 		$query = '
 		SELECT
-		  [mapMap::field],
-		  [mapMap::value]
+		  [mapv3Map::field],
+		  [mapv3Map::value]
 		FROM
-		  [mapMap]
+		  [mapv3Map]
 		WHERE
-		  [mapMap::itemId] = \'' . $form['id'] . '\'
+		  [mapv3Map::itemId] = \'' . $form['id'] . '\'
 		';
 		list ($ret, $results) = $gallery->search($query, array(), array());
 
@@ -1335,7 +1335,7 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 		$map['LegendFeature'] = $param['LegendFeature'];
 	    }
 
-	    $template->setVariable('controller', 'map.ShowMap');
+	    $template->setVariable('controller', 'mapv3.ShowMap');
 
 	}
 
@@ -1350,7 +1350,7 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 	$template->setVariable('mapv3', $map);
 
     /* Render the actual template with the map display */
-	return array(null, array('body' => 'modules/map/templates/ShowMap.tpl',
+	return array(null, array('body' => 'modules/mapv3/templates/ShowMap.tpl',
 				 'useFullScreen' => $fullScreen));
     }
 }

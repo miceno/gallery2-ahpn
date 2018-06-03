@@ -26,8 +26,8 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -51,7 +51,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = '';
 	    $results['error'] = '';
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapMarkersAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapMarkersAdmin';
 	    $results['redirect']['mode'] = 'Tool';
 	}
 
@@ -78,10 +78,10 @@ class MapMarkersAdminController extends GalleryController {
 		$newparam['common'] = $param['common'];
 
 		if (isset($form['useMarkerSet'])) {
-		    $handle = fopen($basegallerydir . 'map/images/markers/'
+		    $handle = fopen($basegallerydir . 'mapv3/images/markers/'
 		    		    . $form['useMarkerSet'] . '/colorlist', 'r');
 		    $list = explode('*', fread($handle,
-			    filesize($basegallerydir . 'map/images/markers/'
+			    filesize($basegallerydir . 'mapv3/images/markers/'
 				     . $form['useMarkerSet'] . '/colorlist') - 1));
 		    fclose($handle);
 
@@ -94,10 +94,10 @@ class MapMarkersAdminController extends GalleryController {
 		}
 
 		if (isset($form['useAlbumMarkerSet'])) {
-		    $handle = fopen($basegallerydir . 'map/images/markers/'
+		    $handle = fopen($basegallerydir . 'mapv3/images/markers/'
 		    		    . $form['useAlbumMarkerSet'] . '/colorlist', 'r');
 		    $list = explode('*', fread($handle,
-			    filesize($basegallerydir . 'map/images/markers/'
+			    filesize($basegallerydir . 'mapv3/images/markers/'
 				     . $form['useAlbumMarkerSet'] . '/colorlist') - 1));
 		    fclose($handle);
                     
@@ -154,7 +154,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapMarkersAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapMarkersAdmin';
 
 	}
 
@@ -173,22 +173,22 @@ class MapMarkersAdminController extends GalleryController {
 		$setname = $form['setname'];
 
 		/* create the marker dir */
-		if (!file_exists($basegallerydir . 'map/images/markers/' . $setname)){
-			list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($basegallerydir . 'map/images/markers/' . $setname);
+		if (!file_exists($basegallerydir . 'mapv3/images/markers/' . $setname)){
+			list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($basegallerydir . 'mapv3/images/markers/' . $setname);
 			if ($ret){
 			    $error[] = 'form[error][createdir]';
 			}
 		}
 
 		$resize = '';
-		$basepngdir = $base . 'modules/map/images/basemarkers/';
+		$basepngdir = $base . 'modules/mapv3/images/basemarkers/';
 
 		/* Figure out if a resize is needed and create the appropriate command */
 		if ($form['size'][0] != 'same') {
 		    if ($form['size'][0] == 'custom') {
 			$resize = $form['ImageHeight'] . 'x' . $form['ImageWidth'];
 		    } else {
-			$currentsize = getimagesize($basegallerydir . 'map/images/basemarkers/'
+			$currentsize = getimagesize($basegallerydir . 'mapv3/images/basemarkers/'
 						    . $basemarkername . '.png');
 			$height50 = $currentsize[1] / 2;
 			$width50 = $currentsize[0] / 2;
@@ -251,7 +251,7 @@ class MapMarkersAdminController extends GalleryController {
 
 		/* Put the colorlist in a file for later retrieval */
 		$colorlist = array();
-		$handle = fopen($basegallerydir . 'map/images/markers/' . $setname . '/colorlist', 'w');
+		$handle = fopen($basegallerydir . 'mapv3/images/markers/' . $setname . '/colorlist', 'w');
 		foreach ($colors as $name => $value) {
 		    $colorlist[] = $name;
 		    fwrite($handle, $name . '*');
@@ -276,16 +276,16 @@ class MapMarkersAdminController extends GalleryController {
 		    	$command[] = '-resize';
 		    	$command[] = $resize;
 		    }
-		    $command[] = $basegallerydir . 'map/images/basemarkers/' . $basemarkername
+		    $command[] = $basegallerydir . 'mapv3/images/basemarkers/' . $basemarkername
 			    . '.png'; 
-		    $command[] = $basegallerydir . 'map/images/markers/' . $setname
+		    $command[] = $basegallerydir . 'mapv3/images/markers/' . $setname
 				. '/marker_' . $color . '.png';
 		    $returnstuff = $platform->exec(array($command));
 		    /*
 		     * if the marker created does not exist, then something went wrong,
 		     * break out and display an error message
 		     */
-		    if (!$platform->file_exists($basegallerydir . 'map/images/markers/' . $setname
+		    if (!$platform->file_exists($basegallerydir . 'mapv3/images/markers/' . $setname
 		    		     . '/marker_' . $color . '.png')) {
 			$statusexec = 1;
 			$error[] = 'form[createicons]['.$returnstuff[2][0].']';
@@ -300,7 +300,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapMarkersAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapMarkersAdmin';
 	    $results[$method]['mode'] = empty($error) ? '' : 'Tool';
 
 	}
@@ -310,7 +310,7 @@ class MapMarkersAdminController extends GalleryController {
 
 	    $status['deleted'] = 0;
 
-	    $dir = $basegallerydir . 'map/images/markers/' . $form['deleteMarkerSet'];
+	    $dir = $basegallerydir . 'mapv3/images/markers/' . $form['deleteMarkerSet'];
 
 	    /* Delete all file in the folder and then delete the folder */
 	    $status['deleted'] = $platform->recursiveRmdir($dir);
@@ -320,7 +320,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapMarkersAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapMarkersAdmin';
 
 	}
 
@@ -334,7 +334,7 @@ class MapMarkersAdminController extends GalleryController {
 	    } else if ($form['tmp_name'][1] == '') {
 		$error[] = 'form[error][notuploaded]';
 	    } else if (!move_uploaded_file($form['tmp_name'][1], $basegallerydir
-	    				   . 'map/images/basemarkers/' . $form['name'][1])) {
+	    				   . 'mapv3/images/basemarkers/' . $form['name'][1])) {
 		$error[] = 'form[error][rightserror]';
 	    } else {
 		$status['uploaded'] = 1;
@@ -343,7 +343,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapMarkersAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapMarkersAdmin';
 	    $results[$method]['mode'] = 'Tool';
 
 	}
@@ -353,7 +353,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapMarkersAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapMarkersAdmin';
 
 	}
 
@@ -361,7 +361,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapMarkersAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapMarkersAdmin';
 	    $results['redirect']['mode'] = 'ViewMarkers';
 
 	}
@@ -376,7 +376,7 @@ class MapMarkersAdminController extends GalleryController {
 	    } else if ($form['tmp_name'][2] == '') {
 		$error[] = 'form[error][notuploaded]';
 	    } else if (!move_uploaded_file($form['tmp_name'][2],
-		    $basegallerydir . 'map/images/multi/' . $form['name'][2])) {
+		    $basegallerydir . 'mapv3/images/multi/' . $form['name'][2])) {
 		$error[] = 'form[error][rightserror]';
 	    } else {
 		$status['uploaded'] = 1;
@@ -385,7 +385,7 @@ class MapMarkersAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapMarkersAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapMarkersAdmin';
 
 	}
 
@@ -404,27 +404,30 @@ class MapMarkersAdminView extends GalleryView {
     function loadTemplate(&$template, &$form) {
 
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
+	
+	$base_path = dirname(__FILE__) . '/';
+	
 	$form['formName'] = 'MapMarkersAdmin';
-	$template->head('modules/map/includes/GoogleMap.css');
-	$template->javascript('modules/map/GoogleMap.js');
+	$template->head($base_path . 'includes/GoogleMap.css');
+	$template->javascript($base_path . 'GoogleMap.js');
 
-	$basepngdir = $basegallerydir . 'modules/map/images/basemarkers/';
-	$pngdir = $base . 'modules/map/images/basemarkers/';
+	$basepngdir = $basegallerydir . $base_path . 'images/basemarkers/';
+	$pngdir = $base . $base_path . 'images/basemarkers/';
 
 	/* verify that the module install was done right, maybe some missing files ? */
 	if (!is_dir($basepngdir)) {
 	    $form['nobase'] = 'brokendir';
 	} else {
 	    $form['basemarkers'] = GoogleMapUtilities::TableFromFiles($basegallerydir, $base,
-		    'modules/map/images/basemarkers/');
+		$base_path .'images/basemarkers/');
 	}
 
 	$form['multimarkers'] = GoogleMapUtilities::TableFromFiles($basegallerydir, $base,
-		'modules/map/images/multi/');
+	    $base_path .'images/multi/');
 
-	$mydir = dir($basegallerydir . 'modules/map/images/markers/');
+	$mydir = dir($basegallerydir . $base_path .'images/markers/');
 	while (($file = $mydir->read()) !== false) {
-	    if ((is_dir($basegallerydir . 'modules/map/images/markers/' . $file))
+	    if ((is_dir($basegallerydir . $base_path . 'images/markers/' . $file))
 		    and (substr($file, -1) <> '.') and ($file != 'CVS')) {
 		$form['markers'][] = $file;
 	    }
@@ -486,24 +489,24 @@ class MapMarkersAdminView extends GalleryView {
 
         /* Create the list of marker available and select the right one for Photos & albums */
 	$form['markerset'] = GoogleMapUtilities::OptionFromFolder(
-		$basegallerydir . 'modules/map/images/markers/', $form['useMarkerSet']);
+		$basegallerydir . $base_path . 'images/markers/', $form['useMarkerSet']);
 	$form['albummarkerset'] = GoogleMapUtilities::OptionFromFolder(
-		$basegallerydir . 'modules/map/images/markers/', $form['useAlbumMarkerSet']);
+		$basegallerydir . $base_path . 'images/markers/', $form['useAlbumMarkerSet']);
 	$form['groupmarkerset'] = GoogleMapUtilities::OptionFromFolder(
-		$basegallerydir . 'modules/map/images/markers/', $form['useGroupMarkerSet']);
+		$basegallerydir . $base_path . 'images/markers/', $form['useGroupMarkerSet']);
 
         /*
          * Create the list of available color for the selected markerset for Photos, albums 
          * and Groups
          */
 	$form['colorPoption'] = GoogleMapUtilities::OptionFromColorList(
-		$basegallerydir . 'modules/map/images/markers/' . $form['useMarkerSet'],
+		$basegallerydir . $base_path . 'images/markers/' . $form['useMarkerSet'],
 		$form['defaultphotocolor']);
 	$form['colorGoption'] = GoogleMapUtilities::OptionFromColorList(
-		$basegallerydir . 'modules/map/images/markers/' . $form['useGroupMarkerSet'],
+		$basegallerydir . $base_path . 'images/markers/' . $form['useGroupMarkerSet'],
 		$form['defaultgroupcolor']);
 	$form['colorAoption'] = GoogleMapUtilities::OptionFromColorList(
-		$basegallerydir . 'modules/map/images/markers/' . $form['useAlbumMarkerSet'],
+		$basegallerydir . $base_path . 'images/markers/' . $form['useAlbumMarkerSet'],
 		$form['defaultalbumcolor']);
 
 	include(dirname(__FILE__) . '/includes/MapAdminEdits.inc');
@@ -518,8 +521,8 @@ class MapMarkersAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapMarkersAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapMarkersAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapMarkersAdmin');
+	return array(null, array('body' => $base_path . 'templates/MapMarkersAdmin.tpl'));
     }
 }
 

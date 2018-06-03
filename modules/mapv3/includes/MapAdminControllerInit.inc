@@ -22,7 +22,9 @@
  * @version $Revision: 1253 $
  * 
  */
-    $basegallerydir = substr(dirname(__FILE__), 0, -12);
+    $BASE_PATH_STRING = 'modules/mapv3/includes';
+    $basegallerydir = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
+
     global $gallery;
     $urlGenerator =& $gallery->getUrlGenerator();
     $urlComponents = parse_url($urlGenerator->getCurrentUrlDir(true));

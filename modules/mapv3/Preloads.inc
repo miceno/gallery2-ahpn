@@ -32,7 +32,7 @@ class mapv3Preloads {
 	    list ($ret, $item) = GalleryCoreApi::loadEntitiesById($itemId);
 	    if (!$ret && /* extend to all data items ? */
 		    GalleryUtilities::isA($item, 'GalleryPhotoItem')) {
-		GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+		GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
 		list ($ret, $tmp, $param, $isContainerSettings) =
 			mapHelper::fetchFieldValues(array($item), null, 'photo');
 		if ($ret) {
@@ -40,7 +40,7 @@ class mapv3Preloads {
 		}
 		if (isset($tmp[$item->getId()]['GPS']) &&
 			preg_match ('/^([^,]+),(.*)$/', $tmp[$item->getId()]['GPS'], $regs)) {
-		    $template->head('modules/map/templates/Header.tpl');
+		    $template->head('modules/mapv3/templates/Header.tpl');
 		    $template->setVariable('latitude', $regs[1]);
 		    $template->setVariable('longitude', $regs[2]);
 		    $template->setVariable('itemTitle', $item->getTitle());

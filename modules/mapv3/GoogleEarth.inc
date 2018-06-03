@@ -131,7 +131,9 @@ class GoogleEarthView extends GalleryView {
      * returns string KML subelements: folder(s) and/or placemark(s)
      */
     function _createGETree($item, $data, $ancestors) {
-	GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+	$base_path = dirname(__FILE__) . '/';
+	
+	GalleryCoreApi::requireOnce($base_path . 'classes/mapHelper.class');
 
 	$returnstring = ''; /* start with a blank string */
 	if (empty($data)) { /* workaround for first call if no field data passed */

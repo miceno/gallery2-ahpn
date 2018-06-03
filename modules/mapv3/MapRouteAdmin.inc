@@ -24,8 +24,8 @@
  *
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /* Note: The value of this string must be lower case */
 define('IEXMLSTRING', 'xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"');
@@ -49,7 +49,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapRouteAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 	    $results['redirect']['mode'] = 'AddRoute';
 
 	}
@@ -61,7 +61,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapRouteAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 
 	}
 	if (isset($form['action']['editroute'])) {
@@ -91,7 +91,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapRouteAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 	    $results['redirect']['mode'] = 'AddRoute';
 
 	}
@@ -122,7 +122,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapRouteAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 
 	}
 
@@ -162,7 +162,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$direction]['view'] = 'core.SiteAdmin';
-	    $results[$direction]['subView'] = 'map.MapRouteAdmin';
+	    $results[$direction]['subView'] = 'mapv3.MapRouteAdmin';
 
 	}
 	if (isset($form['action']['save'])) {
@@ -285,12 +285,12 @@ class MapRouteAdminController extends GalleryController {
 		$results['status'] = $status;
 		$results['error'] = $error;
 		$results['redirect']['view'] = 'core.SiteAdmin';
-		$results['redirect']['subView'] = 'map.MapRouteAdmin';
+		$results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 	    } else {
 		$results['status'] = $status;
 		$results['error'] = $error;
 		$results['delegate']['view'] = 'core.SiteAdmin';
-		$results['delegate']['subView'] = 'map.MapRouteAdmin';
+		$results['delegate']['subView'] = 'mapv3.MapRouteAdmin';
 		$results['delegate']['mode'] = 'AddRoute';
 	    }
 	}
@@ -300,7 +300,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapRouteAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 
 	}
 
@@ -316,7 +316,7 @@ class MapRouteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapRouteAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapRouteAdmin';
 
 	}
 
@@ -335,7 +335,7 @@ class MapRouteAdminView extends GalleryView {
     function loadTemplate(&$template, &$form) {
 
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
-	$template->head('modules/map/includes/GoogleMap.css');
+	$template->head('modules/mapv3/includes/GoogleMap.css');
 	$form['formName'] = 'MapRouteAdmin';
 
 	list ($ret, $dateFormat) =
@@ -347,12 +347,12 @@ class MapRouteAdminView extends GalleryView {
 	$storage =& $gallery->getStorage();
 	$query = '
         SELECT
-	  [mapMap::itemId],
-	  [mapMap::value]
+	  [mapv3Map::itemId],
+	  [mapv3Map::value]
 	FROM
-	  [mapMap]
+	  [mapv3Map]
 	WHERE
-	  [mapMap::field] = \'GPS\'
+	  [mapv3Map::field] = \'GPS\'
 	';
 	list ($ret, $results) = $gallery->search($query, array(), array());
 
@@ -513,8 +513,8 @@ class MapRouteAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapRouteAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapRouteAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapRouteAdmin');
+	return array(null, array('body' => 'modules/mapv3/templates/MapRouteAdmin.tpl'));
     }
 }
 ?>

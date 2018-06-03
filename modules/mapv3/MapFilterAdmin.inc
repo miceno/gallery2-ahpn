@@ -27,8 +27,10 @@
  * @todo Change the map filters to derive from GalleryEntity and use that framework.
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+$base_path = dirname(__FILE__) . '/';
+
+GalleryCoreApi::requireOnce($base_path . 'classes/mapHelper.class');
+GalleryCoreApi::requireOnce($base_path . 'classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -48,7 +50,7 @@ class MapFilterAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array ();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapFilterAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 
 	}
 
@@ -59,7 +61,7 @@ class MapFilterAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapFilterAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 	    $results['redirect']['mode'] = 'AddFilter';
 	}
 
@@ -90,7 +92,7 @@ class MapFilterAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapFilterAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 	    $results['redirect']['mode'] = 'Filter';
 	}
 
@@ -121,7 +123,7 @@ class MapFilterAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapFilterAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 	    $results['redirect']['mode'] = 'AddFilter';
 	}
 
@@ -177,7 +179,7 @@ class MapFilterAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapFilterAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapFilterAdmin';
 	    $results[$method]['mode'] = $mode;
 	}
 
@@ -308,7 +310,7 @@ class MapFilterAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapFilterAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapFilterAdmin';
 	    $results['redirect']['mode'] = 'Filter';
 	}
 
@@ -316,7 +318,7 @@ class MapFilterAdminController extends GalleryController {
 
 	    $results['status'] = '';
 	    $results['error'] = array();
-	    $results['redirect']['view'] = 'map.ShowMap';
+	    $results['redirect']['view'] = 'mapv3.ShowMap';
 	    $results['redirect']['Mode'] = 'Pick';
 	    $results['redirect']['plugin'] = 'Filters';
 	    $results['redirect']['center'] = $_POST['center'];
@@ -339,7 +341,7 @@ class MapFilterAdminView extends GalleryView {
     function loadTemplate(&$template, &$form) {
 
 	include(dirname(__FILE__).'/includes/MapAdminViewInit.inc');
-	$template->head('modules/map/includes/GoogleMap.css');
+	$template->head($base_path . 'includes/GoogleMap.css');
 
 	$form['formName'] = 'MapFilterAdmin';
 
@@ -379,8 +381,8 @@ class MapFilterAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapFilterAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapFilterAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapFilterAdmin');
+	return array(null, array('body' => $base_path . 'templates/MapFilterAdmin.tpl'));
     }
 }
 ?>

@@ -24,8 +24,8 @@
  *
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -45,7 +45,7 @@ class MapGoogleOverviewAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGoogleOverviewAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGoogleOverviewAdmin';
 	}
 
 	/* Save the Google Overview settings */
@@ -91,7 +91,7 @@ class MapGoogleOverviewAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapGoogleOverviewAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapGoogleOverviewAdmin';
 	}
 
 	return array (null, $results);
@@ -110,8 +110,8 @@ class MapGoogleOverviewAdminView extends GalleryView {
 
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	$form['formName'] = 'MapGoogleOverviewAdmin';
-	$template->head('modules/map/includes/GoogleMap.css');
-	$template->javascript('modules/map/GoogleMap.js');
+	$template->head($base_path . 'includes/GoogleMap.css');
+	$template->javascript($base_path . 'GoogleMap.js');
 
 	if(!array_key_exists('GoogleOverview', $form)) {
 	    $form['GoogleOverview'] = false;
@@ -145,8 +145,8 @@ class MapGoogleOverviewAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapGoogleOverviewAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapGoogleOverviewAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapGoogleOverviewAdmin');
+	return array(null, array('body' => $base_path . 'templates/MapGoogleOverviewAdmin.tpl'));
     }
 }
 

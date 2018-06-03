@@ -4,7 +4,7 @@
  *}
 
 <div class="gbBlock gcBackground1">
-    <h2>{g->text text="Map Module Settings"}   <a style="position:relative;left:50px;border-top:2px solid #cecece; border-left:2px solid #cecece; border-bottom:2px solid #4a4a4a;border-right:2px solid #4a4a4a;padding:.2em;padding-right:1em;padding-left:1em;text-decoration:none;background-color:#ebebeb;color:#000;font-weight:normal;font-size:12px;" href="{g->url arg1="view=map.ShowMap"}">{g->text text="Show Google Map"}</a></h2>
+    <h2>{g->text text="Map Module Settings"}   <a style="position:relative;left:50px;border-top:2px solid #cecece; border-left:2px solid #cecece; border-bottom:2px solid #4a4a4a;border-right:2px solid #4a4a4a;padding:.2em;padding-right:1em;padding-left:1em;text-decoration:none;background-color:#ebebeb;color:#000;font-weight:normal;font-size:12px;" href="{g->url arg1="view=mapv3.ShowMap"}">{g->text text="Show Google Map"}</a></h2>
 </div>
 
 <!--
@@ -71,7 +71,7 @@ Beginning of error/success displaying
 End of error/success displaying
 -->
 
-{include file="modules/map/templates/MapAdminTab.tpl" mode="Markers"}
+{include file="modules/mapv3/templates/MapAdminTab.tpl" mode="Markers"}
 
 <!-- Help Div -->
 <div id="helpdiv" style="visibility:hidden;border:2px solid black;position:absolute;right:350px;top:200px;width:250px;height:150px;">

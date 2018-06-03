@@ -13,7 +13,7 @@
     </span></span>
   {else}
     <span class="o"><span>
-      <a accesskey="g" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapSiteAdmin"}">{g->text text="<u>G</u>eneral Settings"}</a>
+      <a accesskey="g" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin"}">{g->text text="<u>G</u>eneral Settings"}</a>
     </span></span>
   {/if}
   {if isset($form.GoogleOverviewFeature) and $form.GoogleOverviewFeature}
@@ -23,7 +23,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapGoogleOverviewAdmin"}">{g->text text="Google Overview Settings"}</a>
+        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapGoogleOverviewAdmin"}">{g->text text="Google Overview Settings"}</a>
       </span></span>
     {/if}
   {/if}
@@ -34,7 +34,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapGZoomAdmin"}">{g->text text="GZoom Settings"}</a>
+        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapGZoomAdmin"}">{g->text text="GZoom Settings"}</a>
       </span></span>
     {/if}
   {/if}
@@ -45,7 +45,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a accesskey="t" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapThemeAdmin"}">{g->text text="<u>T</u>heme Settings"}</a>
+        <a accesskey="t" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapThemeAdmin"}">{g->text text="<u>T</u>heme Settings"}</a>
       </span></span>
     {/if}
   {/if}
@@ -56,7 +56,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapMarkersAdmin"}">{g->text text="Markers Settings"}</a>
+        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapMarkersAdmin"}">{g->text text="Markers Settings"}</a>
       </span></span>
     {/if}
   {/if}
@@ -67,7 +67,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a accesskey="l" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapLegendAdmin"}">{g->text text="<u>L</u>egend Management"}</a>
+        <a accesskey="l" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapLegendAdmin"}">{g->text text="<u>L</u>egend Management"}</a>
       </span></span>
     {/if}
   {/if}
@@ -78,7 +78,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a accesskey="f" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapFilterAdmin"}">{g->text text="<u>F</u>ilter Management"}</a>
+        <a accesskey="f" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapFilterAdmin"}">{g->text text="<u>F</u>ilter Management"}</a>
       </span></span>
     {/if}
   {/if}
@@ -89,7 +89,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapGroupAdmin"}">{g->text text="Group Management"}</a>
+        <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapGroupAdmin"}">{g->text text="Group Management"}</a>
       </span></span>
     {/if}
   {/if}
@@ -100,7 +100,7 @@
       </span></span>
     {else}
       <span class="o"><span>
-        <a accesskey="r" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapRouteAdmin"}">{g->text text="<u>R</u>outes Management"}</a>
+        <a accesskey="r" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapRouteAdmin"}">{g->text text="<u>R</u>outes Management"}</a>
       </span></span>
     {/if}
   {/if}

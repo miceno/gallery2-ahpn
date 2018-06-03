@@ -26,8 +26,8 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -47,7 +47,7 @@ class MapSiteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect'] = array('view' => 'core.SiteAdmin',
-					 'subView' => 'map.MapSiteAdmin',
+					 'subView' => 'mapv3.MapSiteAdmin',
 					 'mode' => 'General');
 	}
 	
@@ -119,7 +119,7 @@ class MapSiteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method] = array('view' => 'core.SiteAdmin',
-				      'subView' => 'map.MapSiteAdmin',
+				      'subView' => 'mapv3.MapSiteAdmin',
 				      'mode' => 'General');
 	}
 
@@ -130,7 +130,7 @@ class MapSiteAdminController extends GalleryController {
 	    $results['status'] = '';
 	    $results['error'] = '';
 	    $results['redirect'] = array('view' => 'core.SiteAdmin',
-					 'subView' => 'map.MapSiteAdmin',
+					 'subView' => 'mapv3.MapSiteAdmin',
 					 'mode' => 'mapKey',
 					 'keyUrl' => $url);
 	}
@@ -141,7 +141,7 @@ class MapSiteAdminController extends GalleryController {
 	    $results['status'] = array();
 	    $results['error'] = array();
 	    $results['redirect'] = array('view' => 'core.SiteAdmin',
-					 'subView' => 'map.MapSiteAdmin',
+					 'subView' => 'mapv3.MapSiteAdmin',
 					 'mode' => 'mapKey');
 	}
 
@@ -156,7 +156,7 @@ class MapSiteAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect'] = array('view' => 'core.SiteAdmin',
-					 'subView' => 'map.MapSiteAdmin',
+					 'subView' => 'mapv3.MapSiteAdmin',
 					 'mode' => 'General');
 	}
 
@@ -207,7 +207,7 @@ class MapSiteAdminController extends GalleryController {
 		if ($isActive) {
 		    $results['status'] = $status;
 		    $results['error'] = $error;
-		    $results['redirect']['subView'] = 'map.MapSiteAdmin';
+		    $results['redirect']['subView'] = 'mapv3.MapSiteAdmin';
 		    $results['redirect']['mode'] = 'General';
 		} else {
 		    $status['configured'] = 'mapv3';
@@ -219,7 +219,7 @@ class MapSiteAdminController extends GalleryController {
 		$results['status'] = $status;
 		$results['error'] = $error;
 		$results['delegate'] = array('view' => 'core.SiteAdmin',
-					     'subView' => 'map.MapSiteAdmin',
+					     'subView' => 'mapv3.MapSiteAdmin',
 					     'mode' => 'mapKey',
 					     'keyUrl' => $form['oldProfileUrl']);
 	    }
@@ -229,7 +229,7 @@ class MapSiteAdminController extends GalleryController {
 
 	    $results['status'] = '';
 	    $results['error'] = array();
-	    $results['redirect'] = array('view' => 'map.ShowMap',
+	    $results['redirect'] = array('view' => 'mapv3.ShowMap',
 	    				 'Mode' => 'Pick',
 	    				 'plugin' => 'AdminCenter');
 	}
@@ -238,7 +238,7 @@ class MapSiteAdminController extends GalleryController {
 
 	    $results['status'] = '';
 	    $results['error'] = array();
-	    $results['redirect'] = array('view' => 'map.ShowMap',
+	    $results['redirect'] = array('view' => 'mapv3.ShowMap',
 	    				 'Mode' => 'Pick',
 	    				 'plugin' => 'GVMDefault');
 	}
@@ -250,7 +250,7 @@ class MapSiteAdminController extends GalleryController {
  * @package map
  * @subpackage UserInterface
  */
-class mapv3SiteAdminView extends GalleryView {
+class mapSiteAdminView extends GalleryView {
     /**
      * @see GalleryView::loadTemplate
      */
@@ -265,8 +265,8 @@ class mapv3SiteAdminView extends GalleryView {
     				
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	$form['formName'] = 'mapSiteAdmin';
-	$template->head('modules/map/includes/GoogleMap.css');
-	$template->javascript('modules/map/GoogleMap.js');
+	$template->head('modules/mapv3/includes/GoogleMap.css');
+	$template->javascript('modules/mapv3/GoogleMap.js');
 
 	/* Set default values for undefined plugin parameters */
 	if (!array_key_exists('mapWidth', $form)) {
@@ -358,8 +358,8 @@ class mapv3SiteAdminView extends GalleryView {
 	    $SiteAdmin['enctype'] = 'multipart/form-data';
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
-	$template->setVariable('controller', 'map.MapSiteAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapSiteAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapSiteAdmin');
+	return array(null, array('body' => 'modules/mapv3/templates/MapSiteAdmin.tpl'));
     }
 }
 ?>

@@ -77,7 +77,7 @@
     if(array_key_exists('EditGroup', $form) and $form['EditGroup'] != '') {
 	if (array_key_exists('mode', $form) and $form['mode'] == 'AddGroup') {
 	    $form['EditGroup'] = explode('`', $form['EditGroup']);
-	    $pic = GalleryUtilities::convertPathToUrl($basegallerydir . 'modules/map/images/groups/'
+	    $pic = GalleryUtilities::convertPathToUrl($basegallerydir . 'modules/mapv3/images/groups/'
 						      . $form['EditGroup'][4]);
 	    $form['EditGroup'][4] = '"' . $pic . '"';
 	    $form['EditGroup'][5] = strftime($dateFormat, $form['EditGroup'][5]);

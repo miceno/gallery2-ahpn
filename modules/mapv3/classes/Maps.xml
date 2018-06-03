@@ -1,7 +1,7 @@
 <!DOCTYPE maps SYSTEM "../../../lib/tools/dtd/MapsDefinition2.0.dtd">
 <maps>
   <map>
-    <map-name>mapMap</map-name>
+    <map-name>mapv3Map</map-name>
     <schema>
       <schema-major>1</schema-major>
       <schema-minor>1</schema-minor>

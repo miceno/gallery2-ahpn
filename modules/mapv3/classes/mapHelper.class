@@ -175,7 +175,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	    if (!isset($setTypes)) {
 		$setTypes = array(0, 1);
 	    }
-	    $ret = GalleryCoreApi::removeMapEntry('mapMap',
+	    $ret = GalleryCoreApi::removeMapEntry('mapv3Map',
 		    array('field' => $field, 'setId' => $containerId, 'setType' => $setTypes) );
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
@@ -183,7 +183,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	    break;
 
 	default:
-	    $ret = GalleryCoreApi::removeMapEntry('mapMap',
+	    $ret = GalleryCoreApi::removeMapEntry('mapv3Map',
 		    array('field' => $field, 'setId' => $containerId) );
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
@@ -230,9 +230,9 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	}
 
 	$query = '
-	SELECT [mapMap::itemId], [mapMap::field], [mapMap::value]
-	FROM [mapMap]
-	WHERE [mapMap::itemId] IN (' . GalleryUtilities::makeMarkers($itemIds) . ')';
+	SELECT [mapv3Map::itemId], [mapv3Map::field], [mapv3Map::value]
+	FROM [mapv3Map]
+	WHERE [mapv3Map::itemId] IN (' . GalleryUtilities::makeMarkers($itemIds) . ')';
 
 	list ($ret, $searchResults) = $gallery->search($query, $itemIds);
 	if ($ret) {
@@ -285,13 +285,13 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	}
 	$isContainer = !empty($param);
 
-	$ret = GalleryCoreApi::removeMapEntry('mapMap', array('itemId' => $item->getId()));
+	$ret = GalleryCoreApi::removeMapEntry('mapv3Map', array('itemId' => $item->getId()));
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
 	foreach ($fields as $field => $value) {
 	    if (!empty($value)) {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $item->getId(), 'field' => $field, 'value' => $value,
 			      'setId' => $isContainer ? $containerId : 0, 'setType' => $set));
 		if ($ret) {
@@ -314,7 +314,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
         if ($event->getEventName() == 'GalleryEntity::delete') {
 	    $item = $event->getEntity();
-	    $ret = GalleryCoreApi::removeMapEntry('mapMap', array('itemId' => $item->getId()));
+	    $ret = GalleryCoreApi::removeMapEntry('mapv3Map', array('itemId' => $item->getId()));
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -724,12 +724,12 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
 	$query = '
 	SELECT 
-	  [mapMap::value]
-	FROM [mapMap]
+	  [mapv3Map::value]
+	FROM [mapv3Map]
 	WHERE
-	  [mapMap::field] = \'Color\'
+	  [mapv3Map::field] = \'Color\'
 	  AND
-	  [mapMap::itemId] = ?
+	  [mapv3Map::itemId] = ?
 	';
 	    
 	list ($ret, $results) = $gallery->search($query, array($itemId), array());
@@ -760,12 +760,12 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
 	$query = '
 	SELECT 
-	  [mapMap::value]
-	FROM [mapMap]
+	  [mapv3Map::value]
+	FROM [mapv3Map]
 	WHERE
-	  [mapMap::field] = \'ZoomLevel\'
+	  [mapv3Map::field] = \'ZoomLevel\'
 	  AND
-	  [mapMap::itemId] = ?
+	  [mapv3Map::itemId] = ?
 	';
 	    
 	list ($ret, $results) = $gallery->search($query, array($itemId), array());
@@ -792,9 +792,9 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
 	    $query = '
 	       SELECT 
-		       [mapMap::value]
-		   FROM [mapMap]
-           WHERE [mapMap::field] = \'GPS\' AND [mapMap::itemId] = ?
+		       [mapv3Map::value]
+		   FROM [mapv3Map]
+           WHERE [mapv3Map::field] = \'GPS\' AND [mapv3Map::itemId] = ?
 	    ';
 	    
 	    list ($ret, $results) = $gallery->search($query, array($itemId), array());
@@ -911,15 +911,15 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
 	$query = '
 	SELECT 
-	  [mapMap::itemId], [mapMap::value]
+	  [mapv3Map::itemId], [mapv3Map::value]
 	FROM 
-	  [mapMap], [GalleryAccessSubscriberMap]
+	  [mapv3Map], [GalleryAccessSubscriberMap]
 	WHERE 
-	  [mapMap::field] = \'GPS\' 
+	  [mapv3Map::field] = \'GPS\'
 	AND
-	  SUBSTRING([mapMap::itemId],1,1) <> \'G\'
+	  SUBSTRING([mapv3Map::itemId],1,1) <> \'G\'
 	AND
-	  [GalleryAccessSubscriberMap::itemId] = [mapMap::itemId]
+	  [GalleryAccessSubscriberMap::itemId] = [mapv3Map::itemId]
 	AND
 	  [GalleryAccessSubscriberMap::accessListId] in (' . $aclMarkers . ')
 	';
@@ -1049,13 +1049,13 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
 	    $query = '
 	       SELECT 
-			   [mapMap::itemId], [mapMap::value]
+			   [mapv3Map::itemId], [mapv3Map::value]
 		   FROM 
-		       [mapMap]
+		       [mapv3Map]
            WHERE
-		       [mapMap::field] = \'GPS\' 
+		       [mapv3Map::field] = \'GPS\'
 		   AND 
-		       SUBSTRING([mapMap::itemId],1,1) = \'G\'
+		       SUBSTRING([mapv3Map::itemId],1,1) = \'G\'
 	    ';
 	    
 	    list ($ret, $results) = $gallery->search($query, array(), array());
@@ -1240,11 +1240,11 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	
 	$query='
 	SELECT
-	 count([mapMap::itemId])
+	 count([mapv3Map::itemId])
 	FROM
-	 [mapMap]
+	 [mapv3Map]
 	WHERE
-	 [mapMap::itemId] IN (' . GalleryUtilities::makeMarkers(count($itemIds)) . ')
+	 [mapv3Map::itemId] IN (' . GalleryUtilities::makeMarkers(count($itemIds)) . ')
 	';
 
 	list ($ret, $searchResults) = $gallery->search($query, $itemIds);

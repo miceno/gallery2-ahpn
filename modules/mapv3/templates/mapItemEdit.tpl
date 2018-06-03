@@ -40,7 +40,7 @@
     helpdiv.style.visibility = "visible";
   {rdelim}
   
-  {include file="modules/map/templates/helpfile.tpl"}
+  {include file="modules/mapv3/templates/helpfile.tpl"}
   // ]]>
   </script>
   
@@ -73,7 +73,7 @@
        {if isset($form.UserHelp) and $form.UserHelp eq 1}
 		<img onclick="javascript:showhelp(_HP_U_GetViaMap,180)" alt="help" style='cursor:pointer;{if !$form.IE}' src="{$form.picbase}help.png" {else}filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="{$form.picbase}help.png");' src='{$form.picbase}blank.gif'{/if}/>
    	   {/if}
-        <a accesskey="g" style="border-top:2px solid #cecece; border-left:2px solid #cecece; border-bottom:2px solid #4a4a4a;border-right:2px solid #4a4a4a;padding:.2em;padding-right:1em;padding-left:1em;text-decoration:none;background-color:#ebebeb;color:#000;font-weight:normal;font-size:12px;" href="{g->url arg1="view=map.ShowMap" arg2="itemId=`$form.itemId`" arg3="plugin=ItemEdit" arg4="Mode=Pick"}">{g->text text="<u>G</u>et via a Map"}</a>
+        <a accesskey="g" style="border-top:2px solid #cecece; border-left:2px solid #cecece; border-bottom:2px solid #4a4a4a;border-right:2px solid #4a4a4a;padding:.2em;padding-right:1em;padding-left:1em;text-decoration:none;background-color:#ebebeb;color:#000;font-weight:normal;font-size:12px;" href="{g->url arg1="view=mapv3.ShowMap" arg2="itemId=`$form.itemId`" arg3="plugin=ItemEdit" arg4="Mode=Pick"}">{g->text text="<u>G</u>et via a Map"}</a>
         {if !isset($form.noexif) or (isset($form.noexif) and $form.noexif neq 1)}
           {if isset($form.exif)}
        {if isset($form.UserHelp) and $form.UserHelp eq 1}

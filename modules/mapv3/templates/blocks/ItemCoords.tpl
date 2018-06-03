@@ -5,7 +5,7 @@
 {* Set defaults *}
 {if !isset($item)}{assign var=item value=$theme.item}{/if}
 {if !isset($coordStyle)}{assign var=coordStyle value=1}{/if}
-{g->callback type="map.ItemCoords" itemId=$item.id coordStyle=$coordStyle}
+{g->callback type="mapv3.ItemCoords" itemId=$item.id coordStyle=$coordStyle}
 {if !empty($block.map.ItemCoords) and !empty($block.map.ItemCoords.lat) and !empty($block.map.ItemCoords.lng)}
 <div class="{$class}">
 {g->text text="%s Coordinates:" arg1=$block.map.ItemCoords.ItemType}

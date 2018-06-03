@@ -7,7 +7,7 @@
 
 {if !isset($coordStyle)}{assign var=coordStyle value=1}{/if}
 
-{g->callback type="map.ItemCoords" itemId=$item.id coordStyle=$coordStyle}
+{g->callback type="mapv3.ItemCoords" itemId=$item.id coordStyle=$coordStyle}
 
 {* TODO: Si las coordenadas estan vacias, ponerlas a un valor por defecto *}
 
@@ -42,7 +42,7 @@
            color:#000;    \
            font-weight:normal;    \
            font-size:12px;" 
-    href="{g->url arg1="view=map.ShowMap" arg2="itemId=`$item.id`" arg3="plugin=quickEdit" arg4="Mode=Pick"}">
+    href="{g->url arg1="view=mapv3.ShowMap" arg2="itemId=`$item.id`" arg3="plugin=quickEdit" arg4="Mode=Pick"}">
     {g->text text="<u>G</u>et via a Map"}
     </a>
 </div>

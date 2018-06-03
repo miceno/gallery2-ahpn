@@ -26,11 +26,13 @@
     $urlGenerator =& $gallery->getUrlGenerator();
 
     /* Fetch the real path of the gallery installation for file operation */
-    $basegallerydir = substr(dirname(__FILE__),0,-20);
+    $ref_string = 'modules/mapv3/includes';
+    $basegallerydir = substr(dirname(__FILE__),0,-strlen($ref_string));
+    
     $base = GalleryUtilities::convertPathToUrl($basegallerydir);
 
     /* Fetch module parameters and save them in form variable */
-    list($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'map');
+    list($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3');
 
     foreach ($param as $key => $value) {
 	$form[$key] = $value;
@@ -42,17 +44,17 @@
     list($ret, $added) = mapHelper::addField('GELookAt', 'common', 0);
 
     /* Save the Color Names into the Custom Field */
-    $handle = fopen($basegallerydir . 'modules/map/images/markers/' . $param['useMarkerSet']
+    $handle = fopen($basegallerydir . 'modules/mapv3/images/markers/' . $param['useMarkerSet']
     		    . '/colorlist', 'r');
     $photolist = explode('*', fread($handle,
-	    filesize($basegallerydir . 'modules/map/images/markers/' . $param['useMarkerSet'] 
+	    filesize($basegallerydir . 'modules/mapv3/images/markers/' . $param['useMarkerSet']
 		     . '/colorlist') - 1));
     fclose($handle);
 
-    $handle = fopen($basegallerydir . 'modules/map/images/markers/' . $param['useAlbumMarkerSet']
+    $handle = fopen($basegallerydir . 'modules/mapv3/images/markers/' . $param['useAlbumMarkerSet']
     		    . '/colorlist', 'r');
     $albumlist = explode('*', fread($handle,
-	    filesize($basegallerydir . 'modules/map/images/markers/' . $param['useAlbumMarkerSet']
+	    filesize($basegallerydir . 'modules/mapv3/images/markers/' . $param['useAlbumMarkerSet']
 		     . '/colorlist') - 1));
     fclose($handle);
 
@@ -74,7 +76,7 @@
 
     /* Add additional fields */
     $form['mode'] = GalleryUtilities::getRequestVariables('mode');
-    $form['picbase'] = $base . 'modules/map/images/';
+    $form['picbase'] = $base . 'modules/mapv3/images/';
     $msie = '/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
 
     if (!isset($_SERVER['HTTP_USER_AGENT']) || !preg_match($msie, $_SERVER['HTTP_USER_AGENT'])
@@ -92,5 +94,5 @@
 	$form['UserHelp'] = 1;
     }
 
-    $template->head('modules/map/templates/AdminHeader.tpl');
+    $template->head('modules/mapv3/templates/AdminHeader.tpl');
 ?>

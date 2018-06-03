@@ -24,8 +24,8 @@
  *
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -45,7 +45,7 @@ class MapGZoomAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGZoomAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGZoomAdmin';
 	}
 
 	/* Save the Gzoom settings */
@@ -67,7 +67,7 @@ class MapGZoomAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapGZoomAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapGZoomAdmin';
 	}
 
 	return array (null, $results);
@@ -87,8 +87,8 @@ class MapGZoomAdminView extends GalleryView {
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	$form['formName'] = 'MapGZoomAdmin';
         
-	$template->head('modules/map/includes/GoogleMap.css');
-	$template->javascript('modules/map/GoogleMap.js');
+	$template->head('modules/mapv3/includes/GoogleMap.css');
+	$template->javascript('modules/mapv3/GoogleMap.js');
 
 	if (!array_key_exists('GZoom', $form)) {
 	    $form['GZoom'] = false;
@@ -113,8 +113,8 @@ class MapGZoomAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapGZoomAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapGZoomAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapGZoomAdmin');
+	return array(null, array('body' => 'modules/mapv3/templates/MapGZoomAdmin.tpl'));
     }
 }
 

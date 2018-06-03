@@ -57,7 +57,7 @@ class PopulateGPSEXIFInfos extends MaintenanceTask {
 	global $gallery;
 	$templateAdapter =& $gallery->getTemplateAdapter();
 
-	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'map');
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'mapv3');
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}

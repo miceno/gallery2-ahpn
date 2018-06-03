@@ -9,7 +9,7 @@
 {if !isset($mapType)}{assign var=mapType value=3}{/if}
 {if !isset($showControls)}{assign var=showControls value=false}{/if}
 
-{g->callback type="map.MiniMap" itemId=$item.id albumMarker=$albumMarker|default:true albumItems=$albumItems|default:2 useParentCoords=$useParentCoords|default:false}
+{g->callback type="mapv3.MiniMap" itemId=$item.id albumMarker=$albumMarker|default:true albumItems=$albumItems|default:2 useParentCoords=$useParentCoords|default:false}
 {if !empty($block.map.MiniMap) and $block.map.MiniMap.APIKey neq '' and !(empty($block.map.MiniMap.mapCenter) and empty($block.map.MiniMap.markers))}
 <div class="{$class}" style="clear:both;">
 {if $block.map.MiniMap.blockNum == 1}{* Only include Google Maps script once *}

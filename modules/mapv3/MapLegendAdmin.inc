@@ -26,8 +26,8 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 
 /**
@@ -48,7 +48,7 @@ class MapLegendAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapLegendAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapLegendAdmin';
 
 	}
 
@@ -104,7 +104,7 @@ class MapLegendAdminController extends GalleryController {
 
 	    switch ($form['LegendPos']) {
 	    case 1:
-		/* Legend is on the left, add the map.Legend Block */
+		/* Legend is on the left, add the mapv3.Legend Block */
 		/* Grab the Default theme value (used for the google map) */
 		list ($ret, $themeId) =
 			GalleryCoreApi::getPluginParameter('module', 'core', 'default.theme');
@@ -130,8 +130,8 @@ class MapLegendAdminController extends GalleryController {
 			    if ($key == 'sidebarBlocks') {
 				list ($ret, $value) =
 					$deftheme->unpackSetting('block-list', $values);
-				$value = str_replace('[map.Legend]', '', $value);
-				$value = '[map.Legend] ' . $value;
+				$value = str_replace('[mapv3.Legend]', '', $value);
+				$value = '[mapv3.Legend] ' . $value;
 				list ($ret, $newvalue) = 
 					$deftheme->packSetting('block-list', $value);
 				$ret = $deftheme->setParameter('sidebarBlocks', $newvalue);
@@ -143,8 +143,8 @@ class MapLegendAdminController extends GalleryController {
 				list ($success, $value) = 
 					$deftheme->unpackSetting('block-list', 
 								 $settings[1][$num]['value']);
-				$value = str_replace('[map.Legend]', '', $value);
-				$value = '[map.Legend] ' . $value;
+				$value = str_replace('[mapv3.Legend]', '', $value);
+				$value = '[mapv3.Legend] ' . $value;
 				list ($ret, $newvalue) =
 					$deftheme->packSetting('block-list', $value);
 				$ret = $deftheme->setParameter('sidebarBlocks', $newvalue);
@@ -156,7 +156,7 @@ class MapLegendAdminController extends GalleryController {
 	    case 2: /* Legend on the top   -> continue */
 	    case 3: /* Legend on the bottom -> continue */
 	    case 4: /* No Legend to show -> continue */
-	    case 0: /* Legend on the right, remove the map.Legend block from the sidebar */
+	    case 0: /* Legend on the right, remove the mapv3.Legend block from the sidebar */
 		/* Grab the Default theme value (used for the google map) */
 		list ($ret, $themeId) = 
 			GalleryCoreApi::getPluginParameter('module', 'core', 'default.theme');
@@ -182,7 +182,7 @@ class MapLegendAdminController extends GalleryController {
 			    if ($key == 'sidebarBlocks') {
 				list ($ret, $value) = 
 					$deftheme->unpackSetting('block-list', $values);
-				$value = str_replace('[map.Legend]', '', $value);
+				$value = str_replace('[mapv3.Legend]', '', $value);
 				list ($ret, $newvalue) = 
 					$deftheme->packSetting('block-list', $value);
 				$ret = $deftheme->setParameter('sidebarBlocks', $newvalue);
@@ -193,7 +193,7 @@ class MapLegendAdminController extends GalleryController {
 			    if ($arrayvalue['key'] == "sidebarBlocks") {
 				list ($success, $value) = $deftheme->unpackSetting('block-list', 
 					$settings[1][$num]['value']);
-				$value = str_replace('[map.Legend]', '', $value);
+				$value = str_replace('[mapv3.Legend]', '', $value);
 				list ($ret, $newvalue) = 
 					$deftheme->packSetting('block-list', $value);
 				$ret = $deftheme->setParameter('sidebarBlocks', $newvalue);
@@ -224,7 +224,7 @@ class MapLegendAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapLegendAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapLegendAdmin';
 	}
 
 	return array (null, $results);
@@ -242,7 +242,7 @@ class MapLegendAdminView extends GalleryView {
     function loadTemplate(&$template, &$form) {
 
 	include(dirname(__FILE__).'/includes/MapAdminViewInit.inc');
-	$template->head('modules/map/includes/GoogleMap.css');
+	$template->head('modules/mapv3/includes/GoogleMap.css');
 	$form['formName'] = 'MapLegendAdmin';
 
         /* Set default values for undefined plugin parameters */
@@ -303,8 +303,8 @@ class MapLegendAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapLegendAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapLegendAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapLegendAdmin');
+	return array(null, array('body' => 'modules/mapv3/templates/MapLegendAdmin.tpl'));
     }
 }
 

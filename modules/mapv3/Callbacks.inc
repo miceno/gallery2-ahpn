@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
 
 /**
  * @package map
@@ -30,7 +30,7 @@ GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
  *
  * based on some code form CustomField by Alan Harder <alan.harder@sun.com>
  */
-class mapCallbacks {
+class mapv3Callbacks {
     /**
      */
     function callback($params, &$smarty, $callback, $userId=null) {
@@ -55,7 +55,7 @@ class mapCallbacks {
 	    
 	    return null;
 	case 'LoadFilters':
-	    if (GalleryUtilities::getRequestVariables('view') == 'map.ShowMap') {
+	    if (GalleryUtilities::getRequestVariables('view') == 'mapv3.ShowMap') {
 		list ($ret, $filters) = GalleryCoreApi::getPluginParameter('module', 'mapv3',
 									   'Filters');
 		if ($ret) {
@@ -79,7 +79,7 @@ class mapCallbacks {
 			if ($routeinfos[6] == 'Yes') {  /* yep, need a filter for that route :-) */
 			    $routefilters[$i]['name'] = $routeword . ' ' . $routeinfos[1];
 			    $routefilters[$i]['params'] =
-				    array('view' => 'map.ShowMap',
+				    array('view' => 'mapv3.ShowMap',
 					  'Group' => '',
 					  'filter' => 'Route: ' . $routeinfos[1]);
 			    $i++;
@@ -108,7 +108,7 @@ class mapCallbacks {
 			foreach ($listofalbums as $album) {
 			    $albumfilters[$i]['name'] = $albumword." ".$album;
 			    $albumfilters[$i]['params'] =
-				    array('view' => 'map.ShowMap',
+				    array('view' => 'mapv3.ShowMap',
 					  'Group' => '',
 					  'album' => $album);
 			    $i++;
@@ -120,7 +120,7 @@ class mapCallbacks {
 		if ((!empty($filters) and $filters != '') or !empty($albumfilters) or
 			!empty($routefilters)) {
 		    $filteroptions[0]['name'] = $module->translate('Default');
-		    $filteroptions[0]['params'] = array('view' => 'map.ShowMap', 'Group' => '');
+		    $filteroptions[0]['params'] = array('view' => 'mapv3.ShowMap', 'Group' => '');
 		}
 
 		if (!empty($filters) and $filters != '') {
@@ -130,7 +130,7 @@ class mapCallbacks {
 			$options = explode('`', $alloptions);
 			$filteroptions[$i]['name'] = $options[1];
 			$filteroptions[$i]['params'] =
-				array('view' => 'map.ShowMap',
+				array('view' => 'mapv3.ShowMap',
 				      'Group' => '',
 				      'filter' => $options[1]);
 			$i++;
@@ -141,7 +141,7 @@ class mapCallbacks {
 		    $filteroptions[0]['params'] = '';
 		    $filteroptions[1]['name'] = $module->translate('Define...');
 		    $filteroptions[1]['params'] =
-			    array('view' => 'core.SiteAdmin', 'subView' => 'map.MapFilterAdmin');
+			    array('view' => 'core.SiteAdmin', 'subView' => 'mapv3.MapFilterAdmin');
 
 		}
 
@@ -168,7 +168,7 @@ class mapCallbacks {
 	    return null;
 
 	case 'ItemCoords':
-	    if (GalleryUtilities::getRequestVariables('view') != 'map.ShowMap') {
+	    if (GalleryUtilities::getRequestVariables('view') != 'mapv3.ShowMap') {
 
 		/* Get the item type */
 		list ($ret, $item) = GalleryCoreApi::loadEntitiesById($params['itemId']);
@@ -236,7 +236,7 @@ class mapCallbacks {
 	    return null;
 
 	case 'MiniMap':
-	    if (GalleryUtilities::getRequestVariables('view') != 'map.ShowMap') {
+	    if (GalleryUtilities::getRequestVariables('view') != 'mapv3.ShowMap') {
 
 		/* Get the item type */
 		list ($ret, $item) = GalleryCoreApi::loadEntitiesById($params['itemId']);
@@ -265,7 +265,7 @@ class mapCallbacks {
 		
 		/* Get the real path for the map module installation */
 		/** @todo for gallery 2.3 and later change this to use getCodeBasePath() */
-		$mapModBaseDir = GalleryCoreApi::getPluginBaseDir('module', 'mapv3') . 'modules/map/';
+		$mapModBaseDir = GalleryCoreApi::getPluginBaseDir('module', 'mapv3') . 'modules/mapv3/';
 
 		/* Get the Default MarkerSet & Color */
 		$DefaultPhotoMarker = 'smallpushpins';
@@ -327,15 +327,15 @@ class mapCallbacks {
 		/* Get the Item data */
 		$query = '
 		SELECT
-		  [mapMap::itemId],
-		  [mapMap::field],
-		  [mapMap::value]
+		  [mapv3Map::itemId],
+		  [mapv3Map::field],
+		  [mapv3Map::value]
 		FROM
-		  [mapMap]
+		  [mapv3Map]
 		WHERE
-		  [mapMap::field] IN ( \'GPS\', \'ZoomLevel\', \'Color\' )
+		  [mapv3Map::field] IN ( \'GPS\', \'ZoomLevel\', \'Color\' )
 		  AND
-		  [mapMap::itemId] IN ('
+		  [mapv3Map::itemId] IN ('
 		    . GalleryUtilities::makeMarkers(count($markerItemIds)) . ')
 		';
 
@@ -417,12 +417,12 @@ class mapCallbacks {
 		    if (!array_key_exists("{$ItemMarker}_{$ItemColor}", $markerIcons)) {
 			$markerIcons["{$ItemMarker}_{$ItemColor}"] = array();
 			$markerIcons["{$ItemMarker}_{$ItemColor}"]['imgUrl'] =
-				$gurl->generateUrl(array('href' => 'modules/map/images/markers/'
+				$gurl->generateUrl(array('href' => 'modules/mapv3/images/markers/'
 						. $ItemMarker . '/marker_' . $ItemColor . '.png'));
 			/** @todo Each icon type should have it's own shadow */
 			$markerIcons["{$ItemMarker}_{$ItemColor}"]['shadowUrl'] =
 				$gurl->generateUrl(array('href' =>
-					'modules/map/images/marker_shadow.png'));
+					'modules/mapv3/images/marker_shadow.png'));
 
 			/** @todo Figure out error handling if image file doesn't exist */
 			/* Get the Marker Size */

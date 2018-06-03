@@ -27,8 +27,8 @@
  * @todo Change the map groups to derive from GalleryEntity and use that framework.
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -48,14 +48,14 @@ class MapGroupAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 	}
 
 	if (isset($form['action']['add'])) {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 	    $results['redirect']['mode'] = 'AddGroup';
 	}
 
@@ -81,12 +81,12 @@ class MapGroupAdminController extends GalleryController {
 	    /* Get the coordinates and such in the map database */
 	    $query = '
             SELECT
-	      [mapMap::field],
-	      [mapMap::value]
+	      [mapv3Map::field],
+	      [mapv3Map::value]
 	    FROM
-	      [mapMap]
+	      [mapv3Map]
 	    WHERE
-	      [mapMap::itemId] = \'G' . $id . '\'
+	      [mapv3Map::itemId] = \'G' . $id . '\'
 	    ';
 	    list ($ret, $result) = $gallery->search($query, array(), array());
 
@@ -103,7 +103,7 @@ class MapGroupAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 	    $results['redirect']['mode'] = 'AddGroup';
 
 	}
@@ -116,7 +116,7 @@ class MapGroupAdminController extends GalleryController {
 	    } else if ($form['tmp_name'][3] == '') {
 		$error[] = 'form[error][notuploaded]';
 	    } else if (!move_uploaded_file($form['tmp_name'][3], 
-		    $basegallerydir . 'map/images/groups/' . $form['name'][3])) {
+		    $basegallerydir . 'mapv3/images/groups/' . $form['name'][3])) {
 		$error[] = 'form[error][rightserror]';
 	    } else {
 		$status['uploaded'] = 1;
@@ -197,7 +197,7 @@ class MapGroupAdminController extends GalleryController {
 	    $color = (isset($_POST['GroupColor'])) ? $_POST['GroupColor'] : '';
 
 	    if ($coordinate != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'GPS',
 			      'value' => $coordinate,
@@ -209,7 +209,7 @@ class MapGroupAdminController extends GalleryController {
 	    }
             /* Actually update the database with the zoomlevel passed on to the ItemID */
 	    if ($zoom != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'ZoomLevel',
 			      'value' => $zoom,
@@ -221,7 +221,7 @@ class MapGroupAdminController extends GalleryController {
 	    }
             /* Actually update the database with the color passed on to the ItemID */
 	    if ($color != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'Color',
 			      'value' => $color,
@@ -235,7 +235,7 @@ class MapGroupAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 	    $results['redirect']['mode'] = 'AddGroup';
 
 	}
@@ -260,7 +260,7 @@ class MapGroupAdminController extends GalleryController {
 
 	    /* Also need to delete any (map) parameters in the database related to this item */
 	    $id = 'G' . $id;
-	    $ret = GalleryCoreApi::removeMapEntry('mapMap', array('itemId' => $id));
+	    $ret = GalleryCoreApi::removeMapEntry('mapv3Map', array('itemId' => $id));
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -270,7 +270,7 @@ class MapGroupAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 	    $results['redirect']['mode'] = 'Filter';
 
 	}
@@ -353,14 +353,14 @@ class MapGroupAdminController extends GalleryController {
 	    $color = (isset($_POST['GroupColor'])) ? $_POST['GroupColor'] : '';
 
 	    /* remove entries in the database related to this item */
-	    $ret = GalleryCoreApi::removeMapEntry('mapMap', array('itemId' => $id));
+	    $ret = GalleryCoreApi::removeMapEntry('mapv3Map', array('itemId' => $id));
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
 
 	    /* Actually update the database with the coordinated passed on to the ItemID */
 	    if ($coordinate != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'GPS',
 			      'value' => $coordinate,
@@ -372,7 +372,7 @@ class MapGroupAdminController extends GalleryController {
 	    }
 	    /* Actually update the database with the zoomlevel passed on to the ItemID */
 	    if ($zoom != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'ZoomLevel',
 			      'value' => $zoom,
@@ -384,7 +384,7 @@ class MapGroupAdminController extends GalleryController {
 	    }
 	    /* Actually update the database with the color passed on to the ItemID */
 	    if ($color != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'Color',
 			      'value' => $color,
@@ -399,7 +399,7 @@ class MapGroupAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapGroupAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapGroupAdmin';
 	    $results['redirect']['mode'] = 'Filter';
 
 	}
@@ -481,7 +481,7 @@ class MapGroupAdminController extends GalleryController {
 	    $color = (isset($_POST['GroupColor'])) ? $_POST['GroupColor'] : '';
 
 	    if ($coordinate != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'GPS',
 			      'value' => $coordinate,
@@ -493,7 +493,7 @@ class MapGroupAdminController extends GalleryController {
 	    }
 	    /* Actually update the database with the zoomlevel passed on to the ItemID */
 	    if ($zoom != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 			array('itemId' => $id,
 			      'field' => 'ZoomLevel',
 			      'value' => $zoom,
@@ -505,7 +505,7 @@ class MapGroupAdminController extends GalleryController {
 	    }
 	    /* Actually update the database with the color passed on to the ItemID */
 	    if ($color != '') {
-		$ret = GalleryCoreApi::addMapEntry('mapMap',
+		$ret = GalleryCoreApi::addMapEntry('mapv3Map',
 		    array('itemId' => $id,
 			  'field' => 'Color',
 			  'value' => $color,
@@ -518,7 +518,7 @@ class MapGroupAdminController extends GalleryController {
 
 	    $results['status'] = $status;
 	    $results['error'] = $error;
-	    $results['redirect']['view'] = 'map.ShowMap';
+	    $results['redirect']['view'] = 'mapv3.ShowMap';
 	    $results['redirect']['Mode'] = 'Pick';
 	    $results['redirect']['plugin'] = 'GroupCoord';
 	    $results['redirect']['groupid'] = $id;
@@ -538,8 +538,8 @@ class MapGroupAdminView extends GalleryView {
      */
     function loadTemplate(&$template, &$form) {
 
-	$template->head('modules/map/templates/AdminHeader.tpl');
-	$template->head('modules/map/includes/GoogleMap.css');
+	$template->head('modules/mapv3/templates/AdminHeader.tpl');
+	$template->head('modules/mapv3/includes/GoogleMap.css');
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	$form['formName'] = 'MapGroupAdmin';
 
@@ -552,12 +552,12 @@ class MapGroupAdminView extends GalleryView {
 	$storage =& $gallery->getStorage();
 	$query = '
 	SELECT
-	  [mapMap::itemId],
-	  [mapMap::value]
+	  [mapv3Map::itemId],
+	  [mapv3Map::value]
 	FROM
-	  [mapMap]
+	  [mapv3Map]
 	WHERE
-	  [mapMap::field] = \'GPS\'
+	  [mapv3Map::field] = \'GPS\'
 	';
 	list ($ret, $results) = $gallery->search($query, array(), array());
         
@@ -603,7 +603,7 @@ class MapGroupAdminView extends GalleryView {
 			    if (!empty($group)) {
 			    	$groupinfo = explode('`', $group);
 				if ($groupinfo[0] == $groupid and $groupid != '') {
-				    $thumbpic = $basegallerydir . 'modules/map/images/groups/'
+				    $thumbpic = $basegallerydir . 'modules/mapv3/images/groups/'
 						. $groupinfo[4];
 				    $pointHash[$id]['title'] = $groupinfo[1];
 				    $pointHash[$id]['date'] = strftime($dateFormat,$groupinfo[5]);
@@ -675,13 +675,13 @@ class MapGroupAdminView extends GalleryView {
 
 	/* Create the option list for Group Color (based on Photo selection) */
 	if (array_key_exists('useMarkerSet', $form)) {
-	    if (file_exists($basegallerydir . 'modules/map/images/markers/' . $form['useMarkerSet']
+	    if (file_exists($basegallerydir . 'modules/mapv3/images/markers/' . $form['useMarkerSet']
 			    . '/colorlist')) {
-		$handle = fopen($basegallerydir . 'modules/map/images/markers/'
+		$handle = fopen($basegallerydir . 'modules/mapv3/images/markers/'
 				. $form['useMarkerSet'] . '/colorlist', 'r');
 		$list = explode('*', fread($handle,
 			filesize($basegallerydir 
-				 . 'modules/map/images/markers/'
+				 . 'modules/mapv3/images/markers/'
 				 . $form['useMarkerSet']
 				 . '/colorlist') - 1));
 		fclose($handle);
@@ -712,7 +712,7 @@ class MapGroupAdminView extends GalleryView {
 		$tmp = explode('`', $group);
 		$tmp[5] = strftime($dateFormat, $tmp[5]);
 		$pic = GalleryUtilities::convertPathToUrl($basegallerydir
-							  . 'modules/map/images/groups/' . $tmp[4]);
+							  . 'modules/mapv3/images/groups/' . $tmp[4]);
 		$tmp[4] = '<img width=80px src="' . $pic . '" />';
 		$form['thegroups'][] = $tmp;
 	    }
@@ -726,8 +726,8 @@ class MapGroupAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapGroupAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapGroupAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapGroupAdmin');
+	return array(null, array('body' => 'modules/mapv3/templates/MapGroupAdmin.tpl'));
     }
 }
 ?>

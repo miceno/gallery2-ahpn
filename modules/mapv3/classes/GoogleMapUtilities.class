@@ -214,7 +214,7 @@ class GoogleMapUtilities {
 
 
     /** @TODO IMPROVE THIS */
-    /** Create an HTNL table with a set of markers from a specific folder
+    /** Create an HTML table with a set of markers from a specific folder
      * This is used in the admin panel at this point
      *
      * @param $folder string a folder where the pictures exists i.e. modules/map/images/basemarkers/
@@ -224,7 +224,8 @@ class GoogleMapUtilities {
      *
      */
     function TableFromFiles($folder, $webpath, $imagefolder) {
-	$basegallerydir = substr(dirname(__FILE__), 0, -19);
+	$BASE_PATH_STRING = 'modules/mapv3/classes';
+	$basegallerydir = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
 	$base = GalleryUtilities::convertPathToUrl($basegallerydir);
 
 	$mydir = dir($folder . $imagefolder);
@@ -246,7 +247,7 @@ class GoogleMapUtilities {
 			    || preg_match('/opera/i',$_SERVER['HTTP_USER_AGENT'])) {
 			$src = '"'. $base . $imagefolder . $name . '.png"';
 		    } else {
-			$src = '"'. $base . 'modules/map/images/blank.gif" style="filter: '
+			$src = '"'. $base . 'modules/mapv3/images/blank.gif" style="filter: '
                       		. 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\''
 				. $base . $imagefolder . $name . '.png\');"';
 		    }
@@ -270,20 +271,21 @@ class GoogleMapUtilities {
     function AllMarkers($imagetype = 'markers') {
     	global $gallery;
     	$gurl =& $gallery->getUrlGenerator();
-	$basegallerydir = substr(dirname(__FILE__), 0, -19);
+    	$BASE_PATH_STRING = 'modules/mapv3/classes';
+	$basegallerydir = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
 	$base = $gurl->generateUrl(array('href' => ''),
 		array('forceFullUrl' => true));
-	$mydir = dir($basegallerydir . 'modules/map/images/' . $imagetype . '/');
+	$mydir = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/');
 	$filenamearray = array();
 	while (($filenames = $mydir->read()) !== false) {
-	    if (is_dir($basegallerydir . 'modules/map/images/' . $imagetype . '/' . $filenames)
+	    if (is_dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/' . $filenames)
 		    && $filenames != '.' && $filenames != '..' && $filenames != 'multi' 
 		    && $filenames != 'CVS' && $filenames != '.svn') {
-		$mydir2 = dir($basegallerydir . 'modules/map/images/' . $imagetype . '/' 
+		$mydir2 = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
 			      . $filenames . '/');
 		$imagearray = array();
 		while (($images = $mydir2->read()) !== false) {
-		    if (is_file($basegallerydir . 'modules/map/images/' . $imagetype . '/' 
+		    if (is_file($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
 			    . $filenames . '/' . $images) && $images <> 'colorlist') {
 			$imagearray[] = $images;
 		    }
@@ -299,13 +301,13 @@ class GoogleMapUtilities {
 			    || !preg_match($msie,$_SERVER['HTTP_USER_AGENT'])
 			    || preg_match('/opera/i',$_SERVER['HTTP_USER_AGENT'])) {
 			$allimagesarray[] = $color . ': <img alt="none" src="' . $base
-					    . 'modules/map/images/' . $imagetype . '/'
+					    . 'modules/mapv3/images/' . $imagetype . '/'
 					    . $filenames . '/' . $images . '"/>';
 		    } else {
 			$allimagesarray[] = $color . ': <img alt="none" src="' . $base
-					    . 'modules/map/images/blank.gif" style="filter: progid:'
+					    . 'modules/mapv3/images/blank.gif" style="filter: progid:'
 					    . 'DXImageTransform.Microsoft.AlphaImageLoader(src=\''
-					    . $base . 'modules/map/images/' . $imagetype . '/'
+					    . $base . 'modules/mapv3/images/' . $imagetype . '/'
 					    . $filenames . '/' . $images . '\');"/>';
 		    }
 		}

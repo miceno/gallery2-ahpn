@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
 
-{include file="modules/map/templates/helpfile.tpl"}
+{include file="modules/mapv3/templates/helpfile.tpl"}
 
 {literal}
 function hidehelp(){

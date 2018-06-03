@@ -26,8 +26,8 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/map/classes/mapHelper.class');
-GalleryCoreApi::requireOnce('modules/map/classes/GoogleMapUtilities.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
  * @package map
@@ -83,7 +83,7 @@ class MapThemeAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = $error;
 	    $results[$method]['view'] = 'core.SiteAdmin';
-	    $results[$method]['subView'] = 'map.MapThemeAdmin';
+	    $results[$method]['subView'] = 'mapv3.MapThemeAdmin';
 
 	}
 
@@ -92,7 +92,7 @@ class MapThemeAdminController extends GalleryController {
 	    $results['status'] = $status;
 	    $results['error'] = array();
 	    $results['redirect']['view'] = 'core.SiteAdmin';
-	    $results['redirect']['subView'] = 'map.MapThemeAdmin';
+	    $results['redirect']['subView'] = 'mapv3.MapThemeAdmin';
 
 	}
 	return array (null, $results);
@@ -111,8 +111,8 @@ class MapThemeAdminView extends GalleryView {
 
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	$form['formName'] = 'MapThemeAdmin';
-	$template->head('modules/map/includes/GoogleMap.css');
-	$template->javascript('modules/map/GoogleMap.js');
+	$template->head('modules/mapv3/includes/GoogleMap.css');
+	$template->javascript('modules/mapv3/GoogleMap.js');
 
 	/* setup the directory listing for the custom controls */
 	if (!array_key_exists('MapControlType', $form)) {
@@ -129,7 +129,7 @@ class MapThemeAdminView extends GalleryView {
 	}
 
 	$form['controllist'] = GoogleMapUtilities::OptionFromFolder(
-		$basegallerydir . 'modules/map/templates/controls/', $form['MapControlType']);
+		$basegallerydir . 'modules/mapv3/templates/controls/', $form['MapControlType']);
 	if (!$form['controllist']) {
 	    $form['nocontrols'] = 'There is no control available';
 	}
@@ -172,12 +172,12 @@ class MapThemeAdminView extends GalleryView {
 	include(dirname(__FILE__) . '/includes/MapAdminEdits.inc');
 
 	/* setup the list of InfoWindow templates */
-	$mydir = dir($basegallerydir . 'modules/map/templates/infowindow/');
+	$mydir = dir($basegallerydir . 'modules/mapv3/templates/infowindow/');
 	$form['windowlist'] = '';
 	/* Loop through all file and folder in the directory */
 	while ($file = $mydir->read()) {
 	    /* if we have a file then proceed with it */
-	    if (GoogleMapUtilities::GoodFile($basegallerydir . 'modules/map/templates/infowindow/',
+	    if (GoogleMapUtilities::GoodFile($basegallerydir . 'modules/mapv3/templates/infowindow/',
 		    $file)) {
 		$form['windowlist'] .= '<option value="' . substr($file, 0, -4) . '" ';
 		if ((array_key_exists('MapWindowType', $form))
@@ -204,8 +204,8 @@ class MapThemeAdminView extends GalleryView {
 	    $template->setVariable('SiteAdmin', $SiteAdmin);
 	}
 
-	$template->setVariable('controller', 'map.MapThemeAdmin');
-	return array(null, array('body' => 'modules/map/templates/MapThemeAdmin.tpl'));
+	$template->setVariable('controller', 'mapv3.MapThemeAdmin');
+	return array(null, array('body' => 'modules/mapv3/templates/MapThemeAdmin.tpl'));
     }
 }
 ?>

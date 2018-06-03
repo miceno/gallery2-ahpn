@@ -30,7 +30,7 @@
     -->
     <div class="gbBlock">
     {capture name="mapThemeAdminUrl"}
-      {g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapSiteAdmin" arg3="mode=Theme"}
+      {g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin" arg3="mode=Theme"}
     {/capture}
       <h2 class="giError">{g->text text="There are no markers created or a bad marker set is currently selected. Please review settings in the %scontrol panel%s."
        	arg1="<a href=\"`$smarty.capture.mapThemeAdminUrl`\">" arg2="</a>"}
@@ -64,7 +64,7 @@
           arg1="<a href='Javascript:history.go(-1);'>" arg2="</a>"}
         </h2>
 	{capture name="mapUrl"}
-	  {g->url arg1="view=map.ShowMap"}
+	  {g->url arg1="view=mapv3.ShowMap"}
 	{/capture}
 	<h2 style="position:relative;left:100px;">2 - {g->text text="Show me the %sdefault map%s"
           arg1="<a href=\"`$smarty.capture.mapUrl`\">" arg2="</a>"}
@@ -78,7 +78,7 @@
     <div class="gbBlock">
         <center><h2 class="giError">
         {capture name="mapAdminUrl"}
-          {g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapSiteAdmin"}
+          {g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin"}
 	{/capture}
 	{g->text text="You do not have a profile setup for this website to use the Google Map. Review your settings in the %sAdmin Panel%s or %scheck the Wiki%s."
 	  arg1="<a href=\"`$smarty.capture.mapAdminUrl`\">" arg2="</a>"
@@ -91,24 +91,24 @@
     {if $map.mode eq "Pick" or ($map.mode eq "Normal" and (!isset($map.noiteminalbum) or !$map.noiteminalbum) and (!isset($map.nogpscoords) or !$map.nogpscoords) and (!isset($map.noitemperms) or !$map.noitemperms) and isset($map.googleMapKey) and $map.googleMapKey neq '')}
     {if $map.mode eq "Pick" or $map.useMarkerSet <> "none"}
         {if $map.mode neq "Pick" and isset($map.ShowFilters) and $map.ShowFilters eq "3" and !$map.fullScreen}
-         {g->block type="map.map"}
+         {g->block type="mapv3.map"}
         {/if}
         {if $map.mode neq "Pick" and (!isset($map.LegendPos) or (isset($map.LegendPos) and $map.LegendPos eq '2')) and $map.fullScreen neq 3}
         {if $map.mode neq "Pick" and ((isset($map.AlbumLegend)) and ($map.AlbumLegend eq "1")) or ((isset($map.PhotoLegend)) and ($map.PhotoLegend eq "1")) or ((isset($map.regroupItems)) and ($map.regroupItems eq "1")) and $map.fullScreen neq 3}
-         {g->block type="map.Legend"}
+         {g->block type="mapv3.Legend"}
         {/if}{/if }
         {if $map.mode neq "Pick" and $map.fullScreen neq 3}
-        {if $map.ThumbBarPos eq "1" or $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}{g->block type="map.Thumb"}{/if}
+        {if $map.ThumbBarPos eq "1" or $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}{g->block type="mapv3.Thumb"}{/if}
         <table align=right style="border-collapse:collapse;">
         {if isset($map.ShowFilters) and $map.ShowFilters eq "2" and !$map.fullScreen}
           <tr><td>
-          {g->block type="map.map"}
+          {g->block type="mapv3.map"}
           <br/>
           </td></tr>
         {/if}
         {if $map.mode neq "Pick" and isset($map.LegendPos) and $map.LegendPos eq '0'}
           <tr><td>
-           {g->block type="map.Legend"}
+           {g->block type="mapv3.Legend"}
           </td></tr>
         {/if}
         </table>
@@ -135,11 +135,11 @@
     {/if}
 
      {if $map.mode eq "Normal" and $map.fullScreen neq 3}
-      {if $map.ThumbBarPos eq "2"}{g->block type="map.Thumb"}{/if}
-      {if isset($map.ShowFilters) and $map.ShowFilters eq "4" and !$map.fullScreen}{g->block type="map.map"}{/if}
+      {if $map.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
+      {if isset($map.ShowFilters) and $map.ShowFilters eq "4" and !$map.fullScreen}{g->block type="mapv3.map"}{/if}
        {if $map.mode neq "Pick" and (isset($map.LegendPos) and ($map.LegendPos eq '3'))}
        {if ((isset($map.AlbumLegend)) and ($map.AlbumLegend eq "1")) or ((isset($map.PhotoLegend)) and ($map.PhotoLegend eq "1")) or ((isset($map.regroupItems)) and ($map.regroupItems eq "1"))}
-         {g->block type="map.Legend"}
+         {g->block type="mapv3.Legend"}
        {/if}
        {/if}
      {/if}
@@ -187,7 +187,7 @@
   {/if}
 {/if}
 {if $map.hasadminrights and $map.fullScreen neq 3}
-<a style="position:absolute;right:50px;" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=map.MapSiteAdmin"}">{g->text text="Google Map Administration"}</a>
+<a style="position:absolute;right:50px;" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin"}">{g->text text="Google Map Administration"}</a>
 {/if}
 {if !$map.fullScreen}
 </div>
