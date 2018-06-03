@@ -185,7 +185,7 @@ class mapv3Module extends GalleryModule {
      */
     function getSiteAdminViews() {
 	global $gallery;
-	return array(null, array(array('name' => $this->_translate('Google Map'),
+	return array(null, array(array('name' => $this->_translate('Google Map v3'),
 				       'view' => 'mapv3.MapSiteAdmin')));
     }
 

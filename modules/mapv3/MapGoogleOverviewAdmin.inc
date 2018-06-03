@@ -107,6 +107,7 @@ class MapGoogleOverviewAdminView extends GalleryView {
      * @see GalleryView::loadTemplate
      */
     function loadTemplate(&$template, &$form) {
+	$base_path = 'modules/mapv3/';
 
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	$form['formName'] = 'MapGoogleOverviewAdmin';

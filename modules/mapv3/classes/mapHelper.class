@@ -55,12 +55,12 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 			    $sets = array('common', 'album', 'photo')) {
 	$isContainer = ($containerId > 0);
 	list ($ret, $param) =
-	    GalleryCoreApi::fetchAllPluginParameters('module', 'map', $containerId);
+	    GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3', $containerId);
 	if ($ret) {
 	    return array($ret->wrap(__FILE__, __LINE__), null, null);
 	}
 	if (empty($param) && $containerId > 0 && $fallback) {
-	    list ($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'map');
+	    list ($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3');
 	    if ($ret) {
 		return array($ret->wrap(__FILE__, __LINE__), null, null);
 	    }
@@ -100,7 +100,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 			  . (!empty($item['choices']) ? ('`' . implode('`', $item['choices'])) 
 						      : '');
 	    }
-	    $ret = GalleryCoreApi::setPluginParameter('module', 'map', $set,
+	    $ret = GalleryCoreApi::setPluginParameter('module', 'mapv3', $set,
 						      implode('|', $list), $containerId);
             if ($ret) {
                  return $ret->wrap(__FILE__, __LINE__);
@@ -279,7 +279,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		  : 0);
 	$containerId = ($set == 1) ? $item->getId() : $item->getParentId();
 	list ($ret, $param) =
-	    GalleryCoreApi::fetchAllPluginParameters('module', 'map', $containerId);
+	    GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3', $containerId);
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
@@ -493,7 +493,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
      */
     function loadAdminForm(&$form, $containerId = 0) {
 	global $gallery;
-	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'map');
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'mapv3');
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
@@ -550,7 +550,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
      *               array Google API key profiles
      */
     function getAllKeyProfiles() {
-	list ($ret, $mapKeys) = GalleryCoreApi::getPluginParameter('module', 'map', 'mapKeys');
+	list ($ret, $mapKeys) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'mapKeys');
 	if ($ret) {
 	    return array($ret, null);
 	}
@@ -706,7 +706,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
      * @return GalleryStatus a status code
      */
     function _saveAllKeyProfiles($profiles) {
-    	$ret = GalleryCoreApi::setPluginParameter('module', 'map', 'mapKeys', serialize($profiles));
+    	$ret = GalleryCoreApi::setPluginParameter('module', 'mapv3', 'mapKeys', serialize($profiles));
     	
     	return $ret;
     }
@@ -753,7 +753,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
     function getItemZoomLevel($itemId){
 	global $gallery;
 
-	list ($ret, $defaultzoomlevel) = GalleryCoreApi::getPluginParameter('module', 'map', 'zoomInLevel');
+	list ($ret, $defaultzoomlevel) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'zoomInLevel');
 	if ($ret) {
 	    return "4";
 	}
@@ -822,7 +822,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
     	$gurl =& $gallery->getUrlGenerator();
     	$properties = array();
     	
-    	list ($ret, $mapThumbHeight) = GalleryCoreApi::getPluginParameter('module', 'map', 'ThumbHeight');
+    	list ($ret, $mapThumbHeight) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'ThumbHeight');
     	if ($ret) {
 			return array ($ret, null);
 		}
@@ -990,7 +990,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		}
 
 		list ($ret, $tmpparam) =
-  		    GalleryCoreApi::getPluginParameter('module', 'map', 'MapGroups');
+  		    GalleryCoreApi::getPluginParameter('module', 'mapv3', 'MapGroups');
   		if ($ret) {
 			return array ($ret, null);
 		}
@@ -1042,7 +1042,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		global $gallery;
 		$gurl =& $gallery->getUrlGenerator();
 				
-    	list ($ret, $mapThumbHeight) = GalleryCoreApi::getPluginParameter('module', 'map', 'ThumbHeight');
+    	list ($ret, $mapThumbHeight) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'ThumbHeight');
     	if ($ret) {
 			return array ($ret, null);
 		}
@@ -1274,7 +1274,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	global $gallery;
 	$platform =& $gallery->getPlatform();
 		
-	list ($ret, $DBRoutes) = GalleryCoreApi::getPluginParameter('module', 'map', 'Routes');
+	list ($ret, $DBRoutes) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Routes');
 	if ($ret) {
 	    return array ($ret, null);
 	}

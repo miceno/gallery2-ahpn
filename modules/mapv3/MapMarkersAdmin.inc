@@ -405,7 +405,7 @@ class MapMarkersAdminView extends GalleryView {
 
 	include(dirname(__FILE__) . '/includes/MapAdminViewInit.inc');
 	
-	$base_path = dirname(__FILE__) . '/';
+	$base_path = 'modules/mapv3/';
 	
 	$form['formName'] = 'MapMarkersAdmin';
 	$template->head($base_path . 'includes/GoogleMap.css');

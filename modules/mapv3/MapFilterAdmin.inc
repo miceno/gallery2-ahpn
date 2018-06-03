@@ -27,7 +27,7 @@
  * @todo Change the map filters to derive from GalleryEntity and use that framework.
  */
 
-$base_path = dirname(__FILE__) . '/';
+$base_path = 'modules/mapv3/';
 
 GalleryCoreApi::requireOnce($base_path . 'classes/mapHelper.class');
 GalleryCoreApi::requireOnce($base_path . 'classes/GoogleMapUtilities.class');
@@ -341,6 +341,7 @@ class MapFilterAdminView extends GalleryView {
     function loadTemplate(&$template, &$form) {
 
 	include(dirname(__FILE__).'/includes/MapAdminViewInit.inc');
+	$base_path = 'modules/mapv3/';
 	$template->head($base_path . 'includes/GoogleMap.css');
 
 	$form['formName'] = 'MapFilterAdmin';

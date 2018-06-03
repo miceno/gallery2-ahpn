@@ -2,19 +2,19 @@
  * $Revision: 1253 $
  * Read this before changing templates!  http://codex.gallery2.org/Gallery2:Editing_Templates
  *}
-{if !$map.fullScreen}
+{if !$mapv3.fullScreen}
 <div id="gsContent" class="gcBorder1">
 {/if}
-  {if $map.fullScreen neq 2 and $map.fullScreen neq 3}
-    {if $map.mode eq "Normal"}
-      <h2>{g->text text="Photo Map"}{if isset($map.Filter)}<span class="giWarning"> {g->text text="Filtered on"} {$map.Filter}</span>{/if}</h2>
+  {if $mapv3.fullScreen neq 2 and $mapv3.fullScreen neq 3}
+    {if $mapv3.mode eq "Normal"}
+      <h2>{g->text text="Photo Map"}{if isset($mapv3.Filter)}<span class="giWarning"> {g->text text="Filtered on"} {$mapv3.Filter}</span>{/if}</h2>
     {else}
       <h2>{g->text text="Grab coordinates from Map"}</h2>
       <table border=0>
       <tr>
       <td rowspan=2>
     {/if}
-    {if isset($map.filterhackingerror)}
+    {if isset($mapv3.filterhackingerror)}
     <div class="gbBlock">
        <h2 class="giError">{g->text text="There was a hacking attempt on the filter name, please remove the filter option from the address bar."}
     </div>
@@ -22,8 +22,8 @@
   {/if}
 
 
-{if $map.mode eq "Normal"}
-    {if $map.useMarkerSet eq "none"}
+{if $mapv3.mode eq "Normal"}
+    {if $mapv3.useMarkerSet eq "none"}
     <!-- 
     If there are no markers, don't display a map. Instead, show a link to the admin page for the 
     markers to be created 
@@ -38,7 +38,7 @@
     </div>
     {/if}
 
-    {if isset($map.nogpscoords) and $map.nogpscoords}
+    {if isset($mapv3.nogpscoords) and $mapv3.nogpscoords}
     <!-- If there are no items with GPS coordinate, don't display a map and show a message -->
     <div class="gbBlock">
        <h2 class="giError">{g->text text="There are no items with GPS coordinates"}
@@ -46,7 +46,7 @@
        </div>
     {/if}
 
-    {if isset($map.noitemperms) and $map.noitemperms}
+    {if isset($mapv3.noitemperms) and $mapv3.noitemperms}
     <!-- If there are no items with sufficient permissions to be mapped then display a message -->
     <div class="gbBlock">
         <center><h2 class="giError">{g->text text="There are no items available to be mapped"}<br/><br/>
@@ -54,12 +54,12 @@
     </div>
     {/if}
 
-    {if isset($map.noiteminalbum) and $map.noiteminalbum}
+    {if isset($mapv3.noiteminalbum) and $mapv3.noiteminalbum}
     <!-- No item in the selected album, hacking attempt ? -->
     <div class="gbBlock">
         <center><h2 class="Warning">
           {g->text text="There were no items found in the selected %s, what would you like to do?"
-          arg1=$map.Filter}</h2><br/></center>
+          arg1=$mapv3.Filter}</h2><br/></center>
         <h2 style="position:relative;left:100px;">1 - {g->text text="%sGo Back%s to the Album and add coordinates to items"
           arg1="<a href='Javascript:history.go(-1);'>" arg2="</a>"}
         </h2>
@@ -73,7 +73,7 @@
     </div>
     {/if}
 {/if}
-    {if !isset($map.googleMapKey) or $map.googleMapKey eq ''}
+    {if !isset($mapv3.googleMapKey) or $mapv3.googleMapKey eq ''}
     <!-- No Google Map Keys were found to suit this install -->
     <div class="gbBlock">
         <center><h2 class="giError">
@@ -88,35 +88,35 @@
     {else}
 
 <!-- Create the Div where the map will be displayed  -->
-    {if $map.mode eq "Pick" or ($map.mode eq "Normal" and (!isset($map.noiteminalbum) or !$map.noiteminalbum) and (!isset($map.nogpscoords) or !$map.nogpscoords) and (!isset($map.noitemperms) or !$map.noitemperms) and isset($map.googleMapKey) and $map.googleMapKey neq '')}
-    {if $map.mode eq "Pick" or $map.useMarkerSet <> "none"}
-        {if $map.mode neq "Pick" and isset($map.ShowFilters) and $map.ShowFilters eq "3" and !$map.fullScreen}
+    {if $mapv3.mode eq "Pick" or ($mapv3.mode eq "Normal" and (!isset($mapv3.noiteminalbum) or !$mapv3.noiteminalbum) and (!isset($mapv3.nogpscoords) or !$mapv3.nogpscoords) and (!isset($mapv3.noitemperms) or !$mapv3.noitemperms) and isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq '')}
+    {if $mapv3.mode eq "Pick" or $mapv3.useMarkerSet <> "none"}
+        {if $mapv3.mode neq "Pick" and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "3" and !$mapv3.fullScreen}
          {g->block type="mapv3.map"}
         {/if}
-        {if $map.mode neq "Pick" and (!isset($map.LegendPos) or (isset($map.LegendPos) and $map.LegendPos eq '2')) and $map.fullScreen neq 3}
-        {if $map.mode neq "Pick" and ((isset($map.AlbumLegend)) and ($map.AlbumLegend eq "1")) or ((isset($map.PhotoLegend)) and ($map.PhotoLegend eq "1")) or ((isset($map.regroupItems)) and ($map.regroupItems eq "1")) and $map.fullScreen neq 3}
+        {if $mapv3.mode neq "Pick" and (!isset($mapv3.LegendPos) or (isset($mapv3.LegendPos) and $mapv3.LegendPos eq '2')) and $mapv3.fullScreen neq 3}
+        {if $mapv3.mode neq "Pick" and ((isset($mapv3.AlbumLegend)) and ($mapv3.AlbumLegend eq "1")) or ((isset($mapv3.PhotoLegend)) and ($mapv3.PhotoLegend eq "1")) or ((isset($mapv3.regroupItems)) and ($mapv3.regroupItems eq "1")) and $mapv3.fullScreen neq 3}
          {g->block type="mapv3.Legend"}
         {/if}{/if }
-        {if $map.mode neq "Pick" and $map.fullScreen neq 3}
-        {if $map.ThumbBarPos eq "1" or $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}{g->block type="mapv3.Thumb"}{/if}
+        {if $mapv3.mode neq "Pick" and $mapv3.fullScreen neq 3}
+        {if $mapv3.ThumbBarPos eq "1" or $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}{g->block type="mapv3.Thumb"}{/if}
         <table align=right style="border-collapse:collapse;">
-        {if isset($map.ShowFilters) and $map.ShowFilters eq "2" and !$map.fullScreen}
+        {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "2" and !$mapv3.fullScreen}
           <tr><td>
           {g->block type="mapv3.map"}
           <br/>
           </td></tr>
         {/if}
-        {if $map.mode neq "Pick" and isset($map.LegendPos) and $map.LegendPos eq '0'}
+        {if $mapv3.mode neq "Pick" and isset($mapv3.LegendPos) and $mapv3.LegendPos eq '0'}
           <tr><td>
            {g->block type="mapv3.Legend"}
           </td></tr>
         {/if}
         </table>
-        {/if} {* end if $map.mode neq "Pick" and $map.fullScreen neq 3 *}
+        {/if} {* end if $mapv3.mode neq "Pick" and $mapv3.fullScreen neq 3 *}
         <script type="text/javascript">
-        document.write('<div id="map" {if $map.fullScreen eq 3}style="width: 100%; height: 100%;"{else}class="themap" style="overflow:hidden;width:'+myWidth+'px;height:'+myHeight+'px;color:black;background-color:lightgrey;border:1px solid black;"{/if}>');
+        document.write('<div id="map" {if $mapv3.fullScreen eq 3}style="width: 100%; height: 100%;"{else}class="themap" style="overflow:hidden;width:'+myWidth+'px;height:'+myHeight+'px;color:black;background-color:lightgrey;border:1px solid black;"{/if}>');
         </script>
-        {if $map.mode eq "Normal"}
+        {if $mapv3.mode eq "Normal"}
         <center><h3 id="loading">{g->text text="Loading, please wait..."}</h3></center>
         
         {* rewrite custom controls for v2 *}
@@ -125,25 +125,25 @@
         <!--
         Preload images to help loading time in IE
         -->
-        {if isset($map.preload)}
-          {$map.preload}
+        {if isset($mapv3.preload)}
+          {$mapv3.preload}
         {/if}
      <script type="text/javascript">document.write('<\/div>');</script> {* End of the map div *}
 
-    {if $map.fullScreen neq 3}
+    {if $mapv3.fullScreen neq 3}
      <div id="div_history" class="map_history">{g->text text="Move history"}:</div>
     {/if}
 
-     {if $map.mode eq "Normal" and $map.fullScreen neq 3}
-      {if $map.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
-      {if isset($map.ShowFilters) and $map.ShowFilters eq "4" and !$map.fullScreen}{g->block type="mapv3.map"}{/if}
-       {if $map.mode neq "Pick" and (isset($map.LegendPos) and ($map.LegendPos eq '3'))}
-       {if ((isset($map.AlbumLegend)) and ($map.AlbumLegend eq "1")) or ((isset($map.PhotoLegend)) and ($map.PhotoLegend eq "1")) or ((isset($map.regroupItems)) and ($map.regroupItems eq "1"))}
+     {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
+      {if $mapv3.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
+      {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "4" and !$mapv3.fullScreen}{g->block type="mapv3.map"}{/if}
+       {if $mapv3.mode neq "Pick" and (isset($mapv3.LegendPos) and ($mapv3.LegendPos eq '3'))}
+       {if ((isset($mapv3.AlbumLegend)) and ($mapv3.AlbumLegend eq "1")) or ((isset($mapv3.PhotoLegend)) and ($mapv3.PhotoLegend eq "1")) or ((isset($mapv3.regroupItems)) and ($mapv3.regroupItems eq "1"))}
          {g->block type="mapv3.Legend"}
        {/if}
        {/if}
      {/if}
-     {if $map.mode eq "Pick"}
+     {if $mapv3.mode eq "Pick"}
       </td>
       <td valign=top>
       <h2 class="giSuccess">{g->text text="MENU"}</h2><br/>
@@ -156,10 +156,10 @@
       <input type="hidden" name="{g->formvar var="controller"}" value="{$controller}"/>
       </div>
       <input type="hidden" name="{g->formVar var="form[id]"}" value="{$form.id}"/>
-      <input type="hidden" name="{g->formVar var="form[mode]"}" value="{$map.mode}"/>
-      <input type="hidden" name="{g->formVar var="form[plugin]"}" value="{$map.plugin}"/>
-      <input type="hidden" id="coord" name="{g->formVar var="form[coord]"}" value="{if $map.centerLongLat neq 'none'}{$map.centerLongLat}{else}-12,20{/if}"/>
-      <input type="hidden" id="zoom" name="{g->formVar var="form[zoom]"}" value="{if $map.zoomLevel neq 'none'}{$map.zoomLevel}{else}16{/if}"/>
+      <input type="hidden" name="{g->formVar var="form[mode]"}" value="{$mapv3.mode}"/>
+      <input type="hidden" name="{g->formVar var="form[plugin]"}" value="{$mapv3.plugin}"/>
+      <input type="hidden" id="coord" name="{g->formVar var="form[coord]"}" value="{if $mapv3.centerLongLat neq 'none'}{$mapv3.centerLongLat}{else}-12,20{/if}"/>
+      <input type="hidden" id="zoom" name="{g->formVar var="form[zoom]"}" value="{if $mapv3.zoomLevel neq 'none'}{$mapv3.zoomLevel}{else}16{/if}"/>
       <input type="submit" name="{g->formVar var="form[save]"}" value="{g->text text="Save these coordinates"}"  class="inputTypeSubmit"/>
       <input type="submit" name="{g->formVar var="form[cancel]"}" value="{g->text text="Cancel" hint="Discard changes"}"  class="inputTypeSubmit"/>
       </form>
@@ -176,9 +176,9 @@
       </td></tr>
       <tr><td>
       <h3>{g->text text="Current Coordinates"}</h3>
-      <div id="message_id">({if $map.centerLongLat neq 'none'}{$map.centerLongLat}{else}-12,20{/if})</div><br/>
+      <div id="message_id">({if $mapv3.centerLongLat neq 'none'}{$mapv3.centerLongLat}{else}-12,20{/if})</div><br/>
       <h3>{g->text text="Current Zoomlevel"}</h3>
-      <div id="zoom_id">{if $map.zoomLevel neq 'none'}{$map.zoomLevel}{else}16{/if}</div><br/>
+      <div id="zoom_id">{if $mapv3.zoomLevel neq 'none'}{$mapv3.zoomLevel}{else}16{/if}</div><br/>
       </td></tr>
       </table>
 
@@ -186,10 +186,10 @@
     {/if}
   {/if}
 {/if}
-{if $map.hasadminrights and $map.fullScreen neq 3}
+{if $mapv3.hasadminrights and $mapv3.fullScreen neq 3}
 <a style="position:absolute;right:50px;" href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin"}">{g->text text="Google Map Administration"}</a>
 {/if}
-{if !$map.fullScreen}
+{if !$mapv3.fullScreen}
 </div>
 {/if}
 <!-- #gsContent -->

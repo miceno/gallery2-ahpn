@@ -42,17 +42,17 @@
 	    }
 	    $form['routevalues'] = $routevalues;
 	} else { /* We have a route in the edit state that didn't get saved ... restoring */
-	    $oldroutes = GalleryCoreApi::getPluginParameter('module', 'map', 'Routes');
+	    $oldroutes = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Routes');
 	    if ($oldroutes[1]!='') {
 		$newroutes = $oldroutes[1] . '|' . $form['EditRoute'];
 	    }
 	    else {
 		$newroutes = $form['EditRoute'];
 	    }
-	    GalleryCoreApi::setPluginParameter('module', 'map', 'Routes', $newroutes);
-	    $tmp = GalleryCoreApi::getPluginParameter('module', 'map', 'Routes');
+	    GalleryCoreApi::setPluginParameter('module', 'mapv3', 'Routes', $newroutes);
+	    $tmp = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Routes');
 	    $param['Routes'] = $tmp[1];
-	    GalleryCoreApi::setPluginParameter('module', 'map', 'EditRoute', '');
+	    GalleryCoreApi::setPluginParameter('module', 'mapv3', 'EditRoute', '');
 	}
     }
 
@@ -61,16 +61,16 @@
 	    $form['EditFilter']=explode('`', $form['EditFilter']);
 	    $form['OldFilter']=$param['EditFilter'];
 	} else { /* We have a filter in the Edit state that didn't get saved ... restoring */
-	    $oldfilters = GalleryCoreApi::getPluginParameter('module', 'map', 'Filters');
+	    $oldfilters = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Filters');
 	    if ($oldfilters[1] != '') {
 		$newfilters = $oldfilters[1] . '|' . $form['EditFilter'];
 	    } else {
 		$newfilters = $form['EditFilter'];
 	    }
-	    GalleryCoreApi::setPluginParameter('module', 'map', 'Filters', $newfilters);
-	    $tmp = GalleryCoreApi::getPluginParameter('module', 'map', 'Filters');
+	    GalleryCoreApi::setPluginParameter('module', 'mapv3', 'Filters', $newfilters);
+	    $tmp = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Filters');
 	    $param['Filters'] = $tmp[1];
-	    GalleryCoreApi::setPluginParameter('module', 'map', 'EditFilter', '');
+	    GalleryCoreApi::setPluginParameter('module', 'mapv3', 'EditFilter', '');
 	}
     }
 
@@ -93,16 +93,16 @@
 	    $form['EditGroupParam'] = $editparams;
 	    $form['OldGroup'] = $param['EditGroup'];
 	} else { /* We have a Group in the Edit state that did not get saved .... restoring */
-	    $oldgroups = GalleryCoreApi::getPluginParameter('module', 'map', "MapGroups");
+	    $oldgroups = GalleryCoreApi::getPluginParameter('module', 'mapv3', "MapGroups");
 	    if ($oldgroups[1] != '') {
 		$newgroups = $oldgroups[1] . '|' . $form['EditGroup'];
 	    } else {
 		$newgroups = $form['EditGroup'];
 	    }
-	    GalleryCoreApi::setPluginParameter('module', 'map', 'MapGroups', $newgroups);
-	    $tmp = GalleryCoreApi::getPluginParameter('module', 'map', 'MapGroups');
+	    GalleryCoreApi::setPluginParameter('module', 'mapv3', 'MapGroups', $newgroups);
+	    $tmp = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'MapGroups');
 	    $param['MapGroups'] = $tmp[1];
-	    GalleryCoreApi::setPluginParameter('module', 'map', 'EditGroup', '');
+	    GalleryCoreApi::setPluginParameter('module', 'mapv3', 'EditGroup', '');
 	}
     }
 ?>
