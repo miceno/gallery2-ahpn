@@ -10,107 +10,103 @@
 {if !isset($showControls)}{assign var=showControls value=false}{/if}
 
 {g->callback type="mapv3.MiniMap" itemId=$item.id albumMarker=$albumMarker|default:true albumItems=$albumItems|default:2 useParentCoords=$useParentCoords|default:false}
-{if !empty($block.map.MiniMap) and $block.map.MiniMap.APIKey neq '' and !(empty($block.map.MiniMap.mapCenter) and empty($block.map.MiniMap.markers))}
-<div class="{$class}" style="clear:both;">
-{if $block.map.MiniMap.blockNum == 1}{* Only include Google Maps script once *}
-<script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key={$block.map.MiniMap.APIKey}"
-	type="text/javascript"></script>
-{/if}
-<script type="text/javascript"> 
-//<![CDATA[
-{* Append the blockNum to the function name to make it unique in the document *}
-function load_map_{$block.map.MiniMap.blockNum}() {ldelim} 
-if (GBrowserIsCompatible()) {ldelim}
-    var map = new GMap2(document.getElementById("minimap-{$block.map.MiniMap.blockNum}"),
-    	{ldelim}mapTypes:[{if $mapType eq 1}G_NORMAL_MAP{elseif $mapType eq 2}G_SATELLITE_MAP{else}G_HYBRID_MAP{/if}]{rdelim});
-    {if !empty($block.map.MiniMap.mapCenter)}{* already have a valid mapCenter *} 
-    map.setCenter(new GLatLng({$block.map.MiniMap.mapCenter}), {$block.map.MiniMap.mapZoom});
-    {else}
-    map.setCenter(new GLatLng(0,0));{* Will reset to auto center after adding markers *}
-    {/if}
-    {* Set up all the icons for the markers *}
-    {foreach from=$block.map.MiniMap.markerIcons key=iconName item=icon} 
-    var {$iconName} = new GIcon();
-    {$iconName}.image = "{$icon.imgUrl}";
-    {$iconName}.shadow = "{$icon.shadowUrl}";
-    {$iconName}.iconSize = new GSize({$icon.width}, {$icon.height});
-    {$iconName}.shadowSize = new GSize({$icon.width}+15, {$icon.height});
-    {$iconName}.iconAnchor = new GPoint({$icon.width}/2, {$icon.height});
-    {/foreach}
-    {* Now create and add the markers to the map *}
-    var markerCoords;
-    {if empty($block.map.MiniMap.mapCenter)}
-    var autoCenterBounds = new GLatLngBounds();
-    var maxZoom = 0;
-    {/if}
-    {foreach from=$block.map.MiniMap.markers item=marker}
-    markerCoords = new GLatLng({$marker.GPS});
-    {if empty($block.map.MiniMap.mapCenter)}
-    {if isset($marker.ZoomLevel)}
-    {* Get the maximum zoom to prevent a useless super-zoomed-in view. *}
-    maxZoom = Math.max(maxZoom, {$marker.ZoomLevel});
-    {/if}
-    autoCenterBounds.extend(markerCoords);
-    {/if}
-    map.addOverlay(new GMarker(markerCoords,{ldelim}clickable:false,title:"{$marker.title|escape:'javascript'}",icon:{$marker.icon}{rdelim}));
-    {/foreach}
-    {if empty($block.map.MiniMap.mapCenter)}{* Auto center and zoom based on markers to be shown *}
-    map.setCenter(autoCenterBounds.getCenter(), Math.min(map.getBoundsZoomLevel(autoCenterBounds), maxZoom));
-    {/if}
-    {if $showControls}
-    map.addControl(new GSmallMapControl(false, false));
-    {else}
-    map.disableDragging();
-    {/if}
-{rdelim}
-{rdelim}
-//<!-- Weird workaround onLoad hack for IE; Mozilla doesn't need this extra code -->
-function init_map_{$block.map.MiniMap.blockNum}() {ldelim}
-if (arguments.callee.done) return; 
-arguments.callee.done = true; 
-load_map_{$block.map.MiniMap.blockNum}(); 
-{rdelim}
-if (document.addEventListener) {ldelim}
-/* for Safari/Mozilla */
-window.addEventListener('load', init_map_{$block.map.MiniMap.blockNum}, false);
-window.addEventListener('unload', GUnload, false);
-{rdelim} else if (window.attachEvent) {ldelim}
-/* for Internet Explorer */
-window.attachEvent('onload', init_map_{$block.map.MiniMap.blockNum});
-window.attachEvent('onunload', GUnload);
-{rdelim} else {ldelim}
-/* for other browsers */
-var oldonload{$block.map.MiniMap.blockNum} = window.onload;
-var oldunload = window.onunload;
-if (typeof window.onload != 'function') {ldelim}
-    window.onload = init_map_{$block.map.MiniMap.blockNum};
-{rdelim} else {ldelim}
-    window.onload = function() {ldelim}
-        if (oldonload{$block.map.MiniMap.blockNum}) {ldelim}
-            oldonload{$block.map.MiniMap.blockNum}();
-        {rdelim}
-        init_map_{$block.map.MiniMap.blockNum}();
-    {rdelim}
-{rdelim}
-{if $block.map.MiniMap.blockNum == 1}{* Only need to call GUnload once, not for every block *}
-if (typeof window.onunload != 'function') {ldelim}
-    window.onunload = GUnload;
-{rdelim} else {ldelim}
-    window.onunload = function() {ldelim}
-        if (oldonunload) {ldelim}
-            oldonunload();
-        {rdelim}
-        GUnload();
-    {rdelim}
-{rdelim}
-{/if}
-{rdelim}
-//]]>
-</script>
-<div style="width:{$mapWidth};">
-<div><h3>{g->text text="%s Location Map" arg1=$block.map.MiniMap.ItemType}</h3></div>
-<div id="minimap-{$block.map.MiniMap.blockNum}" class="MiniGMap"
-    style="border:1px solid black;height:{$mapHeight}px"></div>
-</div>
-</div>
+{if !empty($block.mapv3.MiniMap) and $block.mapv3.MiniMap.APIKey neq '' and !(empty($block.mapv3.MiniMap.mapCenter) and empty($block.mapv3.MiniMap.markers))}
+    <div class="{$class} clearfix">
+        {if $block.mapv3.MiniMap.blockNum == 1}{* Only include Google Maps script once *}
+            <script src="//maps.googleapis.com/maps/api/js?file=api&amp;v=3&amp;key={$block.mapv3.MiniMap.APIKey}"
+                    type="text/javascript"></script>
+        {/if}
+        <script type="text/javascript">
+            //<![CDATA[
+            {* Append the blockNum to the function name to make it unique in the document *}
+            function load_map_{$block.mapv3.MiniMap.blockNum}() {ldelim}
+                if (true) {ldelim}
+                    var map = new google.maps.Map(document.getElementById("minimap-{$block.mapv3.MiniMap.blockNum}"),
+                        {ldelim}
+                            mapTypeId: {if $mapType eq 1}google.maps.MapTypeId.ROADMAP{elseif $mapType eq 2}google.maps.MapTypeId.SATELLITE{else}google.maps.MapTypeId.HYBRID{/if},
+                            center:
+                                {if !empty($block.mapv3.MiniMap.mapCenter)}{* already have a valid mapCenter *}
+                                    new google.maps.LatLng({$block.mapv3.MiniMap.mapCenter})
+                                {else}
+                                    new google.maps.LatLng(0, 0) {* Will reset to auto center after adding markers *}
+                                {/if},
+                            zoom: {$block.mapv3.MiniMap.mapZoom},
+                            {if $showControls}
+                            disableDefaultUI: false
+                            {else}
+                            disableDefaultUI: true
+                            {/if}
+                        {rdelim});
+
+                    {* Set up all the icons for the markers *}
+                    var marker_icons = {ldelim}{rdelim};
+                    {foreach from=$block.mapv3.MiniMap.markerIcons key=iconName item=icon}
+                    marker_icons["{$iconName}"] = {ldelim}
+                        icon : "{$icon.imgUrl}",
+                        scaledSize : new google.maps.Size({$icon.width}, {$icon.height}),
+                        size : new google.maps.Size({$icon.width}, {$icon.height}),
+                        anchor : new google.maps.Point({$icon.width}/2, {$icon.height})
+                        {rdelim};
+                    {/foreach}
+                    {* Now create and add the markers to the map *}
+                    var markerCoords;
+                    {if empty($block.mapv3.MiniMap.mapCenter)}
+                    var autoCenterBounds = new google.maps.LatLngBounds();
+                    var maxZoom = 0;
+                    {/if}
+                    {foreach from=$block.mapv3.MiniMap.markers item=marker}
+                    markerCoords = new google.maps.LatLng({$marker.GPS});
+                    {if empty($block.mapv3.MiniMap.mapCenter)}
+                    {if isset($marker.ZoomLevel)}
+                    {* Get the maximum zoom to prevent a useless super-zoomed-in view. *}
+                    maxZoom = Math.max(maxZoom, {$marker.ZoomLevel});
+                    {/if}
+                    autoCenterBounds.extend(markerCoords);
+                    {/if}
+                    new google.maps.Marker(
+                        {ldelim}
+                            position: markerCoords,
+                            clickable: false,
+                            map: map,
+                            title: "{$marker.title|escape:'javascript'}",
+                            icon: marker_icons["{$marker.icon}"].icon
+                        {rdelim});
+                    {/foreach}
+                    {if empty($block.mapv3.MiniMap.mapCenter)}{* Auto center and zoom based on markers to be shown *}
+                    map.setCenter(autoCenterBounds.getCenter(), Math.min(map.getBoundsZoomLevel(autoCenterBounds), maxZoom));
+                    {/if}
+
+                    {rdelim}
+                {rdelim}
+
+            //
+            <!-- Weird workaround onLoad hack for IE; Mozilla doesn't need this extra code -->
+            function init_map_{$block.mapv3.MiniMap.blockNum}() {ldelim}
+                if (arguments.callee.done) return;
+                arguments.callee.done = true;
+                load_map_{$block.mapv3.MiniMap.blockNum}();
+                {rdelim}
+
+            google.maps.event.addDomListener(window, 'load', init_map_{$block.mapv3.MiniMap.blockNum});
+            //]]>
+        </script>
+
+        <style>
+            .gallery-google-map-wrapper {ldelim}
+                max-width: {$mapWidth};
+                width: auto;
+            {rdelim}
+            .gallery-google-map-container {ldelim}
+                border:1px solid black;
+                height: {$mapHeight}px;
+                max-height: 100%;
+            {rdelim}
+        </style>
+        <div class="gallery-google-map-wrapper">
+            <div class="block-expandable-header">
+                <h3>{g->text text="%s Location Map" arg1=$block.mapv3.MiniMap.ItemType}</h3>
+            </div>
+            <div id="minimap-{$block.mapv3.MiniMap.blockNum}" class="MiniGMap block-expandable-content gallery-google-map-container"></div>
+        </div>
+    </div>
 {/if}

@@ -133,8 +133,8 @@ General Settings
             {/if}
             <td>
                 <input accesskey="m" type="radio" id="MapTypeMap"
-                    name="{g->formVar var="form[mapType]"}" value="G_NORMAL_MAP"
-                    {if $form.mapType eq "G_NORMAL_MAP"}checked="checked"{/if}/>
+                    name="{g->formVar var="form[mapType]"}" value="roadmap"
+                    {if $form.mapType eq "roadmap"}checked="checked"{/if}/>
                 <label for="MapTypeMap">{g->text text="<u>M</u>ap" hint="Map style"}</label>
 
                 <input accesskey="a" type="radio" id="MapTypeSatellite"

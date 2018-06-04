@@ -87,7 +87,7 @@ class mapv3Module extends GalleryModule {
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'centerLongLat', '0,0');
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'zoomLevel', 0);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'zoomInLevel', 5);
-	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'mapType', 'G_NORMAL_MAP');
+	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'mapType', 'roadmap');
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'showZoomScale', 0);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'showMapType', 1);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'showZoomLinks', 0);
@@ -653,7 +653,7 @@ class mapv3Module extends GalleryModule {
 
 		    if (!empty($result[4])) {
 			if ($result[4] == 'G_MAP_TYPE') {
-			    $result[4] = 'G_NORMAL_MAP';
+			    $result[4] = 'roadmap';
 			}
 			if ($result[4] == 'G_SATELLITE_TYPE') {
 			    $result[4] = 'G_SATELLITE_MAP';

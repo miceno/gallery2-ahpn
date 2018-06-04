@@ -236,7 +236,7 @@ a:hover {ldelim} outline: none; {rdelim}
       MapType.style.left = "-7px";
       container.appendChild(MapType);
       GEvent.addDomListener(MapType, "click", function() {ldelim}
-        map.setMapType(G_NORMAL_MAP);
+        map.setMapType('roadmap');
         ZoomOut.style.top = "205px";
         ZoomSlide[0].style.visibility = "hidden";
         ZoomSlide[1].style.visibility = "hidden";
