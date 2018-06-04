@@ -182,7 +182,7 @@ class mapItemEdit extends ItemEditPlugin {
 	$template->setVariable('controller', 'mapv3.mapItemEdit');
 	
 	/* Add stuff for the help system */
-	$form['picbase'] = GalleryUtilities::convertPathToUrl(substr(dirname(__FILE__),0,-11)). 'modules/mapv3/images/';
+	$form['picbase'] = GalleryUtilities::convertPathToUrl(substr(dirname(__FILE__),0,-strlen('modules/mapv3'))). 'modules/mapv3/images/';
 	list($ret, $form['UserHelp']) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'UserHelp');
     $msie = '/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
 
@@ -203,7 +203,7 @@ class mapItemEdit extends ItemEditPlugin {
     function isSupported($item, $thumbnail) {
 
 	/* Make sure we have permission do edit the google map option of this item */
-	$ret = GalleryCoreApi::assertHasItemPermission($item->getId(), 'mapv3/EditMap');
+	$ret = GalleryCoreApi::assertHasItemPermission($item->getId(), 'mapv3.EditMap');
 	if ($ret) {
 	    return false;
 	}
