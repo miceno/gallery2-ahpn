@@ -655,7 +655,7 @@ class mapv3Module extends GalleryModule {
 			if ($result[4] == 'G_MAP_TYPE') {
 			    $result[4] = 'roadmap';
 			}
-			if ($result[4] == 'G_SATELLITE_TYPE') {
+			if ($result[4] == 'satellite') {
 			    $result[4] = 'satellite';
 			}
 			if ($result[4] == 'G_HYBRID_TYPE') {

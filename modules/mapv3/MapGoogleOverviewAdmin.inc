@@ -133,7 +133,7 @@ class MapGoogleOverviewAdminView extends GalleryView {
 	    $form['GOPosOffY'] = '0';
 	}
 	if(!array_key_exists('GOType', $form)) {
-	    $form['GOType'] = 'G_SATELLITE_TYPE';
+	    $form['GOType'] = 'satellite';
 	}
 
 	include(dirname(__FILE__) . '/includes/MapAdminEdits.inc');

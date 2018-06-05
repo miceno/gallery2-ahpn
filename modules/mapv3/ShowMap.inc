@@ -302,7 +302,7 @@ class ShowMapView extends GalleryView {
 	$map['HeightFormat'] = (isset($param['MapHeightFormat']) and $param['MapHeightFormat'] == '2') ? '%' : 'px';
 	$map['mapWidth'] = isset($param['mapWidth']) ? $param['mapWidth'] : '600';
 	$map['mapHeight'] = isset($param['mapHeight']) ? $param['mapHeight'] : '400';
-	$map['mapType'] = isset($param['mapType']) ? $param['mapType'] : 'G_SATELLITE_TYPE';
+	$map['mapType'] = isset($param['mapType']) ? $param['mapType'] : 'satellite';
 
 	$map['mode'] = GalleryUtilities::getRequestVariables('Mode');
 	$fullScreen = GalleryUtilities::getRequestVariables('fullScreen');
@@ -1063,7 +1063,7 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 		$map['GOSizeX'] = isset($param['GOSizeX']) ? $param['GOSizeX'] : 200;
 		$map['GOSizeY'] = isset($param['GOSizeY']) ? $param['GOSizeY'] : 200;
 		$map['GOPos'] = isset($param['GOPos']) ? $param['GOPos'] : 3;
-		$map['GOType'] = isset($param['GOType']) ? $param['GOType'] : 'G_SATELLITE_TYPE';
+		$map['GOType'] = isset($param['GOType']) ? $param['GOType'] : 'satellite';
 		$map['GOPosOffX'] = isset($param['GOPosOffX']) ? $param['GOPosOffX'] : 0;
 		$map['GOPosOffY'] = isset($param['GOPosOffY']) ? $param['GOPosOffY'] : 0;
 	    }

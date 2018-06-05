@@ -282,7 +282,7 @@ class mapSiteAdminView extends GalleryView {
 	    $form['zoomLevel'] = 17;
 	}
 	if (!array_key_exists('mapType', $form)) {
-	    $form['mapType'] = 'G_SATELLITE_TYPE';
+	    $form['mapType'] = 'satellite';
 	}
 	if (!array_key_exists('showScale', $form)) {
 	    $form['showScale'] = false;
