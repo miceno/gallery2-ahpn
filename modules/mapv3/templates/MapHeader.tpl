@@ -212,7 +212,7 @@ a:hover {ldelim} outline: none; {rdelim}
     map = new google.maps.Map(document.getElementById("map"));
 
     if (DEBUGINFO) console.debug('Add controls');
-   
+
    // ================= infoOpened LISTENER ===========
     {* todo: InfoWindow listeners
     {literal}
@@ -271,10 +271,10 @@ a:hover {ldelim} outline: none; {rdelim}
     tooltip = document.createElement("div");
     tooltip.id = "map-tooltip";
         {* todo: Tooltip {literal}
-    map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
+        map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
         // Add tooltip to the dom
-    {/literal}
-    *}
+            {/literal}
+        *}
     tooltip.style.visibility="hidden";
     if (DEBUGINFO) console.debug('done!');
 
@@ -324,31 +324,34 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
     if (DEBUGINFO) console.debug('Overview created');
 
+    function fromLatLngToPoint(latLng, map) {ldelim}
+        var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+        var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+        var scale = Math.pow(2, map.getZoom());
+        var worldPoint = map.getProjection().fromLatLngToPoint(latLng);
+        return new google.maps.Point((worldPoint.x - bottomLeft.x) * scale, (worldPoint.y - topRight.y) * scale);
+    {rdelim}
     function showTooltip(marker) {ldelim}
       tooltip.innerHTML = marker.tooltip;
-      var point=map.getCenter();
-      var offset=map.getProjection().fromLatLngToPixel(marker.getPoint(),map.getZoom());
-      var anchor=marker.getIcon().anchor;
-      var width=marker.getIcon().size.width;
-      var height=tooltip.clientHeight;
-      var pos = new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(offset.x - point.x - anchor.x + width, offset.y - point.y -anchor.y -height));
-      pos.apply(tooltip);
+      var point = map.getCenter();
+      var offset = fromLatLngToPoint(marker.position, map);
+      var anchor = marker.anchorPoint;
+      {* var width = marker.getIcon().size.width; *}
+      var height = tooltip.clientHeight;
+
       tooltip.style.visibility="visible";
     {rdelim}
 
-    var BaseIcon = new GIcon();
-    BaseIcon.shadow = "{g->url href="modules/mapv3/images/marker_shadow.png"}";
-    BaseIcon.iconSize = new GSize({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-    BaseIcon.shadowSize = new GSize({$mapv3.MarkerSizeX}+15,{$mapv3.MarkerSizeY});
-    BaseIcon.iconAnchor = new GPoint(6, 20);
-    BaseIcon.infoWindowAnchor = new GPoint(5, 1);
+    var BaseIcon = {ldelim}{rdelim};
+    BaseIcon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+    BaseIcon.anchor = new google.maps.Point(6, 20);
+    BaseIcon.infoWindowAnchor = new google.maps.Point(5, 1);
 
     {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
-    var replaceIcon = new GIcon(BaseIcon);
-    replaceIcon.iconSize = new GSize({$mapv3.ReplaceMarkerSizeX},{$mapv3.ReplaceMarkerSizeY});
-    replaceIcon.shadowSize = new GSize({$mapv3.ReplaceMarkerSizeX}+15,{$mapv3.ReplaceMarkerSizeY});
-    replaceIcon.iconAnchor = new GPoint({$mapv3.replaceAnchorPos});
-    replaceIcon.image = "{g->url href="modules/mapv3/images/multi/`$mapv3.regroupIcon`.png"}";
+    var replaceIcon = {ldelim}{rdelim};
+    replaceIcon.size = new google.maps.Size({$mapv3.ReplaceMarkerSizeX},{$mapv3.ReplaceMarkerSizeY});
+    replaceIcon.anchor = new google.maps.Point({$mapv3.replaceAnchorPos});
+    replaceIcon.url = "{g->url href="modules/mapv3/images/multi/`$mapv3.regroupIcon`.png"}";
 
     function CreateRegroup(lat,lon, showLow, showHigh, nbDirect, nbItems, nbGroups){ldelim}
       var point = new google.maps.LatLng(lat,lon);
@@ -361,7 +364,7 @@ a:hover {ldelim} outline: none; {rdelim}
         showTooltip(marker);
       {rdelim});
       GEvent.addListener(marker,"mouseout", function() {ldelim}
-	tooltip.style.visibility="hidden";
+	    tooltip.style.visibility="hidden";
       {rdelim});
       GEvent.addListener(marker, "click", function() {ldelim}
         tooltip.style.visibility="hidden";
@@ -418,30 +421,25 @@ a:hover {ldelim} outline: none; {rdelim}
     {rdelim}
 
    //Create the base for all icons
-   var BaseIcon = new GIcon();
-   BaseIcon.shadow = "{g->url href="modules/mapv3/images/marker_shadow.png"}";
-   BaseIcon.iconSize = new GSize({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-   BaseIcon.shadowSize = new GSize({$mapv3.MarkerSizeX}+15,{$mapv3.MarkerSizeY});
-   BaseIcon.iconAnchor = new GPoint(6, 20);
-   BaseIcon.infoWindowAnchor = new GPoint(5, 1);
+   var base_icon = {ldelim}{rdelim};
+   base_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+   base_icon.anchor = new google.maps.Point(6, 20);
+   base_icon.infoWindowAnchor = new google.maps.Point(5, 1);
 
-   var DefaultphotoIcon = new GIcon(BaseIcon);
-   DefaultphotoIcon.image = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
-   DefaultphotoIcon.iconSize = new GSize({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-   DefaultphotoIcon.shadowSize = new GSize({$mapv3.MarkerSizeX}+15,{$mapv3.MarkerSizeY});
-   DefaultphotoIcon.iconAnchor = new GPoint({$mapv3.MarkerSizeX}/2, {$mapv3.MarkerSizeY});
+   var default_photo_icon = {ldelim}{rdelim};
+   default_photo_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
+   default_photo_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+   default_photo_icon.anchor = new google.maps.Point({$mapv3.MarkerSizeX}/2, {$mapv3.MarkerSizeY});
 
-   var DefaultalbumIcon = new GIcon(BaseIcon);
-   DefaultalbumIcon.image = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
-   DefaultalbumIcon.iconSize = new GSize({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
-   DefaultalbumIcon.shadowSize = new GSize({$mapv3.AlbumMarkerSizeX}+15,{$mapv3.AlbumMarkerSizeY});
-   DefaultalbumIcon.iconAnchor = new GPoint({$mapv3.AlbumMarkerSizeX}/2,{$mapv3.AlbumMarkerSizeY});
+   var default_album_icon = {ldelim}{rdelim};
+   default_album_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
+   default_album_icon.size = new google.maps.Size({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
+   default_album_icon.anchor = new google.maps.Point({$mapv3.AlbumMarkerSizeX}/2,{$mapv3.AlbumMarkerSizeY});
 
-   var DefaultgroupIcon = new GIcon(BaseIcon);
-   DefaultgroupIcon.image = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
-   DefaultgroupIcon.iconSize = new GSize({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
-   DefaultgroupIcon.shadowSize = new GSize({$mapv3.GroupMarkerSizeX}+15,{$mapv3.GroupMarkerSizeY});
-   DefaultgroupIcon.iconAnchor = new GPoint({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
+   var default_group_icon = {ldelim}{rdelim};
+   default_group_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
+   default_group_icon.size = new google.maps.Size({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
+   default_group_icon.anchor = new google.maps.Point({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
 
     {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
     /*Loop over the Regroup Markers and show them */
@@ -462,7 +460,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {if $mapv3.ThumbBarPos neq "0" and $mapv3.fullScreen neq 3}
       /* creates the Thumbnail bar as we go */
       var style = "";
-      //map.setCenter(new GPoint({$point.gps}));
+      //map.setCenter(new google.maps.Point({$point.gps}));
       sidebarhtml += '<a id="thumb{counter name="num3"}" '+style+' href="#" onclick="GEvent.trigger(markers[{counter name="num2"}],\'click\'); return false;" onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" onmouseout="hide_arrow({counter name="num1"},\'normal\');"><img style="{if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}width{else}height{/if}:{$mapv3.ThumbHeight}px;" src="{$point.thumbLink}"/>{if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}<br/>{/if}<\/a>';
       sidebarsize +={if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
       {/if}
@@ -479,23 +477,23 @@ a:hover {ldelim} outline: none; {rdelim}
        {assign var=markerSet value="`$mapv3.useMarkerSet`"}
        {assign var=markerColor value="`$mapv3.defaultphotocolor`"}
       {/if}
-      {assign var=iconDef value="Default"}
+      {assign var=iconDef value="default_"}
       {if $point.color neq "default"}
-      var {$itemType}Icon = new GIcon(Default{$itemType}Icon);
+      var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
       {assign var=iconDef value=""}{* Clear the "Default" and flag that we declared the variable *}
       {assign var=markerColor value="`$point.color`"}
-      {$itemType}Icon.image = "{g->url href="modules/mapv3/images/markers/`$markerSet`/marker_`$point.color`.png"}";
+      {$itemType}_icon.url = "{g->url href="modules/mapv3/images/markers/`$markerSet`/marker_`$point.color`.png"}";
       {/if}
       {* quick hacky fix for missing numbered markers *}
       {if $mapv3.EnableRouteNumber}
       {foreach from=$mapv3.routeitem key=name item=items}
        {foreach from=$items item=id key=num}
         {if $point.id == $id}
-         {if $iconDef eq "Default"}{* variable hasn't been declared yet *}
+         {if $iconDef eq "default_"}{* variable hasn't been declared yet *}
           {assign var=iconDef value=""}{* Clear the "Default" text *}
-          var {$itemType}Icon = new GIcon(Default{$itemType}Icon);
+          var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
          {/if}
-         {$itemType}Icon.image = "{g->url href="modules/mapv3/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
+         {$itemType}_icon.url = "{g->url href="modules/mapv3/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
         {/if} 
        {/foreach}
       {/foreach}
@@ -506,7 +504,7 @@ a:hover {ldelim} outline: none; {rdelim}
           ,
           {if $mapv3.showItemDescriptions && !empty($point.description)} "{$point.description|markup|escape:"javascript"}"{else}""{/if}
           ,
-          {$iconDef}{$itemType}Icon
+          {$iconDef}{$itemType}_icon
           , {$point.regroupShowLow},{$point.regroupShowHigh},0,"{$point.type}");
       {/if}
     {/foreach}
