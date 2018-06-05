@@ -111,37 +111,7 @@ a:hover {ldelim} outline: none; {rdelim}
         {rdelim}
       {rdelim}
     {rdelim}
-
-    {if $mapv3.fullScreen neq 3}
-    // ==== go start & remove history  =======
-    function goStart() {ldelim}
-      if (DEBUGINFO) console.debug('start of saved position');
-      returningToSaved = true;
-      map.closeInfoWindow();
-      map.returnToSavedPosition();  // takes some time for the map to move so
-      setTimeout('removeHistory()',500); // wait for the map to move so that the moveend is not fired
-    {rdelim}
-
-    function removeHistory() {ldelim}
-      var div_history = "";
-      view_history = [];  // reset the history
-      div_history = _divhistorytext;
-      document.getElementById("div_history").innerHTML = div_history;
-      returningToSaved = false;
-    {rdelim}
-
-    // =========== goHistory ==================
-    // goes to a certain place in the view history
-    function goHistory(i) {ldelim}
-      var x=view_history[i][0];
-      var y=view_history[i][1];
-      var z=view_history[i][2];
-      view_history=view_history.splice(0,i);
-      map.setCenter(new google.maps.LatLng(x,y),z);
-    {rdelim}
-    // ====End history functions ========
-    {/if} {* end if $mapv3.fullScreen neq 3 *}
-
+    
     {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
     var myWidth = {$mapv3.mapWidth};
     {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 0 and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq '2')}+155{/if};{/if}
@@ -203,8 +173,6 @@ a:hover {ldelim} outline: none; {rdelim}
     //Google Map implementation
     map = new google.maps.Map(document.getElementById("map"));
 
-    if (DEBUGINFO) console.debug('Add controls');
-
    // ================= infoOpened LISTENER ===========
     {* todo: InfoWindow listeners
     {literal}
@@ -219,14 +187,6 @@ a:hover {ldelim} outline: none; {rdelim}
     GEvent.addListener(map, "infowindowclose", function()  {ldelim}
     infoOpened = false;	// set infoOpened to false
     {rdelim});
-    {/literal}
-    *}
-
-    if (DEBUGINFO) console.debug('Controls Added');
-
-    //Needed to show the scale
-    {* todo: custom style for showScale {literal}
-    {if $mapv3.mode eq "Pick" or $mapv3.showScale} map.addControl(new GScaleControl()); {/if}
     {/literal}
     *}
 
@@ -247,14 +207,10 @@ a:hover {ldelim} outline: none; {rdelim}
             map: map
         {rdelim});
     {/if}
-    {* todo: Save position {literal}
-    map.savePosition();
-    {/literal}
-    *}
 
     if (DEBUGINFO) console.debug('done!');
 
-    if (DEBUGINFO) console.debug('Creating the tooltip div');
+    if (DEBUGINFO) console.debug('TODO: Creating the tooltip div');
     {* todo: Tooltip {literal}
         See for an example at
         https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
@@ -284,38 +240,6 @@ a:hover {ldelim} outline: none; {rdelim}
 
     {if $mapv3.mode eq "Normal"}
 
-    if (DEBUGINFO) console.debug('Zoom Listener entered');
-
-    // Create the overview Map
-    {if $mapv3.GoogleOverview}
-    {* TODO: Google Overview {literal}
-
-      map.addControl(new GOverviewMapControl(new google.maps.Size({$mapv3.GOSizeX}, {$mapv3.GOSizeY})));
-      setTimeout(function() {ldelim}
-      var omap=document.getElementById("map_overview");
-      var mapdiv = document.getElementById("map");
-      omap.style.position = "relative";
-      omap.firstChild.style.background = "{$mapv3.bodycolor}";
-      omap.firstChild.style.borderTop = "1px solid black";
-      omap.firstChild.style.borderLeft = "1px solid black";
-      omap.firstChild.firstChild.style.border = "1px solid black";
-
-      {if $mapv3.GOPos eq "3" or $mapv3.GOPos eq "1"}
-        omap.style.right = "{$mapv3.GOPosOffX}px";
-      {else}
-        omap.style.left = "{$mapv3.GOPosOffX}px";
-      {/if}
-      {if $mapv3.GOPos eq "0" or $mapv3.GOPos eq "1"}
-         omap.style.top = "{$mapv3.GOPosOffY}px";
-      {else}
-         omap.style.bottom = "{$mapv3.GOPosOffY}px";
-      {/if}
-      mapdiv.appendChild(omap);
-      {rdelim}, 1);
-    {/literal} *}
-    {/if}
-    if (DEBUGINFO) console.debug('Overview created');
-
     function fromLatLngToPoint(latLng, map) {ldelim}
         var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
         var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
@@ -323,12 +247,13 @@ a:hover {ldelim} outline: none; {rdelim}
         var worldPoint = map.getProjection().fromLatLngToPoint(latLng);
         return new google.maps.Point((worldPoint.x - bottomLeft.x) * scale, (worldPoint.y - topRight.y) * scale);
     {rdelim}
+
     function showTooltip(marker) {ldelim}
       tooltip.innerHTML = marker.tooltip;
       var point = map.getCenter();
       var offset = fromLatLngToPoint(marker.position, map);
       var anchor = marker.anchorPoint;
-      {* var width = marker.getIcon().size.width; *}
+      {* // TODO var width = marker.getIcon().size.width; *}
       var height = tooltip.clientHeight;
 
       tooltip.style.visibility="visible";
@@ -433,13 +358,6 @@ a:hover {ldelim} outline: none; {rdelim}
    default_group_icon.size = new google.maps.Size({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
    default_group_icon.anchor = new google.maps.Point({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
 
-    {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
-    /*Loop over the Regroup Markers and show them */
-    {foreach from=$mapv3.RegroupItems item=Rpoint}
-      CreateRegroup({$Rpoint.gps},{$Rpoint.regroupShowLow},{$Rpoint.regroupShowHigh},{$Rpoint.directItems}, {$Rpoint.items}, {$Rpoint.groups});
-    {/foreach}
-    {/if}
-
     /* Loop over gallery items that have GPS coordinates
         and output code to add them to the map. */
     {if (!empty($mapv3.mapPoints))}
@@ -491,13 +409,31 @@ a:hover {ldelim} outline: none; {rdelim}
       {/foreach}
       {/if}
       {if $point.id|truncate:1:"" neq 'T'}
-        CreateMarker({$point.gps}, "{$point.itemLink}", "{$point.title|markup|escape:"javascript"}", "{$point.thumbLink}", "{$point.created}", {$point.zoomlevel}, {$point.thumbWidth}, {$point.thumbHeight},
-          {if $mapv3.showItemSummaries && !empty($point.summary)} "{$point.summary|markup|escape:"javascript"}"{else}""{/if}
-          ,
-          {if $mapv3.showItemDescriptions && !empty($point.description)} "{$point.description|markup|escape:"javascript"}"{else}""{/if}
-          ,
-          {$iconDef}{$itemType}_icon
-          , {$point.regroupShowLow},{$point.regroupShowHigh},0,"{$point.type}");
+        {strip}
+        CreateMarker({$point.gps},
+            "{$point.itemLink}",
+            "{$point.title|markup|escape:"javascript"}",
+            "{$point.thumbLink}",
+            "{$point.created}",
+            {$point.zoomlevel},
+            {$point.thumbWidth},
+            {$point.thumbHeight},
+            {if $mapv3.showItemSummaries && !empty($point.summary)}
+                "{$point.summary|markup|escape:"javascript"}"
+            {else}
+                ""
+            {/if},
+            {if $mapv3.showItemDescriptions && !empty($point.description)}
+                "{$point.description|markup|escape:"javascript"}"
+            {else}
+                ""
+            {/if},
+          {$iconDef}{$itemType}_icon,
+          {$point.regroupShowLow},
+          {$point.regroupShowHigh},
+          0,
+          "{$point.type}");
+        {/strip}
       {/if}
     {/foreach}
 
@@ -544,47 +480,6 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.AutoCenterZoom and (!isset($mapv3.Filter) or (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route') or ($mapv3.Filter|truncate:5:"" eq 'Album') or ($mapv3.Filter|truncate:5:"" eq 'Group'))))}
         map.fitBounds(bounds);
     {/if}
-    {if $mapv3.fullScreen neq 3}
-
-    // check for movement of the map and add links to the history
-    view_history = [];
-    returningToSaved = false;
-    last_zoom = false;
-    last_center = map.getCenter();
-    last_zoom = map.getZoom();
-    infoOpened = false;	// set to true when an info window is opened.
-
-    map.addListener('center_changed', function() {ldelim}
-      if (!returningToSaved) {ldelim}
-        if (DEBUGINFO) console.debug('moveend fired');
-        center = map.getCenter();
-        bounds = map.getBounds();
-        zoom = map.getZoom();
-        var div_history = _divhistorytext;
-        div_history += '<a href="javascript:goStart();">Start</a>';
-        var tag = "move";
-        if (zoom != last_zoom) {ldelim}
-          tag = "zoom";
-          last_zoom = map.getZoom();
-        {rdelim}
-        if (infoOpened) {ldelim}
-          tag = "window";
-          infoOpened = false;
-        {rdelim}
-        view_history[view_history.length]=new Array(center.y,center.x,zoom,tag);
-        if (view_history.length > 10) {ldelim}  // trim the # of links in history
-          view_history.shift();
-        {rdelim}
-        // loop through the history and write the links
-        for (var j=1; j < view_history.length; j++) {ldelim}
-          div_history += "-> ";  // text before the link
-          div_history += '<a href="javascript:goHistory('+(j-1)+');">'+view_history[j][3]+'</a>';
-        {rdelim}
-        div_history += ''; // add text to the end if needed
-        document.getElementById("div_history").innerHTML = div_history;
-      {rdelim}
-    {rdelim});
-    {/if} {* end $mapv3.fullScreen neq 3}
 
     {* set the correct zoom slide notch and show/hide the regrouped item *}
     zoom = map.getZoom();
