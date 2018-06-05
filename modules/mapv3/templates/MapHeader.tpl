@@ -2,20 +2,12 @@
  * $Revision: 1264 $
  * Read this before changing templates!  http://codex.gallery2.org/Gallery2:Editing_Templates
  *}
-{* Custom navigation needs a IE .png fix
-{if (isset($mapv3.MapControlType))}
-  {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
-    <style type="text/css">
-    .themap img {ldelim}
-    behavior: url("{g->url href="modules/mapv3/pngbehavior.htc"}");
-    {rdelim}
-    </style>
-  {/if}
-{/if}  *}
+{* {literal}
 <style type="text/css">
 a {ldelim}overflow: hidden;{rdelim}
 a:hover {ldelim} outline: none; {rdelim}
 </style>
+{/literal} *}
 {include file="modules/mapv3/includes/GoogleMap.css"}
 <!-- Google Maps script -->
 {if isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq 'f'}
@@ -29,7 +21,6 @@ a:hover {ldelim} outline: none; {rdelim}
     //<![CDATA[
 
     var DEBUGINFO = 1; //set to 1 to view the Glog, 0 otherwise
-    var controlname = "{$mapv3.MapControlType}";
 
     {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $mapv3.ThumbBarPos neq "0" and $mapv3.fullScreen neq 3}
     /* initialize some variable for the sidebar */
@@ -88,11 +79,11 @@ a:hover {ldelim} outline: none; {rdelim}
     var _starttext = '{g->text text="start" forJavascript=true}';
     var _windowtext = '{g->text text="window" forJavascript=true}';
 
-
-
-    //Functions for the PAN & Zoom Custom controls
-    var ZoomOut; //this needs to be global to enable the Map type to change it :-)
-    var ZoomSlide = [];
+    /*
+    *
+    * Global functions
+    *
+    * */
 
     // ===== Show and Hide markers =====
     function markerDisplay(number,show,type) {ldelim}
@@ -120,6 +111,7 @@ a:hover {ldelim} outline: none; {rdelim}
         {rdelim}
       {rdelim}
     {rdelim}
+
     {if $mapv3.fullScreen neq 3}
     // ==== go start & remove history  =======
     function goStart() {ldelim}
