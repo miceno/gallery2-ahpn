@@ -100,23 +100,23 @@ a:hover {ldelim} outline: none; {rdelim}
         if ((show) && (!markers[number].onmap)) {ldelim}
            if (DEBUGINFO) console.debug('Normal Icon,show,'+number);
            markers[number].onmap = true;
-           map.addOverlay(markers[number]);
+           markers[number].setMap(map);
         {rdelim}
         if ((!show) && (markers[number].onmap)) {ldelim}
            if (DEBUGINFO) console.debug('Normal Icon,hide,'+number);
            markers[number].onmap = false;
-           map.removeOverlay(markers[number]);
+           markers[number].setMap(null);
         {rdelim}
       {rdelim}else{ldelim}
         if ((show) && (!Rmarkers[number].onmap)) {ldelim}
            if (DEBUGINFO) console.debug('Regroup Icon,show,'+number);
            Rmarkers[number].onmap = true;
-           map.addOverlay(Rmarkers[number]);
+           Rmarkers[number].setMap(map);
         {rdelim}
         if ((!show) && (Rmarkers[number].onmap)) {ldelim}
            if (DEBUGINFO) console.debug('Regroup Icon,hide,'+number);
            Rmarkers[number].onmap = false;
-           map.removeOverlay(Rmarkers[number]);
+           Rmarkers[number].setMap(null);
         {rdelim}
       {rdelim}
     {rdelim}
@@ -186,7 +186,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var Point = new google.maps.LatLng(xcoord, ycoord);
       var newarrow = new google.maps.Marker(Point, Icon);
       arrow = newarrow;
-      map.addOverlay(newarrow);
+      newarrow.setMap(map);
     {rdelim}
 
     function hide_arrow(number,type){ldelim}
@@ -197,7 +197,7 @@ a:hover {ldelim} outline: none; {rdelim}
         if (DEBUGINFO) console.debug('Showing the Icon');
         markerDisplay(number,1,type); //marker.display(true);
       {rdelim}
-      map.removeOverlay(arrow);
+      arrow.setMap(null);
     {rdelim}
     {/if} {* end $mapv3.fullscreen neq 3 *}
 
@@ -411,7 +411,7 @@ a:hover {ldelim} outline: none; {rdelim}
       marker.type = 'Regroup';
       Rmarkers[Rmarker_num] = marker;
       Rmarker_num++;
-      map.addOverlay(marker);
+      marker.setMap(map);
     {rdelim}
     {/if}
 
@@ -449,7 +449,7 @@ a:hover {ldelim} outline: none; {rdelim}
       markers[marker_num] = marker;
       marker_num++;
 
-      map.addOverlay(marker);
+      marker.setMap(map);
 
       if (hide==1) markerDisplay(marker_num-1,0,'normal');
     {rdelim}
