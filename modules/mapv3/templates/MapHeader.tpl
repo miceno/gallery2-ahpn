@@ -590,13 +590,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {* set the correct zoom slide notch and show/hide the regrouped item *}
     zoom = map.getZoom();
     myZoom = 19-zoom;
-   {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
-      if (!IEVersion ||(IEVersion && IEVersion >= 7)) document.images['z'+myZoom].src = "{g->url href="modules/mapv3/templates/controls/`$mapv3.MapControlType`/SlideSel.png"}";
-      else {ldelim}
-        document.images['z'+myZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-        document.images['z'+myZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/`$mapv3.MapControlType`/SlideSel.png"}')";
-      {rdelim}
-   {/if}
+
     for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
         var marker = markers[i];
         if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
