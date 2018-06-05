@@ -5,30 +5,26 @@
 
 {g->callback type="mapv3.LoadFilters"}
 <style>
-  .map_filter_wrapper {ldelim}
-  right:10px;
-  {if $mapv3.ThumbBarPos eq '1'}{strip}
-  position:relative;
-  top:-{$mapv3.ThumbHeight}px;
-  {/strip}{/if}
-  {rdelim}
-  {literal}
-  .filter_select {
-    width: 75%;
-  }
-
-  .filter_column {
-    width: 200px;
-  }
-
-  .filter_table {
-    width: 400px;
-    border: 0;
-  }
+    {literal}
+    .map_thumbs_top{
+    }
+    .map_filter_wrapper {
+        position: relative;
+    }
+    .filter_select {
+        width: 75%;
+    }
+    .filter_column {
+        width: 200px;
+    }
+    .filter_table {
+        width: 400px;
+        border: 0;
+    }
   {/literal}
 </style>
 {if !empty($block.mapv3.LoadFilters)}
-<div class="map_filter_wrapper {$class}">
+<div class="{$class}{if $mapv3.ShowFilters eq 2} map_filter_wrapper{/if}{if $mapv3.ShowFilters eq 3} map_thumbs_top{/if}">
   {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}
   <table class="filter_table">
     <tr>
