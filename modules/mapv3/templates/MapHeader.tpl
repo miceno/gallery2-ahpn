@@ -266,11 +266,16 @@ a:hover {ldelim} outline: none; {rdelim}
     {* todo: Tooltip {literal}
         See for an example at
         https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
-    tooltip = document.createElement("div");
-    map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
-    tooltip.style.visibility="hidden";
     {/literal}
     *}
+    tooltip = document.createElement("div");
+    tooltip.id = "map-tooltip";
+        {* todo: Tooltip {literal}
+    map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
+        // Add tooltip to the dom
+    {/literal}
+    *}
+    tooltip.style.visibility="hidden";
     if (DEBUGINFO) console.debug('done!');
 
     {if $mapv3.fullScreen eq 3}
