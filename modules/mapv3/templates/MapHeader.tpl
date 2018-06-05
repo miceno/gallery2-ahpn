@@ -155,7 +155,6 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 0 and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq '2')}+155{/if};{/if}
     {if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}
       minusW +={$mapv3.ThumbHeight}+30;
-      if (IEVersion) minusW += 10;
     {/if}
     {if $mapv3.mode eq "Pick"} var minusW = 410; {/if}
     {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
@@ -212,10 +211,6 @@ a:hover {ldelim} outline: none; {rdelim}
     //Google Map implementation
     map = new GMap2(document.getElementById("map"));
 
-   {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
-     map.addControl(new MyPanZoomControls());
-     {if (isset($mapv3.showMapType) and ($mapv3.showMapType))}map.addControl(new MyMapTypeControls());{/if}
-   {/if}
     if (DEBUGINFO) console.debug('Add controls');
    
    // ================= infoOpened LISTENER ===========
@@ -227,19 +222,8 @@ a:hover {ldelim} outline: none; {rdelim}
      infoOpened = false;	// set infoOpened to false
    {rdelim});
 
-    //Register the key handlers
-    new GKeyboardHandler(map);
-
-    //Show and position the MAP Large control
-    {if $mapv3.MapControlType eq "Large"} map.addControl(new GLargeMapControl(),new GControlPosition({$mapv3.MapControlPos},new GSize({$mapv3.MapControlPosOffX},{$mapv3.MapControlPosOffY}))); {/if}
-    //Show and position the MAP Small control
-    {if $mapv3.MapControlType eq "Small"} map.addControl(new GSmallMapControl(),new GControlPosition({$mapv3.MapControlPos},new GSize({$mapv3.MapControlPosOffX},{$mapv3.MapControlPosOffY}))); {/if}
-    {if ($mapv3.MapControlType eq "Small" or $mapv3.MapControlType eq "Large") and (isset($mapv3.showMapType) and ($mapv3.showMapType))}map.addControl(new GMapTypeControl());{/if}
     if (DEBUGINFO) console.debug('Controls Added');
 
-     {if isset ($mapv3.GZoom) and $mapv3.GZoom}
-       map.addControl(new GZoomControl(),new GControlPosition({$mapv3.GZPos},new GSize({$mapv3.GZPosOffX},{$mapv3.GZPosOffY})));
-     {/if}
     //Needed to show the scale
     {if $mapv3.mode eq "Pick" or $mapv3.showScale} map.addControl(new GScaleControl()); {/if}
 
