@@ -3,8 +3,8 @@
  * Read this before changing templates!  http://codex.gallery2.org/Gallery2:Editing_Templates
  *}
 {* Custom navigation needs a IE .png fix
-{if (isset($map.MapControlType))}
-  {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
+{if (isset($mapv3.MapControlType))}
+  {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
     <style type="text/css">
     .themap img {ldelim}
     behavior: url("{g->url href="modules/mapv3/pngbehavior.htc"}");
@@ -18,11 +18,10 @@ a:hover {ldelim} outline: none; {rdelim}
 </style>
 {include file="modules/mapv3/includes/GoogleMap.css"}
 <!-- Google Maps script -->
-{if isset($map.googleMapKey) and $map.googleMapKey neq 'f'}
-<script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key={$map.googleMapKey}" type="text/javascript"></script>
-{if isset($map.GZoom) and $map.GZoom}
-  <script src="{g->url href="modules/mapv3/includes/gzoom.js"}" type="text/javascript"></script>
-{/if}
+{if isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq 'f'}
+<script src="//maps.googleapis.com/maps/api/js?file=api&amp;v=3&amp;key={$mapv3.googleMapKey}"
+            type="text/javascript"></script>
+
 <script src="{g->url href="modules/mapv3/GoogleMap.js"}" type="text/javascript"></script>
 <!-- This is mostly boilerplate code from Google. See: http://www.google.com/apis/maps/documentation/ -->
 
@@ -30,15 +29,15 @@ a:hover {ldelim} outline: none; {rdelim}
     //<![CDATA[
 
     var DEBUGINFO = 0; //set to 1 to view the Glog, 0 otherwise
-    var controlname = "{$map.MapControlType}";
+    var controlname = "{$mapv3.MapControlType}";
     var IEBrowser = navigator.appVersion.split("MSIE");
     var IEVersion = parseFloat(IEBrowser[1]);
 
-    {if $map.mode eq "Normal" and isset($map.ThumbBarPos) and $map.ThumbBarPos neq "0" and $map.fullScreen neq 3}
+    {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $mapv3.ThumbBarPos neq "0" and $mapv3.fullScreen neq 3}
     /* initialize some variable for the sidebar */
-    var sidebarheight = {$map.ThumbHeight+4};
+    var sidebarheight = {$mapv3.ThumbHeight+4};
     {* Should this be ThumbWidth? *}
-    var sidebarwidth = {$map.ThumbHeight+4};
+    var sidebarwidth = {$mapv3.ThumbHeight+4};
     {/if}
     var sidebarhtml = '';
     var sidebarsize = 0;
@@ -80,8 +79,8 @@ a:hover {ldelim} outline: none; {rdelim}
     var _mThousandsSeparator = '{g->text text="," hint="Thousands separator" forJavascript=true}';
     var _mMapErrorTile = "{g->text text="We are sorry, but we don't have maps at this zoom level for this region. Try zooming out for a broader look." forJavascript=true}";
     var _mKeyholeErrorTile = "{g->text text="We are sorry, but we don't have imagery at this zoom level for this region. Try zooming out for a broader look." forJavascript=true}";
-    var _mTermsURL = '{g->text text="http://www.google.com/intl/en_ALL/help/terms_local.html" forJavascript=true}';
-    var _mStaticPath = '{g->text text="http://www.google.com/intl/en_ALL/mapfiles/" forJavascript=true}';
+    var _mTermsURL = '{g->text text="https://www.google.com/intl/en_ALL/help/terms_local.html" forJavascript=true}';
+    var _mStaticPath = '{g->text text="https://www.google.com/intl/en_ALL/mapfiles/" forJavascript=true}';
     var _mDomain = '{g->text text="google.com" forJavascript=true}';
     var _mApiBadKey = '{g->text text="The Google Maps API key used on this web site was registered for a different web site. You can generate a new key for this web site at http://www.google.com/apis/maps/" forJavascript=true}';
     
@@ -97,7 +96,7 @@ a:hover {ldelim} outline: none; {rdelim}
     var ZoomOut; //this needs to be global to enable the Map type to change it :-)
     var ZoomSlide = [];
 
-   {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
+   {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
     function MyPanZoomControls() {ldelim}
     {rdelim}
     MyPanZoomControls.prototype = new GControl();
@@ -216,7 +215,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {rdelim}
 
     MyPanZoomControls.prototype.getDefaultPosition = function() {ldelim}
-      return new GControlPosition({$map.MapControlPos},new GSize({$map.MapControlPosOffX},{$map.MapControlPosOffY}));
+      return new GControlPosition({$mapv3.MapControlPos},new GSize({$mapv3.MapControlPosOffX},{$mapv3.MapControlPosOffY}));
     {rdelim}
 
     //End of the functions for the custom PAN & Zoom controls
@@ -349,7 +348,7 @@ a:hover {ldelim} outline: none; {rdelim}
         {rdelim}
       {rdelim}
     {rdelim}
-    {if $map.fullScreen neq 3}
+    {if $mapv3.fullScreen neq 3}
     // ==== go start & remove history  =======
     function goStart() {ldelim}
       if (DEBUGINFO) GLog.write('start of saved position');
@@ -377,24 +376,24 @@ a:hover {ldelim} outline: none; {rdelim}
       map.setCenter(new GLatLng(x,y),z);
     {rdelim}
     // ====End history functions ========
-    {/if} {* end if $map.fullScreen neq 3 *}
+    {/if} {* end if $mapv3.fullScreen neq 3 *}
 
     {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
-    var myWidth = {$map.mapWidth};
-    {if $map.mode eq "Normal"}var minusW = {if $map.sidebar eq 1 and $map.fullScreen eq 0}210{else}20{/if}{if ($map.LegendPos eq 0 and $map.LegendFeature neq '0' and ($map.AlbumLegend or $map.PhotoLegend or (isset($map.regroupItems) and $map.regroupItems))) or ($map.FilterFeature neq '0' and isset($map.ShowFilters) and $map.ShowFilters eq '2')}+155{/if};{/if}
-    {if $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}
-      minusW +={$map.ThumbHeight}+30;
+    var myWidth = {$mapv3.mapWidth};
+    {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 0 and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq '2')}+155{/if};{/if}
+    {if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}
+      minusW +={$mapv3.ThumbHeight}+30;
       if (IEVersion) minusW += 10;
     {/if}
-    {if $map.mode eq "Pick"} var minusW = 410; {/if}
-    {if $map.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
+    {if $mapv3.mode eq "Pick"} var minusW = 410; {/if}
+    {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
 
-    var myHeight = {$map.mapHeight};
-    {if $map.mode eq "Normal"}var minusH = 150{if $map.fullScreen eq 2}-120{/if}{if $map.ShowFilters eq 3 or $map.ShowFilters eq 4}+25{/if}{if $map.LegendPos eq 2 or $map.LegendPos eq 3}+90{/if}{if $map.ThumbBarPos eq "1" or $map.ThumbBarPos eq "2"}+{$map.ThumbHeight}+25{/if};{/if}
-    {if $map.mode eq "Pick"} var minusH = 155; {/if}
-    {if $map.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
+    var myHeight = {$mapv3.mapHeight};
+    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4}+25{/if}{if $mapv3.LegendPos eq 2 or $mapv3.LegendPos eq 3}+90{/if}{if $mapv3.ThumbBarPos eq "1" or $mapv3.ThumbBarPos eq "2"}+{$mapv3.ThumbHeight}+25{/if};{/if}
+    {if $mapv3.mode eq "Pick"} var minusH = 155; {/if}
+    {if $mapv3.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
 
-    var myZoom = {$map.zoomLevel};
+    var myZoom = {$mapv3.zoomLevel};
 
     var markers = [];
     var Rmarkers = [];
@@ -402,7 +401,7 @@ a:hover {ldelim} outline: none; {rdelim}
     var bounds = new GLatLngBounds();
     var maxZoom = 10; // default to somewhat zoomed-out
 
-    {if $map.fullScreen neq 3}
+    {if $mapv3.fullScreen neq 3}
     /* functions related to the Thumbnail bar */
     function show_arrow(number,xcoord,ycoord,type){ldelim}
       if (DEBUGINFO) GLog.write('Show '+number+','+type);
@@ -429,7 +428,7 @@ a:hover {ldelim} outline: none; {rdelim}
       {rdelim}
       map.removeOverlay(arrow);
     {rdelim}
-    {/if} {* end $map.fullscreen neq 3 *}
+    {/if} {* end $mapv3.fullscreen neq 3 *}
 
     function ShowMeTheMap(){ldelim}
 
@@ -442,9 +441,9 @@ a:hover {ldelim} outline: none; {rdelim}
     map = new GMap2(document.getElementById("map"));
 
     if (DEBUGINFO) GLog.write('Add controls');
-   {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
+   {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
      map.addControl(new MyPanZoomControls());
-     {if (isset($map.showMapType) and ($map.showMapType))}map.addControl(new MyMapTypeControls());{/if}
+     {if (isset($mapv3.showMapType) and ($mapv3.showMapType))}map.addControl(new MyMapTypeControls());{/if}
    {/if}
    
    // ================= infoOpened LISTENER ===========
@@ -460,24 +459,24 @@ a:hover {ldelim} outline: none; {rdelim}
     new GKeyboardHandler(map);
 
     //Show and position the MAP Large control
-    {if $map.MapControlType eq "Large"} map.addControl(new GLargeMapControl(),new GControlPosition({$map.MapControlPos},new GSize({$map.MapControlPosOffX},{$map.MapControlPosOffY}))); {/if}
+    {if $mapv3.MapControlType eq "Large"} map.addControl(new GLargeMapControl(),new GControlPosition({$mapv3.MapControlPos},new GSize({$mapv3.MapControlPosOffX},{$mapv3.MapControlPosOffY}))); {/if}
     //Show and position the MAP Small control
-    {if $map.MapControlType eq "Small"} map.addControl(new GSmallMapControl(),new GControlPosition({$map.MapControlPos},new GSize({$map.MapControlPosOffX},{$map.MapControlPosOffY}))); {/if}
-    {if ($map.MapControlType eq "Small" or $map.MapControlType eq "Large") and (isset($map.showMapType) and ($map.showMapType))}map.addControl(new GMapTypeControl());{/if}
+    {if $mapv3.MapControlType eq "Small"} map.addControl(new GSmallMapControl(),new GControlPosition({$mapv3.MapControlPos},new GSize({$mapv3.MapControlPosOffX},{$mapv3.MapControlPosOffY}))); {/if}
+    {if ($mapv3.MapControlType eq "Small" or $mapv3.MapControlType eq "Large") and (isset($mapv3.showMapType) and ($mapv3.showMapType))}map.addControl(new GMapTypeControl());{/if}
 
-     {if isset ($map.GZoom) and $map.GZoom}
-       map.addControl(new GZoomControl(),new GControlPosition({$map.GZPos},new GSize({$map.GZPosOffX},{$map.GZPosOffY})));
+     {if isset ($mapv3.GZoom) and $mapv3.GZoom}
+       map.addControl(new GZoomControl(),new GControlPosition({$mapv3.GZPos},new GSize({$mapv3.GZPosOffX},{$mapv3.GZPosOffY})));
      {/if}
      if (DEBUGINFO) GLog.write('Controls Added');
     //Needed to show the scale
-    {if $map.mode eq "Pick" or $map.showScale} map.addControl(new GScaleControl()); {/if}
+    {if $mapv3.mode eq "Pick" or $mapv3.showScale} map.addControl(new GScaleControl()); {/if}
 
     //Initialize the zoom and center of the map where it need to be and the Map Type
     if (DEBUGINFO) GLog.write('Set the center, zoom and map type');
-    if (DEBUGINFO) GLog.write("{$map.centerLongLat} "+myZoom+" {$map.mapType}");
-    var point = new GLatLng ({$map.centerLongLat});
-    map.setCenter(point, myZoom,{$map.mapType});
-    {if $map.mode eq "Pick"}
+    if (DEBUGINFO) GLog.write("{$mapv3.centerLongLat} "+myZoom+" {$mapv3.mapType}");
+    var point = new GLatLng ({$mapv3.centerLongLat});
+    map.setCenter(point, myZoom,{$mapv3.mapType});
+    {if $mapv3.mode eq "Pick"}
     map.addOverlay(new GMarker(point));
     {/if}
     map.savePosition();
@@ -489,7 +488,7 @@ a:hover {ldelim} outline: none; {rdelim}
     tooltip.style.visibility="hidden";
     if (DEBUGINFO) GLog.write('done!');
 
-    {if $map.fullScreen eq 3}
+    {if $mapv3.fullScreen eq 3}
     if (document.all&&window.attachEvent) {ldelim} // IE-Win
       window.attachEvent("onresize", function() {ldelim}this.map.onResize(){rdelim} );
     {rdelim} else if (window.addEventListener) {ldelim} // Others
@@ -497,7 +496,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {rdelim}
     {/if}
 
-    {if $map.mode eq "Normal"}
+    {if $mapv3.mode eq "Normal"}
     //Add a function to update the markers/Slider when the zoom change
     GEvent.addListener(map, "zoomend", function(oldZoom, zoom) {ldelim}
         for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
@@ -525,41 +524,41 @@ a:hover {ldelim} outline: none; {rdelim}
         myZoom = 19-zoom;
         var zoom = 19-zoom;
         var oldZoom = 19-oldZoom;
-        {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
+        {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
             if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-              document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png";
-              document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png";
+              document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png";
+              document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png";
             {rdelim} else {ldelim}
               document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-              document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png')";
+              document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png')";
               document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-              document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png')";
+              document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png')";
             {rdelim}
         {/if}
     {rdelim});
     if (DEBUGINFO) GLog.write('Zoom Listener entered');
 
     // Create the overview Map
-    {if $map.GoogleOverview}
-      map.addControl(new GOverviewMapControl(new GSize({$map.GOSizeX}, {$map.GOSizeY})));
+    {if $mapv3.GoogleOverview}
+      map.addControl(new GOverviewMapControl(new GSize({$mapv3.GOSizeX}, {$mapv3.GOSizeY})));
       setTimeout(function() {ldelim}
       var omap=document.getElementById("map_overview");
       var mapdiv = document.getElementById("map");
       omap.style.position = "relative";
-      omap.firstChild.style.background = "{$map.bodycolor}";
+      omap.firstChild.style.background = "{$mapv3.bodycolor}";
       omap.firstChild.style.borderTop = "1px solid black";
       omap.firstChild.style.borderLeft = "1px solid black";
       omap.firstChild.firstChild.style.border = "1px solid black";
 
-      {if $map.GOPos eq "3" or $map.GOPos eq "1"}
-        omap.style.right = "{$map.GOPosOffX}px";
+      {if $mapv3.GOPos eq "3" or $mapv3.GOPos eq "1"}
+        omap.style.right = "{$mapv3.GOPosOffX}px";
       {else}
-        omap.style.left = "{$map.GOPosOffX}px";
+        omap.style.left = "{$mapv3.GOPosOffX}px";
       {/if}
-      {if $map.GOPos eq "0" or $map.GOPos eq "1"}
-         omap.style.top = "{$map.GOPosOffY}px";
+      {if $mapv3.GOPos eq "0" or $mapv3.GOPos eq "1"}
+         omap.style.top = "{$mapv3.GOPosOffY}px";
       {else}
-         omap.style.bottom = "{$map.GOPosOffY}px";
+         omap.style.bottom = "{$mapv3.GOPosOffY}px";
       {/if}
       mapdiv.appendChild(omap);
       {rdelim}, 1);
@@ -580,21 +579,21 @@ a:hover {ldelim} outline: none; {rdelim}
 
     var BaseIcon = new GIcon();
     BaseIcon.shadow = "{g->url href="modules/mapv3/images/marker_shadow.png"}";
-    BaseIcon.iconSize = new GSize({$map.MarkerSizeX},{$map.MarkerSizeY});
-    BaseIcon.shadowSize = new GSize({$map.MarkerSizeX}+15,{$map.MarkerSizeY});
+    BaseIcon.iconSize = new GSize({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+    BaseIcon.shadowSize = new GSize({$mapv3.MarkerSizeX}+15,{$mapv3.MarkerSizeY});
     BaseIcon.iconAnchor = new GPoint(6, 20);
     BaseIcon.infoWindowAnchor = new GPoint(5, 1);
 
-    {if (isset($map.regroupItems) and $map.regroupItems)}
+    {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
     var replaceIcon = new GIcon(BaseIcon);
-    replaceIcon.iconSize = new GSize({$map.ReplaceMarkerSizeX},{$map.ReplaceMarkerSizeY});
-    replaceIcon.shadowSize = new GSize({$map.ReplaceMarkerSizeX}+15,{$map.ReplaceMarkerSizeY});
-    replaceIcon.iconAnchor = new GPoint({$map.replaceAnchorPos});
-    replaceIcon.image = "{g->url href="modules/mapv3/images/multi/`$map.regroupIcon`.png"}";
+    replaceIcon.iconSize = new GSize({$mapv3.ReplaceMarkerSizeX},{$mapv3.ReplaceMarkerSizeY});
+    replaceIcon.shadowSize = new GSize({$mapv3.ReplaceMarkerSizeX}+15,{$mapv3.ReplaceMarkerSizeY});
+    replaceIcon.iconAnchor = new GPoint({$mapv3.replaceAnchorPos});
+    replaceIcon.image = "{g->url href="modules/mapv3/images/multi/`$mapv3.regroupIcon`.png"}";
 
     function CreateRegroup(lat,lon, showLow, showHigh, nbDirect, nbItems, nbGroups){ldelim}
       var point = new GLatLng(lat,lon);
-      {if !isset($map.Filter) or (isset($map.Filter) and ($map.Filter|truncate:5:"" neq 'Route'))}bounds.extend(point);{/if}
+      {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}bounds.extend(point);{/if}
       var marker = new GMarker(point,replaceIcon)
       marker.onmap = true;
       marker.showHigh = showHigh;
@@ -621,10 +620,10 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
 
     function CreateMarker(lat, lon, itemLink, title, thumbLink, created, zoomlevel, thw, thh, summary, description, icon, showLow, showHigh, hide, type) {ldelim}
-      var htmls = [{foreach from=$map.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
-      var labels = [{foreach from=$map.Labels item=Labels key=num}{if $num >0},{/if}"{$Labels}"{/foreach}];
+      var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
+      var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0},{/if}"{$Labels}"{/foreach}];
       var point = new GLatLng(lat,lon);
-      {if !isset($map.Filter) or (isset($map.Filter) and ($map.Filter|truncate:5:"" neq 'Route'))}
+      {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
       bounds.extend(point);
       maxZoom = Math.max(maxZoom, zoomlevel);
       {/if}
@@ -662,64 +661,64 @@ a:hover {ldelim} outline: none; {rdelim}
    //Create the base for all icons
    var BaseIcon = new GIcon();
    BaseIcon.shadow = "{g->url href="modules/mapv3/images/marker_shadow.png"}";
-   BaseIcon.iconSize = new GSize({$map.MarkerSizeX},{$map.MarkerSizeY});
-   BaseIcon.shadowSize = new GSize({$map.MarkerSizeX}+15,{$map.MarkerSizeY});
+   BaseIcon.iconSize = new GSize({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+   BaseIcon.shadowSize = new GSize({$mapv3.MarkerSizeX}+15,{$mapv3.MarkerSizeY});
    BaseIcon.iconAnchor = new GPoint(6, 20);
    BaseIcon.infoWindowAnchor = new GPoint(5, 1);
 
    var DefaultphotoIcon = new GIcon(BaseIcon);
-   DefaultphotoIcon.image = "{g->url href="modules/mapv3/images/markers/`$map.useMarkerSet`/marker_`$map.defaultphotocolor`.png"}";
-   DefaultphotoIcon.iconSize = new GSize({$map.MarkerSizeX},{$map.MarkerSizeY});
-   DefaultphotoIcon.shadowSize = new GSize({$map.MarkerSizeX}+15,{$map.MarkerSizeY});
-   DefaultphotoIcon.iconAnchor = new GPoint({$map.MarkerSizeX}/2, {$map.MarkerSizeY});
+   DefaultphotoIcon.image = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
+   DefaultphotoIcon.iconSize = new GSize({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+   DefaultphotoIcon.shadowSize = new GSize({$mapv3.MarkerSizeX}+15,{$mapv3.MarkerSizeY});
+   DefaultphotoIcon.iconAnchor = new GPoint({$mapv3.MarkerSizeX}/2, {$mapv3.MarkerSizeY});
 
    var DefaultalbumIcon = new GIcon(BaseIcon);
-   DefaultalbumIcon.image = "{g->url href="modules/mapv3/images/markers/`$map.useAlbumMarkerSet`/marker_`$map.defaultalbumcolor`.png"}";
-   DefaultalbumIcon.iconSize = new GSize({$map.AlbumMarkerSizeX},{$map.AlbumMarkerSizeY});
-   DefaultalbumIcon.shadowSize = new GSize({$map.AlbumMarkerSizeX}+15,{$map.AlbumMarkerSizeY});
-   DefaultalbumIcon.iconAnchor = new GPoint({$map.AlbumMarkerSizeX}/2,{$map.AlbumMarkerSizeY});
+   DefaultalbumIcon.image = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
+   DefaultalbumIcon.iconSize = new GSize({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
+   DefaultalbumIcon.shadowSize = new GSize({$mapv3.AlbumMarkerSizeX}+15,{$mapv3.AlbumMarkerSizeY});
+   DefaultalbumIcon.iconAnchor = new GPoint({$mapv3.AlbumMarkerSizeX}/2,{$mapv3.AlbumMarkerSizeY});
 
    var DefaultgroupIcon = new GIcon(BaseIcon);
-   DefaultgroupIcon.image = "{g->url href="modules/mapv3/images/markers/`$map.useGroupMarkerSet`/marker_`$map.defaultgroupcolor`.png"}";
-   DefaultgroupIcon.iconSize = new GSize({$map.GroupMarkerSizeX},{$map.GroupMarkerSizeY});
-   DefaultgroupIcon.shadowSize = new GSize({$map.GroupMarkerSizeX}+15,{$map.GroupMarkerSizeY});
-   DefaultgroupIcon.iconAnchor = new GPoint({$map.GroupMarkerSizeX}/2,{$map.GroupMarkerSizeY});
+   DefaultgroupIcon.image = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
+   DefaultgroupIcon.iconSize = new GSize({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
+   DefaultgroupIcon.shadowSize = new GSize({$mapv3.GroupMarkerSizeX}+15,{$mapv3.GroupMarkerSizeY});
+   DefaultgroupIcon.iconAnchor = new GPoint({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
 
-    {if (isset($map.regroupItems) and $map.regroupItems)}
+    {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
     /*Loop over the Regroup Markers and show them */
-    {foreach from=$map.RegroupItems item=Rpoint}
+    {foreach from=$mapv3.RegroupItems item=Rpoint}
       CreateRegroup({$Rpoint.gps},{$Rpoint.regroupShowLow},{$Rpoint.regroupShowHigh},{$Rpoint.directItems}, {$Rpoint.items}, {$Rpoint.groups});
     {/foreach}
     {/if}
 
     /* Loop over gallery items that have GPS coordinates
         and output code to add them to the map. */
-    {if (!empty($map.mapPoints))}
+    {if (!empty($mapv3.mapPoints))}
     {counter name="num" start=-1 print=false}
     {counter name="num1" start=-1 print=false}
     {counter name="num2" start=-1 print=false}
     {counter name="num3" start=-1 print=false}
     {counter name="num4" start=-1 print=false}
-    {foreach from=$map.mapPoints item=point}
-      {if $map.ThumbBarPos neq "0" and $map.fullScreen neq 3}
+    {foreach from=$mapv3.mapPoints item=point}
+      {if $mapv3.ThumbBarPos neq "0" and $mapv3.fullScreen neq 3}
       /* creates the Thumbnail bar as we go */
       var style = "";
       //map.setCenter(new GPoint({$point.gps}));
-      sidebarhtml += '<a id="thumb{counter name="num3"}" '+style+' href="#" onclick="GEvent.trigger(markers[{counter name="num2"}],\'click\'); return false;" onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" onmouseout="hide_arrow({counter name="num1"},\'normal\');"><img style="{if $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}width{else}height{/if}:{$map.ThumbHeight}px;" src="{$point.thumbLink}"/>{if $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}<br/>{/if}<\/a>';
-      sidebarsize +={if $map.ThumbBarPos eq "3" or $map.ThumbBarPos eq "4"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
+      sidebarhtml += '<a id="thumb{counter name="num3"}" '+style+' href="#" onclick="GEvent.trigger(markers[{counter name="num2"}],\'click\'); return false;" onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" onmouseout="hide_arrow({counter name="num1"},\'normal\');"><img style="{if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}width{else}height{/if}:{$mapv3.ThumbHeight}px;" src="{$point.thumbLink}"/>{if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}<br/>{/if}<\/a>';
+      sidebarsize +={if $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
       {/if}
       {if $point.type eq "GalleryAlbumItem"}
        {assign var=itemType value="album"}
-       {assign var=markerSet value="`$map.useAlbumMarkerSet`"}
-       {assign var=markerColor value="`$map.defaultalbumcolor`"}
+       {assign var=markerSet value="`$mapv3.useAlbumMarkerSet`"}
+       {assign var=markerColor value="`$mapv3.defaultalbumcolor`"}
       {elseif $point.type eq "GoogleMapGroup"}
        {assign var=itemType value="group"}
-       {assign var=markerSet value="`$map.useGroupMarkerSet`"}
-       {assign var=markerColor value="`$map.defaultgroupcolor`"}
+       {assign var=markerSet value="`$mapv3.useGroupMarkerSet`"}
+       {assign var=markerColor value="`$mapv3.defaultgroupcolor`"}
       {else}
        {assign var=itemType value="photo"}
-       {assign var=markerSet value="`$map.useMarkerSet`"}
-       {assign var=markerColor value="`$map.defaultphotocolor`"}
+       {assign var=markerSet value="`$mapv3.useMarkerSet`"}
+       {assign var=markerColor value="`$mapv3.defaultphotocolor`"}
       {/if}
       {assign var=iconDef value="Default"}
       {if $point.color neq "default"}
@@ -729,8 +728,8 @@ a:hover {ldelim} outline: none; {rdelim}
       {$itemType}Icon.image = "{g->url href="modules/mapv3/images/markers/`$markerSet`/marker_`$point.color`.png"}";
       {/if}
       {* quick hacky fix for missing numbered markers *}
-      {if $map.EnableRouteNumber}
-      {foreach from=$map.routeitem key=name item=items}
+      {if $mapv3.EnableRouteNumber}
+      {foreach from=$mapv3.routeitem key=name item=items}
        {foreach from=$items item=id key=num}
         {if $point.id == $id}
          {if $iconDef eq "Default"}{* variable hasn't been declared yet *}
@@ -744,26 +743,26 @@ a:hover {ldelim} outline: none; {rdelim}
       {/if}
       {if $point.id|truncate:1:"" neq 'T'}
         CreateMarker({$point.gps}, "{$point.itemLink}", "{$point.title|markup|escape:"javascript"}", "{$point.thumbLink}", "{$point.created}", {$point.zoomlevel}, {$point.thumbWidth}, {$point.thumbHeight},
-          {if $map.showItemSummaries && !empty($point.summary)} "{$point.summary|markup|escape:"javascript"}"{else}""{/if}
+          {if $mapv3.showItemSummaries && !empty($point.summary)} "{$point.summary|markup|escape:"javascript"}"{else}""{/if}
           ,
-          {if $map.showItemDescriptions && !empty($point.description)} "{$point.description|markup|escape:"javascript"}"{else}""{/if}
+          {if $mapv3.showItemDescriptions && !empty($point.description)} "{$point.description|markup|escape:"javascript"}"{else}""{/if}
           ,
           {$iconDef}{$itemType}Icon
           , {$point.regroupShowLow},{$point.regroupShowHigh},0,"{$point.type}");
       {/if}
     {/foreach}
 
-    {if isset($map.ThumbBarPos) and $map.ThumbBarPos neq 0 and $map.fullScreen neq 3}
+    {if isset($mapv3.ThumbBarPos) and $mapv3.ThumbBarPos neq 0 and $mapv3.fullScreen neq 3}
     var thumbdiv = document.getElementById("thumbs");
     thumbdiv.innerHTML = sidebarhtml;
     var mapdiv = document.getElementById("map");
 
-    {if $map.ThumbBarPos eq "1" or $map.ThumbBarPos eq "2"}
-    if (sidebarsize+1 > myWidth)  sidebarheight = {$map.ThumbHeight+25};
+    {if $mapv3.ThumbBarPos eq "1" or $mapv3.ThumbBarPos eq "2"}
+    if (sidebarsize+1 > myWidth)  sidebarheight = {$mapv3.ThumbHeight+25};
     thumbdiv.style.height = sidebarheight+"px";
     {else}
-    {* Should this be $map.ThumbWidth? *}
-    if (sidebarsize+1 > myHeight)  sidebarwidth = {$map.ThumbHeight+25};
+    {* Should this be $mapv3.ThumbWidth? *}
+    if (sidebarsize+1 > myHeight)  sidebarwidth = {$mapv3.ThumbHeight+25};
     thumbdiv.style.width = sidebarwidth+"px";
     {/if}
 
@@ -772,26 +771,26 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
 
     /* Loop over routes if any and display them */
-    {if (!empty($map.Routes))}
+    {if (!empty($mapv3.Routes))}
     var point;
-    {foreach from=$map.Routes item=routes}
+    {foreach from=$mapv3.Routes item=routes}
       var points = [];
       {if $routes.5 eq "Yes"}
       {foreach from=$routes[7] item=point}
          point = new GLatLng({$point[0]},{$point[1]});
          points.push(point);
-         {if (isset($map.Filter) and (($map.Filter|truncate:5:"" eq 'Route')))}bounds.extend(point);{/if}
+         {if (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route')))}bounds.extend(point);{/if}
       {/foreach}
       map.addOverlay(new GPolyline(points,"{$routes[2]}",{$routes[3]},{$routes[4]}));
       {/if}
     {/foreach}
     {/if}
     
-    {if $map.AutoCenterZoom and (!isset($map.Filter) or (isset($map.Filter) and (($map.Filter|truncate:5:"" eq 'Route') or ($map.Filter|truncate:5:"" eq 'Album') or ($map.Filter|truncate:5:"" eq 'Group'))))}
+    {if $mapv3.AutoCenterZoom and (!isset($mapv3.Filter) or (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route') or ($mapv3.Filter|truncate:5:"" eq 'Album') or ($mapv3.Filter|truncate:5:"" eq 'Group'))))}
       map.setCenter(bounds.getCenter(), Math.min(map.getBoundsZoomLevel(bounds), maxZoom));
       map.savePosition();
     {/if}
-    {if $map.fullScreen neq 3}
+    {if $mapv3.fullScreen neq 3}
 
     // check for movment of the map and add links to the history
     view_history = [];
@@ -830,16 +829,16 @@ a:hover {ldelim} outline: none; {rdelim}
         document.getElementById("div_history").innerHTML = div_history;
       {rdelim}
     {rdelim});
-    {/if} {* end $map.fullScreen neq 3}
+    {/if} {* end $mapv3.fullScreen neq 3}
 
     {* set the correct zoom slide notch and show/hide the regrouped item *}
     zoom = map.getZoom();
     myZoom = 19-zoom;
-   {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
-      if (!IEVersion ||(IEVersion && IEVersion >= 7)) document.images['z'+myZoom].src = "{g->url href="modules/mapv3/templates/controls/`$map.MapControlType`/SlideSel.png"}";
+   {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
+      if (!IEVersion ||(IEVersion && IEVersion >= 7)) document.images['z'+myZoom].src = "{g->url href="modules/mapv3/templates/controls/`$mapv3.MapControlType`/SlideSel.png"}";
       else {ldelim}
         document.images['z'+myZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-        document.images['z'+myZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/`$map.MapControlType`/SlideSel.png"}')";
+        document.images['z'+myZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/`$mapv3.MapControlType`/SlideSel.png"}')";
       {rdelim}
    {/if}
     for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
@@ -867,7 +866,7 @@ a:hover {ldelim} outline: none; {rdelim}
 
     {/if}
 
-    {if $map.mode eq "Pick"}
+    {if $mapv3.mode eq "Pick"}
         GEvent.addListener(map, "moveend", function() {ldelim}
         var center = map.getCenter();
         map.clearOverlays();
@@ -893,22 +892,22 @@ a:hover {ldelim} outline: none; {rdelim}
           document.getElementById("zoom").value = center;
           var zoom = 19-newZoomLevel;
           var oldZoom = 19-oldZoomLevel;
-          {if $map.MapControlType neq "None" and $map.MapControlType neq "Small" and $map.MapControlType neq "Large"}
+          {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
               if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-                document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png";
-                document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png";
+                document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png";
+                document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png";
               {rdelim} else {ldelim}
                 document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-                document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideSel.png')";
+                document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png')";
                 document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-                document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$map.MapControlType}/SlideNotch.png')";
+                document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png')";
               {rdelim}
           {/if}
         {rdelim});
     {/if}
     {rdelim} /* end ShowMeTheMap() */
 
-    {if $map.mode eq "Normal" and $map.fullScreen neq 3}
+    {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
     function togglealbumlegend()
     {ldelim}
         if (document.getElementById) {ldelim} // standard
