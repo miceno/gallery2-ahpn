@@ -178,13 +178,13 @@ a:hover {ldelim} outline: none; {rdelim}
       if (DEBUGINFO) console.debug('Show '+number+','+type);
       if (DEBUGINFO) console.debug('Hiding the Icon');
       markerDisplay(number,0,type);
-      var Icon = new GIcon();
-      Icon.image = "{g->url href="modules/mapv3/images/arrow.png"}";
-      Icon.iconSize = new GSize(20, 30);
-      Icon.iconAnchor = new GPoint(10, 30);
-      Icon.infoWindowAnchor = new GPoint(9, 2);
-      var Point = new google.maps.LatLng(xcoord, ycoord);
-      var newarrow = new google.maps.Marker(Point, Icon);
+      var icon = {ldelim}{rdelim};
+      icon.url = "{g->url href="modules/mapv3/images/arrow.png"}";
+      icon.size = new google.maps.Size(20, 30);
+      icon.anchor = new google.maps.Point(10, 30);
+      // icon.infoWindowAnchor = new google.maps.Point(9, 2);
+      var point = new google.maps.LatLng(xcoord, ycoord);
+      var newarrow = new google.maps.Marker({ldelim} position: point, icon: icon.url{rdelim});
       arrow = newarrow;
       newarrow.setMap(map);
     {rdelim}
