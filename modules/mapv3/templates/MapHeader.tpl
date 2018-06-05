@@ -619,7 +619,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.mode eq "Pick"}
         map.addListener('center_changed', function() {ldelim}
         var center = map.getCenter();
-        center_marker.position = center;
+        center_marker.setPosition(center);
         var latLngStr = center.toUrlValue(6);
         document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
         document.getElementById("coord").value = latLngStr;
