@@ -542,8 +542,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
 
     {if $mapv3.AutoCenterZoom and (!isset($mapv3.Filter) or (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route') or ($mapv3.Filter|truncate:5:"" eq 'Album') or ($mapv3.Filter|truncate:5:"" eq 'Group'))))}
-      map.setCenter(bounds.getCenter(), Math.min(map.getBoundsZoomLevel(bounds), maxZoom));
-      map.savePosition();
+        map.fitBounds(bounds);
     {/if}
     {if $mapv3.fullScreen neq 3}
 
