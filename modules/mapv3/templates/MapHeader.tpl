@@ -598,7 +598,7 @@ a:hover {ldelim} outline: none; {rdelim}
 
     map.addListener('center_changed', function() {ldelim}
       if (!returningToSaved) {ldelim}
-        if (DEBUGINFO) GLog.write('moveend fired');
+        if (DEBUGINFO) console.debug('moveend fired');
         center = map.getCenter();
         bounds = map.getBounds();
         zoom = map.getZoom();
