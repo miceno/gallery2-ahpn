@@ -98,23 +98,23 @@ a:hover {ldelim} outline: none; {rdelim}
     function markerDisplay(number,show,type) {ldelim}
       if (type != 'Regroup'){ldelim}
         if ((show) && (!markers[number].onmap)) {ldelim}
-           if (DEBUGINFO) GLog.write('Normal Icon,show,'+number);
+           if (DEBUGINFO) console.debug('Normal Icon,show,'+number);
            markers[number].onmap = true;
            map.addOverlay(markers[number]);
         {rdelim}
         if ((!show) && (markers[number].onmap)) {ldelim}
-           if (DEBUGINFO) GLog.write('Normal Icon,hide,'+number);
+           if (DEBUGINFO) console.debug('Normal Icon,hide,'+number);
            markers[number].onmap = false;
            map.removeOverlay(markers[number]);
         {rdelim}
       {rdelim}else{ldelim}
         if ((show) && (!Rmarkers[number].onmap)) {ldelim}
-           if (DEBUGINFO) GLog.write('Regroup Icon,show,'+number);
+           if (DEBUGINFO) console.debug('Regroup Icon,show,'+number);
            Rmarkers[number].onmap = true;
            map.addOverlay(Rmarkers[number]);
         {rdelim}
         if ((!show) && (Rmarkers[number].onmap)) {ldelim}
-           if (DEBUGINFO) GLog.write('Regroup Icon,hide,'+number);
+           if (DEBUGINFO) console.debug('Regroup Icon,hide,'+number);
            Rmarkers[number].onmap = false;
            map.removeOverlay(Rmarkers[number]);
         {rdelim}
@@ -123,7 +123,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.fullScreen neq 3}
     // ==== go start & remove history  =======
     function goStart() {ldelim}
-      if (DEBUGINFO) GLog.write('start of saved position');
+      if (DEBUGINFO) console.debug('start of saved position');
       returningToSaved = true;
       map.closeInfoWindow();
       map.returnToSavedPosition();  // takes some time for the map to move so
@@ -176,8 +176,8 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.fullScreen neq 3}
     /* functions related to the Thumbnail bar */
     function show_arrow(number,xcoord,ycoord,type){ldelim}
-      if (DEBUGINFO) GLog.write('Show '+number+','+type);
-      if (DEBUGINFO) GLog.write('Hiding the Icon');
+      if (DEBUGINFO) console.debug('Show '+number+','+type);
+      if (DEBUGINFO) console.debug('Hiding the Icon');
       markerDisplay(number,0,type);
       var Icon = new GIcon();
       Icon.image = "{g->url href="modules/mapv3/images/arrow.png"}";
@@ -193,9 +193,9 @@ a:hover {ldelim} outline: none; {rdelim}
     function hide_arrow(number,type){ldelim}
       var marker = markers[number];
       if (type != 'normal') marker = Rmarkers[number];
-      if (DEBUGINFO) GLog.write('hide: '+number+','+type+';myzoom:'+myZoom+'; low:'+marker.showLow+',high:'+marker.showHigh);
+      if (DEBUGINFO) console.debug('hide: '+number+','+type+';myzoom:'+myZoom+'; low:'+marker.showLow+',high:'+marker.showHigh);
       if (myZoom <= marker.showLow && myZoom >= marker.showHigh) {ldelim}
-        if (DEBUGINFO) GLog.write('Showing the Icon');
+        if (DEBUGINFO) console.debug('Showing the Icon');
         markerDisplay(number,1,type); //marker.display(true);
       {rdelim}
       map.removeOverlay(arrow);
@@ -204,19 +204,19 @@ a:hover {ldelim} outline: none; {rdelim}
 
     function ShowMeTheMap(){ldelim}
 
-     if (DEBUGINFO) GLog.write('Initializing Map');
+     if (DEBUGINFO) console.debug('Initializing Map');
      var marker_num = 0;
      var Rmarker_num = 0;
 
-    if (DEBUGINFO) GLog.write('Create the Map');
+    if (DEBUGINFO) console.debug('Create the Map');
     //Google Map implementation
     map = new GMap2(document.getElementById("map"));
 
-    if (DEBUGINFO) GLog.write('Add controls');
    {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
      map.addControl(new MyPanZoomControls());
      {if (isset($mapv3.showMapType) and ($mapv3.showMapType))}map.addControl(new MyMapTypeControls());{/if}
    {/if}
+    if (DEBUGINFO) console.debug('Add controls');
    
    // ================= infoOpened LISTENER ===========
    GEvent.addListener(map, "infowindowopen", function()  {ldelim}
@@ -235,30 +235,31 @@ a:hover {ldelim} outline: none; {rdelim}
     //Show and position the MAP Small control
     {if $mapv3.MapControlType eq "Small"} map.addControl(new GSmallMapControl(),new GControlPosition({$mapv3.MapControlPos},new GSize({$mapv3.MapControlPosOffX},{$mapv3.MapControlPosOffY}))); {/if}
     {if ($mapv3.MapControlType eq "Small" or $mapv3.MapControlType eq "Large") and (isset($mapv3.showMapType) and ($mapv3.showMapType))}map.addControl(new GMapTypeControl());{/if}
+    if (DEBUGINFO) console.debug('Controls Added');
 
      {if isset ($mapv3.GZoom) and $mapv3.GZoom}
        map.addControl(new GZoomControl(),new GControlPosition({$mapv3.GZPos},new GSize({$mapv3.GZPosOffX},{$mapv3.GZPosOffY})));
      {/if}
-     if (DEBUGINFO) GLog.write('Controls Added');
     //Needed to show the scale
     {if $mapv3.mode eq "Pick" or $mapv3.showScale} map.addControl(new GScaleControl()); {/if}
 
     //Initialize the zoom and center of the map where it need to be and the Map Type
-    if (DEBUGINFO) GLog.write('Set the center, zoom and map type');
-    if (DEBUGINFO) GLog.write("{$mapv3.centerLongLat} "+myZoom+" {$mapv3.mapType}");
     var point = new GLatLng ({$mapv3.centerLongLat});
     map.setCenter(point, myZoom,{$mapv3.mapType});
+    if (DEBUGINFO) console.debug('Set the center, zoom and map type');
+    if (DEBUGINFO) console.debug("{$mapv3.centerLongLat} "+myZoom+" {$mapv3.mapType}");
     {if $mapv3.mode eq "Pick"}
     map.addOverlay(new GMarker(point));
     {/if}
     map.savePosition();
-    if (DEBUGINFO) GLog.write('done!');
 
-    if (DEBUGINFO) GLog.write('Creating the tooltip div');
+    if (DEBUGINFO) console.debug('done!');
+
+    if (DEBUGINFO) console.debug('Creating the tooltip div');
     tooltip = document.createElement("div");
     map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
     tooltip.style.visibility="hidden";
-    if (DEBUGINFO) GLog.write('done!');
+    if (DEBUGINFO) console.debug('done!');
 
     {if $mapv3.fullScreen eq 3}
     if (document.all&&window.attachEvent) {ldelim} // IE-Win
@@ -308,7 +309,7 @@ a:hover {ldelim} outline: none; {rdelim}
             {rdelim}
         {/if}
     {rdelim});
-    if (DEBUGINFO) GLog.write('Zoom Listener entered');
+    if (DEBUGINFO) console.debug('Zoom Listener entered');
 
     // Create the overview Map
     {if $mapv3.GoogleOverview}
@@ -335,7 +336,7 @@ a:hover {ldelim} outline: none; {rdelim}
       mapdiv.appendChild(omap);
       {rdelim}, 1);
     {/if}
-    if (DEBUGINFO) GLog.write('Overview created');
+    if (DEBUGINFO) console.debug('Overview created');
 
     function showTooltip(marker) {ldelim}
       tooltip.innerHTML = marker.tooltip;
@@ -737,7 +738,7 @@ a:hover {ldelim} outline: none; {rdelim}
 
     function togglemarkers(number)
     {ldelim}
-      if (DEBUGINFO) GLog.write('Entering Toggle Marker');
+      if (DEBUGINFO) console.debug('Entering Toggle Marker');
       var markercolor;
       var thetd = document.getElementById(number);
       var Itype = number.substring(0,1);
@@ -747,19 +748,19 @@ a:hover {ldelim} outline: none; {rdelim}
       var clickedcolor = strRight(strLeft(thetd.innerHTML,".png"),"marker_");
       var zoom = map.getZoom();
       if (DEBUGINFO) {ldelim}
-         GLog.write(clickedcolor+' '+thetype+' '+zoom);
-         if (thecheckbox.item(0).checked) GLog.write('Showing');
-         else GLog.write('Hiding');
+         console.debug(clickedcolor+' '+thetype+' '+zoom);
+         if (thecheckbox.item(0).checked) console.debug('Showing');
+         else console.debug('Hiding');
       {rdelim}
       for (var i=0; i<markers.length; i++) {ldelim}
        var checktype = (markers[i]["type"] == "GalleryAlbumItem") ? "GalleryAlbumItem":"GalleryPhotoItem";
        markercolor = strRight(strLeft(markers[i].getIcon().image,".png"),"marker_");
-       if (DEBUGINFO) GLog.write('Marker: '+markers[i]["type"]+' '+markercolor+' '+markers[i].showLow+' '+markers[i].showHigh);
+       if (DEBUGINFO) console.debug('Marker: '+markers[i]["type"]+' '+markercolor+' '+markers[i].showLow+' '+markers[i].showHigh);
        if (markercolor == clickedcolor && (checktype == thetype || markers[i]['type'] == "Regroup")){ldelim}
          if (thecheckbox.item(0).checked && zoom <= markers[i].showLow && zoom >= markers[i].showHigh) markerDisplay(i,1,'normal'); //markers[i].display(true);
          else
          {ldelim}
-           if (DEBUGINFO) GLog.write('Hiding');
+           if (DEBUGINFO) console.debug('Hiding');
            markerDisplay(i,0,'normal'); //markers[i].display(false);
          {rdelim}
        {rdelim}
