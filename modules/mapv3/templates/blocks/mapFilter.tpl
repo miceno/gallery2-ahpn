@@ -5,14 +5,14 @@
 
 {g->callback type="mapv3.LoadFilters"}
 <style>
-  .map_filter_wrapper {
+  .map_filter_wrapper {ldelim}
   right:10px;
   {if $mapv3.ThumbBarPos eq '1'}{strip}
   position:relative;
   top:-{$mapv3.ThumbHeight}px;
-  {/if}{/strip}
-  }
-
+  {/strip}{/if}
+  {rdelim}
+  {literal}
   .filter_select {
     width: 75%;
   }
@@ -25,10 +25,10 @@
     width: 400px;
     border: 0;
   }
-
+  {/literal}
 </style>
 {if !empty($block.mapv3.LoadFilters)}
-<div class="map_filter_wrapper {$class}" {if $mapv3.ShowFilters eq 2}{/if}>
+<div class="map_filter_wrapper {$class}">
   {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}
   <table class="filter_table">
     <tr>
