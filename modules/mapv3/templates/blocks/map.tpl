@@ -4,18 +4,46 @@
  *}
 
 {g->callback type="mapv3.LoadFilters"}
+<style>
+  .map_filter_wrapper {
+  right:10px;
+  {if $mapv3.ThumbBarPos eq '1'}{strip}
+  position:relative;
+  top:-{$mapv3.ThumbHeight}px;
+  {/if}{/strip}
+  }
+
+  .filter_select {
+    width: 75%;
+  }
+
+  .filter_column {
+    width: 200px;
+  }
+
+  .filter_table {
+    width: 400px;
+    border: 0;
+  }
+
+</style>
 {if !empty($block.mapv3.LoadFilters)}
-<div class="{$class}" {if $mapv3.ShowFilters eq 2}style="right:10px;{if $mapv3.ThumbBarPos eq '1'}position:relative;top:-{$mapv3.ThumbHeight}px;{/if}"{/if}>
+<div class="map_filter_wrapper {$class}" {if $mapv3.ShowFilters eq 2}{/if}>
   {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}
-  <table border=0 width=400px><tr><td width=200px>
+  <table class="filter_table">
+    <tr>
+      <td class="filter_column">
   {/if}
   <h3>{g->text text="Area to show on the Map"}</h3>
-  {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}</td><td width=200px>{/if}
-    <select style="width:75%;" onchange="{literal}if (this.value) { newLocation = this.value; this.options[0].selected = true; location.href= newLocation; }{/literal}">
+  {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}</td><td class="filter_column">{/if}
+    <select class="filter_select" onchange="{literal}if (this.value) { newLocation = this.value; this.options[0].selected = true; location.href= newLocation; }{/literal}">
     {foreach item=option from=$block.mapv3.LoadFilters.filters}
        <option label="{$option.name}" {if $option.params neq ''}value="{g->url params=$option.params}"{/if} {if $option.name eq $block.mapv3.LoadFilters.filterOn}selected{/if}>{$option.name}</option>
     {/foreach}
   </select>
-  {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}</td></tr></table>{/if}
+  {if isset($mapv3.ShowFilters) and ($mapv3.ShowFilters eq 3 or $mapv3.ShowFilters eq 4)}{strip}
+      </td>
+    </tr>
+  </table>{/strip}{/if}
 </div>
 {/if}
