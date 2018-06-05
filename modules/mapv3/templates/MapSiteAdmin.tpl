@@ -138,13 +138,13 @@ General Settings
                 <label for="MapTypeMap">{g->text text="<u>M</u>ap" hint="Map style"}</label>
 
                 <input accesskey="a" type="radio" id="MapTypeSatellite"
-                    name="{g->formVar var="form[mapType]"}" value="G_SATELLITE_MAP"
-                    {if $form.mapType eq "G_SATELLITE_MAP"}checked="checked"{/if}/>
+                    name="{g->formVar var="form[mapType]"}" value="satellite"
+                    {if $form.mapType eq "satellite"}checked="checked"{/if}/>
                 <label for="MapTypeSatellite">{g->text text="S<u>a</u>tellite" hint="Map style"}</label>
 
                 <input accesskey="y" type="radio" id="MapTypeHybrid"
-                    name="{g->formVar var="form[mapType]"}" value="G_HYBRID_MAP"
-                    {if $form.mapType eq "G_HYBRID_MAP"}checked="checked"{/if}/>
+                    name="{g->formVar var="form[mapType]"}" value="hybrid"
+                    {if $form.mapType eq "hybrid"}checked="checked"{/if}/>
                 <label for="MapTypeHybrid">{g->text text="H<u>y</u>brid" hint="Map style"}</label>
             </td>
         </tr>

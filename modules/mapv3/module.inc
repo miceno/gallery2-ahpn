@@ -656,10 +656,10 @@ class mapv3Module extends GalleryModule {
 			    $result[4] = 'roadmap';
 			}
 			if ($result[4] == 'G_SATELLITE_TYPE') {
-			    $result[4] = 'G_SATELLITE_MAP';
+			    $result[4] = 'satellite';
 			}
 			if ($result[4] == 'G_HYBRID_TYPE') {
-			    $result[4] = 'G_HYBRID_MAP';
+			    $result[4] = 'hybrid';
 			}
 
 		    }
