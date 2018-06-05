@@ -298,7 +298,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.GoogleOverview}
     {* TODO: Google Overview {literal}
 
-      map.addControl(new GOverviewMapControl(new GSize({$mapv3.GOSizeX}, {$mapv3.GOSizeY})));
+      map.addControl(new GOverviewMapControl(new google.maps.Size({$mapv3.GOSizeX}, {$mapv3.GOSizeY})));
       setTimeout(function() {ldelim}
       var omap=document.getElementById("map_overview");
       var mapdiv = document.getElementById("map");
