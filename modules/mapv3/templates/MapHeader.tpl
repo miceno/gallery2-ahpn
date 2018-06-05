@@ -389,17 +389,17 @@ a:hover {ldelim} outline: none; {rdelim}
       bounds.extend(point);
       maxZoom = Math.max(maxZoom, zoomlevel);
       {/if}
-      var marker = new google.maps.Marker(point, icon);
+      var marker = new google.maps.Marker({ldelim} position: point, icon: icon.url{rdelim});
       marker.onmap = true;
       marker.showHigh = showHigh;
       marker.showLow = showLow;
-      GEvent.addListener(marker,"mouseover", function() {ldelim}
+      marker.addListener("mouseover", function() {ldelim}
         showTooltip(marker);
       {rdelim});
-      GEvent.addListener(marker,"mouseout", function() {ldelim}
+      marker.addListener("mouseout", function() {ldelim}
 		tooltip.style.visibility="hidden"
       {rdelim});
-      GEvent.addListener(marker, "click", function() {ldelim}
+      marker.addListener("click", function() {ldelim}
         tooltip.style.visibility="hidden"
         if (htmls.length > 2) {ldelim}
           htmls[0] = '<div style="width:'+htmls.length*88+'px">' + htmls[0] + '<\/div>';
