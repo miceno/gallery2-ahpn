@@ -147,10 +147,6 @@
                 {/if}
              </div> {* End of the map div *}
             </div>
-        {if $mapv3.fullScreen neq 3}
-         <div id="div_history" class="map_history">{g->text text="Move history"}:</div>
-        {/if}
-
         {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
             {if $mapv3.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
             {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "4" and !$mapv3.fullScreen}
