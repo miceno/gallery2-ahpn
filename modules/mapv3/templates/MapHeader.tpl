@@ -81,7 +81,7 @@ a:hover {ldelim} outline: none; {rdelim}
     var _mStaticPath = '{g->text text="https://www.google.com/intl/en_ALL/mapfiles/" forJavascript=true}';
     var _mDomain = '{g->text text="google.com" forJavascript=true}';
     var _mApiBadKey = '{g->text text="The Google Maps API key used on this web site was registered for a different web site. You can generate a new key for this web site at http://www.google.com/apis/maps/" forJavascript=true}';
-    
+
     var _divhistorytext = '{g->text text="Move history" forJavascript=true}:'
     var _movetext = '{g->text text="move" forJavascript=true}';
     var _zoomtext = '{g->text text="zoom" forJavascript=true}';
@@ -129,7 +129,7 @@ a:hover {ldelim} outline: none; {rdelim}
       map.returnToSavedPosition();  // takes some time for the map to move so
       setTimeout('removeHistory()',500); // wait for the map to move so that the moveend is not fired
     {rdelim}
-    
+
     function removeHistory() {ldelim}
       var div_history = "";
       view_history = [];  // reset the history
@@ -494,7 +494,7 @@ a:hover {ldelim} outline: none; {rdelim}
           var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
          {/if}
          {$itemType}_icon.url = "{g->url href="modules/mapv3/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
-        {/if} 
+        {/if}
        {/foreach}
       {/foreach}
       {/if}
@@ -538,11 +538,17 @@ a:hover {ldelim} outline: none; {rdelim}
          points.push(point);
          {if (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route')))}bounds.extend(point);{/if}
       {/foreach}
-      map.addOverlay(new GPolyline(points,"{$routes[2]}",{$routes[3]},{$routes[4]}));
+      var poly = new google.maps.Polyline({ldelim}
+          path: points,
+          strokeColor: "{$routes[2]}",
+          strokeWeight: {$routes[3]},
+          strokeOpacity: {$routes[4]}
+      {rdelim});
+      poly.setMap(map);
       {/if}
     {/foreach}
     {/if}
-    
+
     {if $mapv3.AutoCenterZoom and (!isset($mapv3.Filter) or (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route') or ($mapv3.Filter|truncate:5:"" eq 'Album') or ($mapv3.Filter|truncate:5:"" eq 'Group'))))}
       map.setCenter(bounds.getCenter(), Math.min(map.getBoundsZoomLevel(bounds), maxZoom));
       map.savePosition();
