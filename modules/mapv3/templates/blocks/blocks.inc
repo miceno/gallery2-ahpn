@@ -1,6 +1,6 @@
 <?php
 $blocks = array(
-    'map' => array(
+    'mapFilter' => array(
 	'description' => $gallery->i18n('Google Map v3 Filters (Map View only)')),
     'Legend' => array (
 	'description' => $gallery->i18n('Google Map v3 Marker Legend (Map View only)')),
