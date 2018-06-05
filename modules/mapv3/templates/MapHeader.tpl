@@ -511,7 +511,7 @@ a:hover {ldelim} outline: none; {rdelim}
     thumbdiv.style.height = sidebarheight+"px";
     {else}
     {* Should this be $mapv3.ThumbWidth? *}
-    if (sidebarsize+1 > myHeight)  sidebarwidth = {$mapv3.ThumbHeight+25};
+    if (sidebarsize+1 > myHeight)  sidebarwidth = {$mapv3.ThumbWeight+25};
     thumbdiv.style.width = sidebarwidth+"px";
     {/if}
 
