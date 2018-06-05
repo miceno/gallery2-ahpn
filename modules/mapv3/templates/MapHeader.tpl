@@ -291,48 +291,6 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
 
     {if $mapv3.mode eq "Normal"}
-    {* todo: Zoom listener {literal}
-        //Add a function to update the markers/Slider when the zoom change
-        GEvent.addListener(map, "zoomend", function(oldZoom, zoom) {ldelim}
-            for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
-                var marker = markers[i];
-                if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
-                  markerDisplay(i,1,'normal'); //marker.display(true);
-                  var CorrectA = document.getElementById('thumb'+i);
-                  if (CorrectA != null ) CorrectA.style.display = "inline";
-                {rdelim}
-                else {ldelim}
-                  markerDisplay(i,0,'normal'); //marker.display(false);
-                  var CorrectA = document.getElementById('thumb'+i);
-                  if (CorrectA != null) CorrectA.style.display = "none";
-                {rdelim}
-            {rdelim}
-            for (var i=0; i < Rmarkers.length; i++) {ldelim} //Updating the Regrouped items
-                var marker = Rmarkers[i];
-                if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
-                  markerDisplay(i,1,'Regroup'); //marker.display(true);
-                {rdelim}
-                else {ldelim}
-                  markerDisplay(i,0,'Regroup'); //marker.display(false);
-                {rdelim}
-            {rdelim}
-            myZoom = 19-zoom;
-            var zoom = 19-zoom;
-            var oldZoom = 19-oldZoom;
-            {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
-                if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-                  document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png";
-                  document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png";
-                {rdelim} else {ldelim}
-                  document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-                  document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png')";
-                  document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-                  document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png')";
-                {rdelim}
-            {/if}
-        {rdelim});
-        {/literal}
-    *}
 
     if (DEBUGINFO) console.debug('Zoom Listener entered');
 
