@@ -145,7 +145,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var y=view_history[i][1];
       var z=view_history[i][2];
       view_history=view_history.splice(0,i);
-      map.setCenter(new GLatLng(x,y),z);
+      map.setCenter(new google.maps.LatLng(x,y),z);
     {rdelim}
     // ====End history functions ========
     {/if} {* end if $mapv3.fullScreen neq 3 *}
@@ -169,7 +169,7 @@ a:hover {ldelim} outline: none; {rdelim}
     var markers = [];
     var Rmarkers = [];
     var arrowmarker;
-    var bounds = new GLatLngBounds();
+    var bounds = new google.maps.LatLngBounds();
     var maxZoom = 10; // default to somewhat zoomed-out
 
     {if $mapv3.fullScreen neq 3}
@@ -183,8 +183,8 @@ a:hover {ldelim} outline: none; {rdelim}
       Icon.iconSize = new GSize(20, 30);
       Icon.iconAnchor = new GPoint(10, 30);
       Icon.infoWindowAnchor = new GPoint(9, 2);
-      var Point = new GLatLng(xcoord, ycoord);
-      var newarrow = new GMarker(Point, Icon);
+      var Point = new google.maps.LatLng(xcoord, ycoord);
+      var newarrow = new google.maps.Marker(Point, Icon);
       arrow = newarrow;
       map.addOverlay(newarrow);
     {rdelim}
@@ -209,94 +209,132 @@ a:hover {ldelim} outline: none; {rdelim}
 
     if (DEBUGINFO) console.debug('Create the Map');
     //Google Map implementation
-    map = new GMap2(document.getElementById("map"));
+    map = new google.maps.Map(document.getElementById("map"));
 
     if (DEBUGINFO) console.debug('Add controls');
    
    // ================= infoOpened LISTENER ===========
-   GEvent.addListener(map, "infowindowopen", function()  {ldelim}
-     infoOpened = true;	// set infoOpened to true to change the history text
-   {rdelim});
-   // ================= infoClosed LISTENER ===========
-   GEvent.addListener(map, "infowindowclose", function()  {ldelim}
-     infoOpened = false;	// set infoOpened to false
-   {rdelim});
+    {* todo: InfoWindow listeners
+    {literal}
+    google.maps.event.addListener(referenceToInfoWindow, 'domready', function(){
+        console.log("Pending implementation of listener");
+    };
+
+    GEvent.addListener(map, "infowindowopen", function()  {ldelim}
+    infoOpened = true;	// set infoOpened to true to change the history text
+    {rdelim});
+    // ================= infoClosed LISTENER ===========
+    GEvent.addListener(map, "infowindowclose", function()  {ldelim}
+    infoOpened = false;	// set infoOpened to false
+    {rdelim});
+    {/literal}
+    *}
 
     if (DEBUGINFO) console.debug('Controls Added');
 
     //Needed to show the scale
+    {* todo: custom style for showScale {literal}
     {if $mapv3.mode eq "Pick" or $mapv3.showScale} map.addControl(new GScaleControl()); {/if}
+    {/literal}
+    *}
 
     //Initialize the zoom and center of the map where it need to be and the Map Type
-    var point = new GLatLng ({$mapv3.centerLongLat});
-    map.setCenter(point, myZoom,{$mapv3.mapType});
     if (DEBUGINFO) console.debug('Set the center, zoom and map type');
     if (DEBUGINFO) console.debug("{$mapv3.centerLongLat} "+myZoom+" {$mapv3.mapType}");
+    var point = new google.maps.LatLng ({$mapv3.centerLongLat});
+    map.setCenter(point);
+    map.setZoom(myZoom);
+    map.setMapTypeId("{$mapv3.mapType}");
+
     {if $mapv3.mode eq "Pick"}
-    map.addOverlay(new GMarker(point));
+
+    var center_marker = new google.maps.Marker(
+        {ldelim}
+            position: point,
+            clickable: false,
+            map: map
+        {rdelim});
     {/if}
+    {* todo: Save position {literal}
     map.savePosition();
+    {/literal}
+    *}
 
     if (DEBUGINFO) console.debug('done!');
 
     if (DEBUGINFO) console.debug('Creating the tooltip div');
+    {* todo: Tooltip {literal}
+        See for an example at
+        https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
     tooltip = document.createElement("div");
     map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
     tooltip.style.visibility="hidden";
+    {/literal}
+    *}
     if (DEBUGINFO) console.debug('done!');
 
     {if $mapv3.fullScreen eq 3}
+    {* todo: Resize {literal}
+        see https://stackoverflow.com/questions/12030443/google-maps-api-v3-resize-event
     if (document.all&&window.attachEvent) {ldelim} // IE-Win
       window.attachEvent("onresize", function() {ldelim}this.map.onResize(){rdelim} );
     {rdelim} else if (window.addEventListener) {ldelim} // Others
       window.addEventListener("resize", function() {ldelim}this.map.onResize(){rdelim}, false );
     {rdelim}
+    {/literal}
+    *}
     {/if}
 
     {if $mapv3.mode eq "Normal"}
-    //Add a function to update the markers/Slider when the zoom change
-    GEvent.addListener(map, "zoomend", function(oldZoom, zoom) {ldelim}
-        for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
-            var marker = markers[i];
-            if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
-              markerDisplay(i,1,'normal'); //marker.display(true);
-              var CorrectA = document.getElementById('thumb'+i);
-              if (CorrectA != null ) CorrectA.style.display = "inline";
+    {* todo: Zoom listener {literal}
+        //Add a function to update the markers/Slider when the zoom change
+        GEvent.addListener(map, "zoomend", function(oldZoom, zoom) {ldelim}
+            for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
+                var marker = markers[i];
+                if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
+                  markerDisplay(i,1,'normal'); //marker.display(true);
+                  var CorrectA = document.getElementById('thumb'+i);
+                  if (CorrectA != null ) CorrectA.style.display = "inline";
+                {rdelim}
+                else {ldelim}
+                  markerDisplay(i,0,'normal'); //marker.display(false);
+                  var CorrectA = document.getElementById('thumb'+i);
+                  if (CorrectA != null) CorrectA.style.display = "none";
+                {rdelim}
             {rdelim}
-            else {ldelim}
-              markerDisplay(i,0,'normal'); //marker.display(false);
-              var CorrectA = document.getElementById('thumb'+i);
-              if (CorrectA != null) CorrectA.style.display = "none";
+            for (var i=0; i < Rmarkers.length; i++) {ldelim} //Updating the Regrouped items
+                var marker = Rmarkers[i];
+                if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
+                  markerDisplay(i,1,'Regroup'); //marker.display(true);
+                {rdelim}
+                else {ldelim}
+                  markerDisplay(i,0,'Regroup'); //marker.display(false);
+                {rdelim}
             {rdelim}
-        {rdelim}
-        for (var i=0; i < Rmarkers.length; i++) {ldelim} //Updating the Regrouped items
-            var marker = Rmarkers[i];
-            if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
-              markerDisplay(i,1,'Regroup'); //marker.display(true);
-            {rdelim}
-            else {ldelim}
-              markerDisplay(i,0,'Regroup'); //marker.display(false);
-            {rdelim}
-        {rdelim}
-        myZoom = 19-zoom;
-        var zoom = 19-zoom;
-        var oldZoom = 19-oldZoom;
-        {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
-            if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-              document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png";
-              document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png";
-            {rdelim} else {ldelim}
-              document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-              document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png')";
-              document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-              document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png')";
-            {rdelim}
-        {/if}
-    {rdelim});
+            myZoom = 19-zoom;
+            var zoom = 19-zoom;
+            var oldZoom = 19-oldZoom;
+            {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
+                if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
+                  document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png";
+                  document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png";
+                {rdelim} else {ldelim}
+                  document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+                  document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png')";
+                  document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
+                  document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png')";
+                {rdelim}
+            {/if}
+        {rdelim});
+        {/literal}
+    *}
+
     if (DEBUGINFO) console.debug('Zoom Listener entered');
 
     // Create the overview Map
     {if $mapv3.GoogleOverview}
+    {* TODO: Google Overview {literal}
+
       map.addControl(new GOverviewMapControl(new GSize({$mapv3.GOSizeX}, {$mapv3.GOSizeY})));
       setTimeout(function() {ldelim}
       var omap=document.getElementById("map_overview");
@@ -319,15 +357,16 @@ a:hover {ldelim} outline: none; {rdelim}
       {/if}
       mapdiv.appendChild(omap);
       {rdelim}, 1);
+    {/literal} *}
     {/if}
     if (DEBUGINFO) console.debug('Overview created');
 
     function showTooltip(marker) {ldelim}
       tooltip.innerHTML = marker.tooltip;
-      var point=map.getCurrentMapType().getProjection().fromLatLngToPixel(map.fromDivPixelToLatLng(new GLatLng(0,0),true),map.getZoom());
-      var offset=map.getCurrentMapType().getProjection().fromLatLngToPixel(marker.getPoint(),map.getZoom());
-      var anchor=marker.getIcon().iconAnchor;
-      var width=marker.getIcon().iconSize.width;
+      var point=map.getCenter();
+      var offset=map.getProjection().fromLatLngToPixel(marker.getPoint(),map.getZoom());
+      var anchor=marker.getIcon().anchor;
+      var width=marker.getIcon().size.width;
       var height=tooltip.clientHeight;
       var pos = new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(offset.x - point.x - anchor.x + width, offset.y - point.y -anchor.y -height));
       pos.apply(tooltip);
@@ -349,9 +388,9 @@ a:hover {ldelim} outline: none; {rdelim}
     replaceIcon.image = "{g->url href="modules/mapv3/images/multi/`$mapv3.regroupIcon`.png"}";
 
     function CreateRegroup(lat,lon, showLow, showHigh, nbDirect, nbItems, nbGroups){ldelim}
-      var point = new GLatLng(lat,lon);
+      var point = new google.maps.LatLng(lat,lon);
       {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}bounds.extend(point);{/if}
-      var marker = new GMarker(point,replaceIcon)
+      var marker = new google.maps.Marker(point,replaceIcon)
       marker.onmap = true;
       marker.showHigh = showHigh;
       marker.showLow = showLow;
@@ -379,12 +418,12 @@ a:hover {ldelim} outline: none; {rdelim}
     function CreateMarker(lat, lon, itemLink, title, thumbLink, created, zoomlevel, thw, thh, summary, description, icon, showLow, showHigh, hide, type) {ldelim}
       var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
       var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0},{/if}"{$Labels}"{/foreach}];
-      var point = new GLatLng(lat,lon);
+      var point = new google.maps.LatLng(lat,lon);
       {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
       bounds.extend(point);
       maxZoom = Math.max(maxZoom, zoomlevel);
       {/if}
-      var marker = new GMarker(point, icon);
+      var marker = new google.maps.Marker(point, icon);
       marker.onmap = true;
       marker.showHigh = showHigh;
       marker.showLow = showLow;
@@ -534,7 +573,7 @@ a:hover {ldelim} outline: none; {rdelim}
       var points = [];
       {if $routes.5 eq "Yes"}
       {foreach from=$routes[7] item=point}
-         point = new GLatLng({$point[0]},{$point[1]});
+         point = new google.maps.LatLng({$point[0]},{$point[1]});
          points.push(point);
          {if (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route')))}bounds.extend(point);{/if}
       {/foreach}
@@ -749,7 +788,7 @@ a:hover {ldelim} outline: none; {rdelim}
 
     google.maps.event.addDomListener(window, 'load', ShowMeTheMap);
 
-     var GoogleMap = true;
+    var GoogleMap = true;
 
     //]]>
 </script>
