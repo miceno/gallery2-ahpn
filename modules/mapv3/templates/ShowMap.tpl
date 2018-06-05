@@ -91,7 +91,7 @@
     {if $mapv3.mode eq "Pick" or ($mapv3.mode eq "Normal" and (!isset($mapv3.noiteminalbum) or !$mapv3.noiteminalbum) and (!isset($mapv3.nogpscoords) or !$mapv3.nogpscoords) and (!isset($mapv3.noitemperms) or !$mapv3.noitemperms) and isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq '')}
         {if $mapv3.mode eq "Pick" or $mapv3.useMarkerSet <> "none"}
             {if $mapv3.mode neq "Pick" and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "3" and !$mapv3.fullScreen}
-                {g->block type="mapv3.map"}
+                {g->block type="mapv3.mapFilter"}
             {/if}
             {if $mapv3.mode neq "Pick" and (!isset($mapv3.LegendPos) or (isset($mapv3.LegendPos) and $mapv3.LegendPos eq '2')) and $mapv3.fullScreen neq 3}
                 {if $mapv3.mode neq "Pick" and ((isset($mapv3.AlbumLegend)) and ($mapv3.AlbumLegend eq "1")) or ((isset($mapv3.PhotoLegend)) and ($mapv3.PhotoLegend eq "1")) or ((isset($mapv3.regroupItems)) and ($mapv3.regroupItems eq "1")) and $mapv3.fullScreen neq 3}
@@ -103,7 +103,7 @@
             <table align=right style="border-collapse:collapse;">
             {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "2" and !$mapv3.fullScreen}
               <tr><td>
-              {g->block type="mapv3.map"}
+              {g->block type="mapv3.mapFilter"}
               <br/>
               </td></tr>
             {/if}
@@ -137,7 +137,7 @@
 
          {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
           {if $mapv3.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
-          {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "4" and !$mapv3.fullScreen}{g->block type="mapv3.map"}{/if}
+          {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "4" and !$mapv3.fullScreen}{g->block type="mapv3.mapFilter"}{/if}
            {if $mapv3.mode neq "Pick" and (isset($mapv3.LegendPos) and ($mapv3.LegendPos eq '3'))}
            {if ((isset($mapv3.AlbumLegend)) and ($mapv3.AlbumLegend eq "1")) or ((isset($mapv3.PhotoLegend)) and ($mapv3.PhotoLegend eq "1")) or ((isset($mapv3.regroupItems)) and ($mapv3.regroupItems eq "1"))}
              {g->block type="mapv3.Legend"}
