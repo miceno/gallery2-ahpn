@@ -111,7 +111,7 @@ a:hover {ldelim} outline: none; {rdelim}
         {rdelim}
       {rdelim}
     {rdelim}
-    
+
     {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
     var myWidth = {$mapv3.mapWidth};
     {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 0 and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq '2')}+155{/if};{/if}
