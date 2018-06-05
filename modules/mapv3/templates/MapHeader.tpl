@@ -565,14 +565,15 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
     {if $mapv3.fullScreen neq 3}
 
-    // check for movment of the map and add links to the history
+    // check for movement of the map and add links to the history
     view_history = [];
     returningToSaved = false;
     last_zoom = false;
     last_center = map.getCenter();
     last_zoom = map.getZoom();
     infoOpened = false;	// set to true when an info window is opened.
-    GEvent.addListener(map, "moveend", function () {ldelim}
+
+    map.addListener('center_changed', function() {ldelim}
       if (!returningToSaved) {ldelim}
         if (DEBUGINFO) GLog.write('moveend fired');
         center = map.getCenter();
@@ -640,42 +641,35 @@ a:hover {ldelim} outline: none; {rdelim}
     {/if}
 
     {if $mapv3.mode eq "Pick"}
-        GEvent.addListener(map, "moveend", function() {ldelim}
+        map.addListener('center_changed', function() {ldelim}
         var center = map.getCenter();
-        map.clearOverlays();
-        map.addOverlay(new GMarker(center));
+        center_marker.position = center;
         var latLngStr = center.toUrlValue(6);
         document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
         document.getElementById("coord").value = latLngStr;
         {rdelim});
 
-        GEvent.addListener(map, 'click', function(overlay, point) {ldelim}
-           map.clearOverlays();
+        map.addListener('click', function(event) {ldelim}
+            var point = event.latLng;
+            var latitude = point.lat();
+            var longitude = point.lng();
+            console.log( latitude + ', ' + longitude );
+
            if (point) {ldelim}
-            map.addOverlay(new GMarker(point));
+            center_marker.position = point;
             map.panTo(point);
             var latLngStr = point.toUrlValue(6);
             document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
             document.getElementById("coord").value = latLngStr;
           {rdelim}
         {rdelim});
-        GEvent.addListener(map, 'zoomend', function(oldZoomLevel, newZoomLevel) {ldelim}
-          var center = '' + newZoomLevel
+
+        map.addListener('zoom_changed', function(event) {ldelim}
+            var oldZoomLevel = map.zoom;
+            var newZoomLevel = map.getZoom();
+
+          var center = '' + newZoomLevel;
           document.getElementById("zoom_id").innerHTML = center;
-          document.getElementById("zoom").value = center;
-          var zoom = 19-newZoomLevel;
-          var oldZoom = 19-oldZoomLevel;
-          {if $mapv3.MapControlType neq "None" and $mapv3.MapControlType neq "Small" and $mapv3.MapControlType neq "Large"}
-              if (!IEVersion ||(IEVersion && IEVersion >= 7)) {ldelim}
-                document.images['z'+zoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png";
-                document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png";
-              {rdelim} else {ldelim}
-                document.images['z'+zoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-                document.images['z'+zoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideSel.png')";
-                document.images['z'+oldZoom].src = "{g->url href="modules/mapv3/images/blank.gif"}";
-                document.images['z'+oldZoom].style.filter = "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{g->url href="modules/mapv3/templates/controls/"}{$mapv3.MapControlType}/SlideNotch.png')";
-              {rdelim}
-          {/if}
         {rdelim});
     {/if}
     {rdelim} /* end ShowMeTheMap() */
@@ -769,13 +763,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {rdelim}
     {/if}
 
-     if (document.all&&window.attachEvent) {ldelim} // IE-Win
-         window.attachEvent("onload", ShowMeTheMap);
-         window.attachEvent("onunload",GUnload);
-      {rdelim} else if (window.addEventListener) {ldelim} // Others
-         window.addEventListener("load", ShowMeTheMap, false);
-         window.addEventListener("unload", GUnload, false);
-      {rdelim}
+    google.maps.event.addDomListener(window, 'load', ShowMeTheMap);
 
      var GoogleMap = true;
 
