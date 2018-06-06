@@ -119,4 +119,6 @@ themes/x_treme
 
 config.php
 
-modules/map/images/routes/
+modules/map/
+modules/map*/images/routes/
+attic
