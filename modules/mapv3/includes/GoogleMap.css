@@ -3,7 +3,7 @@ v\:* {ldelim}
   behavior:url(#default#VML);
 {rdelim}
 
-{if $map.fullScreen eq 3}
+{if $mapv3.fullScreen eq 3}
 html, body {ldelim}
   height: 100%;
   overflow: hidden;
