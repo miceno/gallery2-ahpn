@@ -5,41 +5,59 @@
 <div class="gbBlock">
   {if !empty($form.fields)}
   {if !empty($form.apiKey)}
-    <script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key={$form.apiKey}" type="text/javascript"></script>
+      <script src="//maps.googleapis.com/maps/api/js?file=api&amp;v=3&amp;key={$form.apiKey}"
+              type="text/javascript"></script>
   {/if}
   <script type="text/javascript">
   // <![CDATA[
   {if !empty($form.apiKey)}
-  CGC = new GClientGeocoder();
-  function getAddress(address) {ldelim}
-    if (address != '') {ldelim}
-      GPSField = document.getElementsByName('{g->formVar var="form[fields][GPS]"}')[0];
-      CGC.getLatLng(address,
-	function(LatLngPnt) {ldelim}
-	  if (LatLngPnt != null) {ldelim}
-	    GPSField.value = LatLngPnt.toUrlValue(6);
-	  {rdelim} else {ldelim}
-	    GPSField.value = '{g->text text="Not found" hint="Address not found" forJavascript=true}';
-	  {rdelim}
-	{rdelim}
-      ); 
-    {rdelim} 
-  {rdelim}
+  var getAddress = null;
+  (function(){ldelim}
+      var gps_id = '{g->formVar var="form[fields][GPS]"}';
+      var loading_id = 'geocode_loading';
+      var loading_msg = '{g->text text="Loading..." forJavascript=true}';
+      var msg_error = '{g->text text="Not found" hint="Address not found" forJavascript=true}';
+      {literal}
+      var geocoder = new google.maps.Geocoder();
+
+      function _getAddress(address) {
+          if (address != '') {
+              GPSField = document.getElementsByName(gps_id)[0];
+              loading_element = document.getElementById(loading_id);
+              loading_element.innerHTML = loading_msg;
+              geocoder.geocode({'address': address}, function (results, status) {
+                  if (status === 'OK') {
+                      var location = results[0].geometry.location
+                      GPSField.value = location.toUrlValue(6);
+                      GPSField.focus();
+                  } else {
+                      GPSField.value = msg_error;
+                      console.debug('Geocode was not successful for the following reason: ' + status);
+                  }
+                  loading_element.innerHTML = "";
+              });
+          }
+      }
+
+      getAddress = _getAddress;
+      {/literal}
+  {rdelim})();
   {/if}
-    
-  function hidehelp(){ldelim}
+
+  {literal}
+  function hidehelp(){
      var helpdiv = document.getElementById('helpdiv');
      helpdiv.style.visibility = "hidden";
-  {rdelim}
+  }
 
-  function showhelp(help,pos){ldelim}
+  function showhelp(help,pos){
     var helptext = document.getElementById('helptext');
-    helptext.innerHTML = help;
     var helpdiv = document.getElementById('helpdiv');
+    helptext.innerHTML = help;
     helpdiv.style.top = pos+"px";
     helpdiv.style.visibility = "visible";
-  {rdelim}
-  
+  }
+  {/literal}
   {include file="modules/mapv3/templates/helpfile.tpl"}
   // ]]>
   </script>
@@ -107,6 +125,7 @@
 		<img onclick="javascript:showhelp(_HP_U_GetViaAddress,180)" alt="help" style='cursor:pointer;{if !$form.IE}' src="{$form.picbase}help.png" {else}filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="{$form.picbase}help.png");' src='{$form.picbase}blank.gif'{/if}/>
    	   {/if}
         <input type="button" class="inputTypeSubmit" onclick="getAddress(document.getElementById('map.addr').value)" value="{g->text text="Get via address"}"/>
+        <span id="geocode_loading"></span>
         {/if}
        {/if}
     {/if}
