@@ -297,45 +297,46 @@ a:hover {ldelim} outline: none; {rdelim}
       marker.setMap(map);
     {rdelim}
     {/if}
+    {literal}
+    function CreateMarker(lat, lon, itemLink, title, thumbLink, created, zoomlevel, thw, thh, summary, description, icon, showLow, showHigh, hide, type) {
+    {/literal}
+        var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
+        var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0}, {/if}"{$Labels}"{/foreach}];
+        var point = new google.maps.LatLng(lat, lon);
+        {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
+        bounds.extend(point);
+        maxZoom = Math.max(maxZoom, zoomlevel);
+        {/if}
+        {literal}
+        var marker = new google.maps.Marker({position: point, icon: icon.url});
+        marker.onmap = true;
+        marker.showHigh = showHigh;
+        marker.showLow = showLow;
+        marker.addListener("mouseover", function () {
+            showTooltip(marker);
+        });
+        marker.addListener("mouseout", function () {
+            tooltip.style.visibility = "hidden"
+        });
+        marker.addListener("click", function () {
+            tooltip.style.visibility = "hidden"
+            if (htmls.length > 2) {
+                htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
+            }
+            var info_content = htmls.join();
+            var infowindow = new google.maps.InfoWindow({content: info_content});
+            infowindow.open(map, marker);
+        });
+        marker.tooltip = '<div class="tooltip">' + title + '<\/div>';
+        marker.type = type;
+        markers[marker_num] = marker;
+        marker_num++;
 
-    function CreateMarker(lat, lon, itemLink, title, thumbLink, created, zoomlevel, thw, thh, summary, description, icon, showLow, showHigh, hide, type) {ldelim}
-      var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
-      var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0},{/if}"{$Labels}"{/foreach}];
-      var point = new google.maps.LatLng(lat,lon);
-      {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
-      bounds.extend(point);
-      maxZoom = Math.max(maxZoom, zoomlevel);
-      {/if}
-      var marker = new google.maps.Marker({ldelim} position: point, icon: icon.url{rdelim});
-      marker.onmap = true;
-      marker.showHigh = showHigh;
-      marker.showLow = showLow;
-      marker.addListener("mouseover", function() {ldelim}
-        showTooltip(marker);
-      {rdelim});
-      marker.addListener("mouseout", function() {ldelim}
-		tooltip.style.visibility="hidden"
-      {rdelim});
-      marker.addListener("click", function() {ldelim}
-        tooltip.style.visibility="hidden"
-        if (htmls.length > 2) {ldelim}
-          htmls[0] = '<div style="width:'+htmls.length*88+'px">' + htmls[0] + '<\/div>';
-        {rdelim}
-        var tabs = [];
-        for (var i=0; i<htmls.length; i++) {ldelim}
-            tabs.push(new GInfoWindowTab(labels[i],htmls[i]));
-        {rdelim}
-        marker.openInfoWindowTabsHtml(tabs);
-      {rdelim});
-      marker.tooltip = '<div class="tooltip">'+title+'<\/div>';
-      marker.type = type;
-      markers[marker_num] = marker;
-      marker_num++;
+        marker.setMap(map);
 
-      marker.setMap(map);
-
-      if (hide==1) markerDisplay(marker_num-1,0,'normal');
-    {rdelim}
+        if (hide == 1) markerDisplay(marker_num - 1, 0, 'normal');
+    } /* function CreateMarker */
+        {/literal}
 
    //Create the base for all icons
    var base_icon = {ldelim}{rdelim};
