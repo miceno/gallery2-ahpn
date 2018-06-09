@@ -696,10 +696,13 @@ class GalleryTemplateAdapter {
 	$type = isset($params['type']) ? $params['type'] : 'link';
 	$lowercase = !empty($params['lowercase']);
 	$text = isset($params['text']) ? $params['text'] : $link['text'];
+	$onlyIcon = isset($params['onlyIcon']) ? $params['onlyIcon'] : false;
+	
 	unset($params['link']);
 	unset($params['type']);
 	unset($params['lowercase']);
 	unset($params['text']);
+	unset($params['onlyIcon']);
 
 	if ($type == 'option') {
 	    $tag = '<option value="' . (isset($link['script']) ? $link['script']
@@ -721,7 +724,11 @@ class GalleryTemplateAdapter {
 		$tag .= " $key=\"$value\"";
 	    }
 	}
-	return $tag . '>' . ($lowercase ? strtolower($text) : $text) . $endTag;
+	$tag_content = "";
+	if (!$onlyIcon){
+	    $tag_content = $lowercase ? strtolower($text) : $text;
+	}
+	return $tag . '>' . ($tag_content) . $endTag;
     }
 
     /**
