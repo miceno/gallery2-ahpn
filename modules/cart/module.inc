@@ -151,6 +151,7 @@ class CartModule extends GalleryModule {
     function getItemLinks($items, $wantsDetailedLinks, $permissions) {
 	$links = array();
 	foreach ($items as $item) {
+	    $itemId = $item->getId();
 	    if (isset($wantsDetailedLinks[$itemId])) {
 		if (isset($permissions[$item->getId()]['cart.add'])) {
 		    $itemTypeNames = array_merge($item->itemTypeName(), $item->itemTypeName(false));
