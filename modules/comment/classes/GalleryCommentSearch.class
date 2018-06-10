@@ -155,16 +155,21 @@ class GalleryCommentSearch extends GallerySearchInterface_1_0 {
 	$searchResults = array();
 	while ($result = $results->nextResult()) {
 	    $fields = array();
-	    $fields[] = array('key' => $text['subject'], 'value' => $result[1]);
-	    $fields[] = array('key' => $text['comment'], 'value' => $result[2]);
+	    $fields[] = array('key' => $text['subject'], 'field' =>'subject', 'value' => $result[1]);
+	    $fields[] = array('key' => $text['comment'], 'field' =>'comment', 'value' => $result[2]);
 
 	    if(!empty($result[7])){
 	    	$fields[] = array('key' => $text['commenter'],
-	    			  'value' => $result[7] . '(' . $text['guest'] . ')');
+		    'field' =>'commenter',
+		    'value' => $result[7] . '(' . $text['guest'] . ')');
 	    } else if (!empty($result[4])) {
-		$fields[] = array('key' => $text['commenter'], 'value' => $result[4]);
+		$fields[] = array('key' => $text['commenter'],
+		    'field' =>'commenter',
+		    'value' => $result[4]);
 	    } else {
-		$fields[] = array('key' => $text['commenter'], 'value' => $result[5]);
+		$fields[] = array('key' => $text['commenter'],
+		    'field' =>'commenter',
+		    'value' => $result[5]);
 	    }
 	    $searchResults[] = array('itemId' => (int)$result[6],
 				     'fields' => $fields);
