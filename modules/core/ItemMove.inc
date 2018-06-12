@@ -277,7 +277,7 @@ class ItemMoveView extends GalleryView {
 	    }
 	    $form['destination'] = '';
 	    $form['formName'] = 'ItemMove';
-	    $form['numPerPage'] = 15;
+	    $form['numPerPage'] = 24;
 	}
 
 	/* Get all peers that we can delete */
