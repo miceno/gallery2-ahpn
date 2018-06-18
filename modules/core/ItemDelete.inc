@@ -169,7 +169,7 @@ class ItemDeleteView extends GalleryView {
 	    }
 	    $form['destination'] = '';
 	    $form['formName'] = 'ItemDelete';
-	    $form['numPerPage'] = 30;
+	    $form['numPerPage'] = 24;
 	}
 
 	list ($ret, $peerIds) = GalleryCoreApi::fetchChildItemIdsWithPermission(
