@@ -118,8 +118,16 @@ class SimpleCallbackView extends GalleryView {
 	    $match = basename($path);
 	    $matchLength = strlen($match);
 	    $path = dirname($path);
-	    if (!$platform->is_dir($path)) {
-		return array();
+	    if (!$platform->is_readable($path)) {
+		if ($gallery->getDebug()) {
+		    $gallery->debug("not readable ($path)");
+		}
+		// TODO: Return the home path of the server.
+		$base_path = GalleryCoreApi::getCodeBasePath();
+		if ($gallery->getDebug()) {
+		    $gallery->debug("setting base_path ($base_path)");
+		}
+		return array($base_path,);
 	    }
 	}
 
