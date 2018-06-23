@@ -108,7 +108,13 @@ class SimpleCallbackView extends GalleryView {
 
 	if ($platform->is_dir($path)) {
 	    $match = '';
+	    if ($gallery->getDebug()) {
+		$gallery->debug("it is a dir ($path)");
+	    }
 	} else {
+	    if ($gallery->getDebug()) {
+		$gallery->debug("not a dir ($path)");
+	    }
 	    $match = basename($path);
 	    $matchLength = strlen($match);
 	    $path = dirname($path);
@@ -140,6 +146,11 @@ class SimpleCallbackView extends GalleryView {
 	    $platform->closedir($dir);
 	    sort($dirList);
 	    sort($fileList);
+	}
+	else {
+	    if ($gallery->getDebug()) {
+		$gallery->debug("unable to opendir($path)");
+	    }
 	}
 
 	return empty($dirList) ? $fileList : array_merge($dirList, $fileList);
