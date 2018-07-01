@@ -17,7 +17,8 @@
       <h2>{g->text text="Photo Map"}{if isset($mapv3.Filter)}<span class="giWarning"> {g->text text="Filtered on"} {$mapv3.Filter}</span>{/if}</h2>
     {else} {* mode eq "Pick" *}
       <h2>{g->text text="Grab coordinates from Map"}</h2>
-      <div class="map-grab-wrapper col-xs-12 col-sm-12 col-md-8">
+    <div class="map-grab-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-9">
     {/if}
     {if isset($mapv3.filterhackingerror)}
     <div class="gbBlock">
@@ -29,9 +30,9 @@
 
 {if $mapv3.mode eq "Normal"}
     {if $mapv3.useMarkerSet eq "none"}
-    <!-- 
-    If there are no markers, don't display a map. Instead, show a link to the admin page for the 
-    markers to be created 
+    <!--
+    If there are no markers, don't display a map. Instead, show a link to the admin page for the
+    markers to be created
     -->
     <div class="gbBlock">
     {capture name="mapThemeAdminUrl"}
@@ -54,17 +55,17 @@
     {if isset($mapv3.noitemperms) and $mapv3.noitemperms}
     <!-- If there are no items with sufficient permissions to be mapped then display a message -->
     <div class="gbBlock">
-        <center><h2 class="giError">{g->text text="There are no items available to be mapped"}<br/><br/>
-        <a href='Javascript:history.go(-1);'>Go Back</a></center></h2>
+        <h2 class="giError">{g->text text="There are no items available to be mapped"}<br/><br/>
+        <a href='Javascript:history.go(-1);'>Go Back</a></h2>
     </div>
     {/if}
 
     {if isset($mapv3.noiteminalbum) and $mapv3.noiteminalbum}
     <!-- No item in the selected album, hacking attempt ? -->
     <div class="gbBlock">
-        <center><h2 class="Warning">
+        <h2 class="Warning">
           {g->text text="There were no items found in the selected %s, what would you like to do?"
-          arg1=$mapv3.Filter}</h2><br/></center>
+          arg1=$mapv3.Filter}</h2><br/>
         <h2 style="position:relative;left:100px;">1 - {g->text text="%sGo Back%s to the Album and add coordinates to items"
           arg1="<a href='Javascript:history.go(-1);'>" arg2="</a>"}
         </h2>
@@ -75,25 +76,25 @@
               arg1="<a href=\"`$smarty.capture.mapUrl`\">" arg2="</a>"}
         </h2>
     </div>
-    {/if}
-{/if}
+    {/if} {* isset($mapv3.noiteminalbum) and $mapv3.noiteminalbum *}
+{/if} {* $mapv3.mode eq "Normal" *}
 {if !isset($mapv3.googleMapKey) or $mapv3.googleMapKey eq ''}
     <!-- No Google Map Keys were found to suit this install -->
     <div class="gbBlock">
-        <center><h2 class="giError">
+        <h2 class="giError">
         {capture name="mapAdminUrl"}
           {g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin"}
 	    {/capture}
 	    {g->text text="You do not have a profile setup for this website to use the Google Map. Review your settings in the %sAdmin Panel%s or %scheck the Wiki%s."
 	        arg1="<a href=\"`$smarty.capture.mapAdminUrl`\">" arg2="</a>"
             arg3="<a href=\"http://codex.gallery2.org/Gallery2:Modules:Map:UserGuide\">" arg4="</a>"}
- 	</h2></center><br/><br/>
+ 	</h2><br/><br/>
     </div>
 {else}
 
-<!-- Create the Div where the map will be displayed  -->
-    {if $mapv3.mode eq "Pick" or ($mapv3.mode eq "Normal" and (!isset($mapv3.noiteminalbum) or !$mapv3.noiteminalbum) and (!isset($mapv3.nogpscoords) or !$mapv3.nogpscoords) and (!isset($mapv3.noitemperms) or !$mapv3.noitemperms) and isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq '')}
-        {if $mapv3.mode eq "Pick" or $mapv3.useMarkerSet <> "none"}
+    <!-- Create the Div where the map will be displayed  -->
+    {if $mapv3.mode eq "Pick" or ($mapv3.mode eq "Normal" and (!isset($mapv3.noiteminalbum) or !$mapv3.noiteminalbum) and (!isset($mapv3.nogpscoords) or !$mapv3.nogpscoords) and (!isset($mapv3.noitemperms) or !$mapv3.noitemperms) and isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq '')} {* number 1 *}
+        {if $mapv3.mode eq "Pick" or $mapv3.useMarkerSet <> "none"} {* number 2 *}
             {if $mapv3.mode neq "Pick" and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "3" and !$mapv3.fullScreen}
                 {g->block type="mapv3.mapFilter"}
             {/if}
@@ -103,25 +104,25 @@
                 {/if}
             {/if }
             {if $mapv3.mode neq "Pick" and $mapv3.fullScreen neq 3}
-            {if $mapv3.ThumbBarPos eq "1" or $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}
-                {g->block type="mapv3.Thumb"}
-            {/if}
+                {if $mapv3.ThumbBarPos eq "1" or $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}
+                    {g->block type="mapv3.Thumb"}
+                {/if}
 
-            <table align=right style="border-collapse:collapse;">
-                {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "2" and !$mapv3.fullScreen}
-                  <tr><td>
-                  {g->block type="mapv3.mapFilter"}
-                  <br/>
-                  </td></tr>
-                {/if}
-                {if $mapv3.mode neq "Pick" and isset($mapv3.LegendPos) and $mapv3.LegendPos eq '0'}
-                  <tr><td>
-                   {g->block type="mapv3.Legend"}
-                  </td></tr>
-                {/if}
-            </table>
+                <table align=right style="border-collapse:collapse;">
+                    {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "2" and !$mapv3.fullScreen}
+                      <tr><td>
+                      {g->block type="mapv3.mapFilter"}
+                      <br/>
+                      </td></tr>
+                    {/if}
+                    {if $mapv3.mode neq "Pick" and isset($mapv3.LegendPos) and $mapv3.LegendPos eq '0'}
+                      <tr><td>
+                       {g->block type="mapv3.Legend"}
+                      </td></tr>
+                    {/if}
+                </table>
             {/if} {* end if $mapv3.mode neq "Pick" and $mapv3.fullScreen neq 3 *}
-          <style>
+            <style>
               {literal}
               .map-fullscreen {
                 width: 100%;
@@ -133,7 +134,7 @@
                 height: 100%;
                 color:black;
                 background-color:lightgrey;
-                border:1px solid black;"
+                        border: 1px solid black;
               }
               .map-wrapper {
                   height: 65vh;
@@ -141,11 +142,11 @@
               {/literal}
           </style>
             <div class="map-wrapper">
-            <div id="map" class="themap{if $mapv3.fullScreen eq 3} map-fullscreen{else} map-fluid{/if}">
-                {if $mapv3.mode eq "Normal"}
-                <center><h3 id="loading">{g->text text="Loading, please wait..."}</h3></center>
-                {/if}
-             </div> {* End of the map div *}
+                <div id="map" class="themap{if $mapv3.fullScreen eq 3} map-fullscreen{else} map-fluid{/if}">
+                    {if $mapv3.mode eq "Normal"}
+                    <h3 id="loading">{g->text text="Loading, please wait..."}</h3>
+                    {/if}
+                 </div> {* End of the map div *}
             </div>
         {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
             {if $mapv3.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
@@ -157,15 +158,24 @@
                  {g->block type="mapv3.Legend"}
                 {/if}
             {/if} {* $mapv3.mode neq "Pick" *}
-        {/if} {* $mapv3.mode eq "Normal" *}
-         {if $mapv3.mode eq "Pick"}
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-4">
-              <h2 class="giSuccess">{g->text text="MENU"}</h2>
-              <!--
-                This creates the URL to save the parameters and return to the right place
+        {/if} {* $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3 *}
+        {if $mapv3.mode eq "Pick"} {* number 3 *}
+            <!--
+              Display some very basic help
               -->
-              <form action="{g->url}" method="post" id="itemEdit" enctype="application/x-www-form-urlencoded">
+            <h2 class="giSuccess">{g->text text="Tips" hint="Hints or suggestions"}</h2>
+            <ul>
+                <li/>{g->text text="Click on the map to choose the point."}
+                <li/>{g->text text="Each click will create a marker to ease aiming."}
+                <li/>{g->text text="When you are satisfied with the coordinates, click <B>Save</B> above and the center of the map and the zoom level will be copied in the GPS and ZoomLevel fields of the item."}
+            </ul>
+            </div>{* col-xs-12 col-md-9 *}
+            <div class="col-xs-12 col-sm-12 col-md-3">
+                <h2 class="giSuccess">{g->text text="MENU"}</h2>
+                <!--
+                This creates the URL to save the parameters and return to the right place
+                -->
+                <form action="{g->url}" method="post" id="itemEdit" enctype="application/x-www-form-urlencoded">
                   <div>
                       {g->hiddenFormVars}
                       <input type="hidden" name="{g->formvar var="controller"}" value="{$controller}"/>
@@ -175,40 +185,39 @@
                   <input type="hidden" name="{g->formVar var="form[plugin]"}" value="{$mapv3.plugin}"/>
                   <input type="hidden" id="coord" name="{g->formVar var="form[coord]"}" value="{if $mapv3.centerLongLat neq 'none'}{$mapv3.centerLongLat}{else}-12,20{/if}"/>
                   <input type="hidden" id="zoom" name="{g->formVar var="form[zoom]"}" value="{if $mapv3.zoomLevel neq 'none'}{$mapv3.zoomLevel}{else}16{/if}"/>
-                  <input type="submit" name="{g->formVar var="form[save]"}" value="{g->text text="Save these coordinates"}"  class="inputTypeSubmit"/>
-                  <input type="submit" name="{g->formVar var="form[cancel]"}" value="{g->text text="Cancel" hint="Discard changes"}"  class="inputTypeSubmit"/>
-              </form>
-                <!--
-                Display some very basic help
-                -->
-              <h2 class="giSuccess">{g->text text="Tips" hint="Hints or suggestions"}</h2>
-              <ul>
-                <li/>{g->text text="Click on the map to choose the point."}
-                <li/>{g->text text="Each click will create a marker to ease aiming."}
-                <li/>{g->text text="When you are satisfied with the coordinates, click <B>Save</B> above and the center of the map and the zoom level will be copied in the GPS and ZoomLevel fields of the item."}
-              </ul>
-              <h2>{$theme.item.title|markup}</h2>
-              {* TODO: Do not add thumbnail if the item does not have one *}
-              <img src="{$form.itemthumb}" />
-              <strong>{g->text text="Summary"}</strong><p>{$theme.item.summary|markup}</p>
-              <strong>{g->text text="Description"}</strong><p>{$theme.item.description|markup}</p>
-              <strong>{g->text text="Keywords"}</strong><p>{$theme.item.keywords|markup}</p>
-          </div>{* col-xs-12 col-sm-12 col-md-4 *}
-    </div>
-          <h3>{g->text text="Current Coordinates"}</h3>
-          <div id="message_id">({if $mapv3.centerLongLat neq 'none'}{$mapv3.centerLongLat}{else}-12,20{/if})</div><br/>
-          <h3>{g->text text="Current Zoomlevel"}</h3>
-          <div id="zoom_id">{if $mapv3.zoomLevel neq 'none'}{$mapv3.zoomLevel}{else}16{/if}</div>
-          </div>{* map-grab-wrapper *}
-
-         {/if}{* $mapv3.mode eq "Pick" *}
-        {/if} {* $mapv3.mode eq "Pick" *}
-    {/if} {* $mapv3.mode eq "Pick" *}
-{/if}
+                            <input type="submit" name="{g->formVar var="form[save]"}" value="{g->text text="Save these coordinates"}"
+                                   class="inputTypeSubmit"/>
+                            <input type="submit" name="{g->formVar var="form[cancel]"}"
+                                   value="{g->text text="Cancel" hint="Discard changes"}" class="inputTypeSubmit"/>
+                </form>
+                <div class="gbBlock">
+                    <span>{g->text text="Coordinates"}:</span>
+                    <span id="message_id"><strong>({if $mapv3.centerLongLat neq 'none'}{$mapv3.centerLongLat}{else}-12,20{/if})</strong></span>
+                    <br/>
+                    <span>{g->text text="Zoom level"}:</span>
+                    <span id="zoom_id"><strong>{if $mapv3.zoomLevel neq 'none'}{$mapv3.zoomLevel}{else}16{/if}</strong></span>
+                </div>
+                <h2>{$theme.item.title|markup}</h2>
+                {* TODO: Do not add thumbnail if the item does not have one *}
+                        <img src="{$form.itemthumb}" class="giThumbnail"/>
+                        <strong>{g->text text="Summary"}</strong>
+                        <p>{$theme.item.summary|markup}</p>
+                        <strong>{g->text text="Description"}</strong>
+                        <p>{$theme.item.description|markup}</p>
+                        <strong>{g->text text="Keywords"}</strong>
+                        <p>{$theme.item.keywords|markup}</p>
+            </div>{* col-xs-12 col-sm-12 col-md-3 *}
+    </div> {* map-grab-wrapper *}
+                {/if}{* $mapv3.mode eq "Pick" number 3 *}
+            {/if} {* $mapv3.mode eq "Pick" number 2 *}
+        {/if} {* $mapv3.mode eq "Pick" number 1 *}
+    {/if} {*  !isset($mapv3.googleMapKey) or $mapv3.googleMapKey eq '' *}
 {if $mapv3.hasadminrights and $mapv3.fullScreen neq 3}
+    <div>
 <a href="{g->url arg1="view=core.SiteAdmin" arg2="subView=mapv3.MapSiteAdmin"}">{g->text text="Google Map Administration"}</a>
+    </div>
 {/if}
 {if !$mapv3.fullScreen}
-</div>
+    </div><!-- #gsContent -->
 {/if}
-<!-- #gsContent -->
+
