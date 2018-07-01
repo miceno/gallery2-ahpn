@@ -190,6 +190,9 @@
               <h2>{$theme.item.title|markup}</h2>
               {* TODO: Do not add thumbnail if the item does not have one *}
               <img src="{$form.itemthumb}" />
+              <strong>{g->text text="Summary"}</strong><p>{$theme.item.summary|markup}</p>
+              <strong>{g->text text="Description"}</strong><p>{$theme.item.description|markup}</p>
+              <strong>{g->text text="Keywords"}</strong><p>{$theme.item.keywords|markup}</p>
           </div>{* col-xs-12 col-sm-12 col-md-4 *}
     </div>
           <h3>{g->text text="Current Coordinates"}</h3>
