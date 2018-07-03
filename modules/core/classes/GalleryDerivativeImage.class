@@ -195,6 +195,14 @@ class GalleryDerivativeImage extends GalleryDerivative {
 	        $params['class'] = "";
 	    }
 	    $params['class'] .= ' gcPhotoImage';
+	    if (!key_exists('lazyload', $params)){
+		$params['lazyload'] = false;
+	    }
+	    if ($params['lazyload']){
+		$data_src = $src;
+		$src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+		$params['class'] .= " lazyload";
+	    }
 	    
 	    /* Shrink our dimensions if necessary */
 	    if (isset($params['maxSize'])) {
@@ -218,6 +226,12 @@ class GalleryDerivativeImage extends GalleryDerivative {
 	    }
 
 	    $html = sprintf('<img src="%s"%s', $src, $sizeStr);
+	    
+	    if ($params['lazyload']){
+		$html .= sprintf(' data-src="%s"', $data_src);
+	    }
+	    unset($params['lazyload']);
+	    
 	    unset($params['fallback']);
 	    unset($params['forceFullUrl']);
 	    unset($params['forceRawImage']);
