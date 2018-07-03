@@ -148,15 +148,26 @@ class GalleryTemplate {
 	$head =& $this->getVariableByReference('head');
 	$head['title'] = $title;
     }
-
+    
     /**
      * Add a stylesheet to include in the <head> section
      * @param string $path stylesheet path relative to gallery2 dir
+     * @param string $inline content should be inlined
      */
-    function style($path) {
-	$this->link(array('rel' => 'stylesheet',
-			  'type' => 'text/css',
-			  'href' => $path));
+    function style($path, $inline=false) {
+        if ($inline){
+            if (! GalleryUtilities::is_absolute_path($path)) {
+		$codeBase = GalleryCoreApi::getCodeBasePath();
+		$path = $codeBase . GalleryPlatform::getDirectorySeparator() . $path;
+	    }
+	    $style_content = file_get_contents($path);
+	    $html = '<style>' . $style_content . '</style';
+	    echo($html);
+	} else {
+	    $this->link(array('rel' => 'stylesheet',
+			      'type' => 'text/css',
+			      'href' => $path));
+	}
     }
 
     /**

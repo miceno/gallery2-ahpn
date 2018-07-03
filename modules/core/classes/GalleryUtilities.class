@@ -275,7 +275,19 @@ class GalleryUtilities {
 
 	return $values;
     }
-
+    
+    /**
+     * Check the parameter $path is an absolute or relative path.
+     * An empty $path is a relative path.
+     *
+     * @param $path
+     * @return bool
+     */
+    function is_absolute_path($path) {
+	if($path === null || $path === '') return false;
+	return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
+    }
+    
     /**
      * Return the specified request variables (omit Gallery variable prefix).  Should be used only
      * when interacting with an external API where prefix can't be used.  Accept any number of keys
