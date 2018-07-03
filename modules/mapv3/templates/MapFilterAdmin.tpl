@@ -126,10 +126,10 @@ End of error/success displaying
         <td>
           <select name="ShowFilters">
           <option value="0">{g->text text="Hide" hint="Don't display"}</option>
-          <option value="1" {if $form.ShowFilters eq 1}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option>
-          <option value="2" {if $form.ShowFilters eq 2}selected{/if}>{g->text text="Right" hint="Opposite of left"}</option>
-          <option value="3" {if $form.ShowFilters eq 3}selected{/if}>{g->text text="Top" hint="Opposite of bottom"}</option>
-          <option value="4" {if $form.ShowFilters eq 4}selected{/if}>{g->text text="Bottom" hint="Opposite of top"}</option>
+          <option value="top" {if $form.ShowFilters eq "top"}selected{/if}>{g->text text="Top" hint="Opposite of bottom"}</option>
+          <option value="right" {if $form.ShowFilters eq "right"}selected{/if}>{g->text text="Right" hint="Opposite of left"}</option>
+          <option value="bottom" {if $form.ShowFilters eq "bottom"}selected{/if}>{g->text text="Bottom" hint="Opposite of top"}</option>
+          <option value="left" {if $form.ShowFilters eq "left"}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option>
         </td>
    </tr>
    <tr>
