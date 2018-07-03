@@ -152,7 +152,7 @@ class GalleryTemplate {
     /**
      * Add a stylesheet to include in the <head> section
      * @param string $path stylesheet path relative to gallery2 dir
-     * @param string $inline content should be inlined
+     * @param bool $inline content should be inlined
      */
     function style($path, $inline=false) {
         if ($inline){
@@ -161,7 +161,11 @@ class GalleryTemplate {
 		$path = $codeBase . GalleryPlatform::getDirectorySeparator() . $path;
 	    }
 	    $style_content = file_get_contents($path);
-	    $html = '<style>' . $style_content . '</style';
+            // Minify text
+            $style_content = str_replace(array("\r", "\n"), '', $style_content);
+
+	    $html = '<style>' . $style_content . '</style>';
+	    // Inline style content is directly echoed on the request.
 	    echo($html);
 	} else {
 	    $this->link(array('rel' => 'stylesheet',

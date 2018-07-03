@@ -286,7 +286,7 @@ class GalleryView {
 
 	/* -------------------------------------------------- */
 	/* Specify our base css style before the view's, so that the view can override it */
-	$template->style('modules/core/data/gallery.min.css', true);
+	$template->style('modules/core/data/gallery.min.css', false);
 
 	/* -------------------------------------------------- */
 	/* Let the view and theme load up template data */
