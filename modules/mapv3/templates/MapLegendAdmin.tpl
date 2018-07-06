@@ -54,11 +54,16 @@ Displaying the Legend management area
             {/if}            
         <td>
           <select name="{g->formVar var="form[LegendPos]"}">
-          <option value=0>{g->text text="Right" hint="Opposite of left"}</option>
-          <option value=1 {if isset($form.LegendPos) and $form.LegendPos eq "1"}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option>
+          <option value="right">{g->text text="Right" hint="Opposite of left"}</option>
+          <option value="left" {if isset($form.LegendPos) and $form.LegendPos eq "left"}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option>
+          <option value="top" {if isset($form.LegendPos) and $form.LegendPos eq "top"}selected{/if}>{g->text text="Top" hint="Opposite of bottom"}</option>
+          <option value="bottom" {if isset($form.LegendPos) and $form.LegendPos eq "bottom"}selected{/if}>{g->text text="Bottom" hint="Opposite of top"}</option>
+          <option value="hide" {if isset($form.LegendPos) and $form.LegendPos eq "hide"}selected{/if}>{g->text text="Hide" hint="Don't display"}</option>
+{*          <option value=1 {if isset($form.LegendPos) and $form.LegendPos eq "1"}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option>
           <option value=2 {if isset($form.LegendPos) and $form.LegendPos eq "2"}selected{/if}>{g->text text="Top" hint="Opposite of bottom"}</option>
           <option value=3 {if isset($form.LegendPos) and $form.LegendPos eq "3"}selected{/if}>{g->text text="Bottom" hint="Opposite of top"}</option>
           <option value=4 {if isset($form.LegendPos) and $form.LegendPos eq "4"}selected{/if}>{g->text text="Hide" hint="Don't display"}</option>
+*}
           </select>
         </td>
    </tr>

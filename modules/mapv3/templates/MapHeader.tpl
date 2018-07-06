@@ -117,7 +117,7 @@ a:hover {ldelim} outline: none; {rdelim}
 
     {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
     var myWidth = {$mapv3.mapWidth};
-    {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 0 and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "right")}+155{/if};{/if}
+    {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 'right' and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "right")}+155{/if};{/if}
     {if $barPosition eq "3" or $barPosition eq "4"}
       minusW +={$mapv3.ThumbHeight}+30;
     {/if}
@@ -125,7 +125,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
 
     var myHeight = {$mapv3.mapHeight};
-    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 2 or $mapv3.LegendPos eq 3}+90{/if}{if $barPosition eq "1" or $barPosition eq "2"}+{$mapv3.ThumbHeight}+25{/if};{/if}
+    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}+90{/if}{if $barPosition eq "1" or $barPosition eq "2"}+{$mapv3.ThumbHeight}+25{/if};{/if}
     {if $mapv3.mode eq "Pick"} var minusH = 155; {/if}
     {if $mapv3.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
 

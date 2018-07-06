@@ -103,7 +103,7 @@ class MapLegendAdminController extends GalleryController {
 	    $form['GroupLegends'] = $grouplegenditem;
 
 	    switch ($form['LegendPos']) {
-	    case 1:
+	    case 'left':
 		/* Legend is on the left, add the mapv3.Legend Block */
 		/* Grab the Default theme value (used for the google map) */
 		list ($ret, $themeId) =
@@ -153,10 +153,10 @@ class MapLegendAdminController extends GalleryController {
 		    }
 		}
 		break;
-	    case 2: /* Legend on the top   -> continue */
-	    case 3: /* Legend on the bottom -> continue */
-	    case 4: /* No Legend to show -> continue */
-	    case 0: /* Legend on the right, remove the mapv3.Legend block from the sidebar */
+	    case 'top': /* Legend on the top   -> continue */
+	    case 'bottom': /* Legend on the bottom -> continue */
+	    case 'hide': /* No Legend to show -> continue */
+	    case 'right': /* Legend on the right, remove the mapv3.Legend block from the sidebar */
 		/* Grab the Default theme value (used for the google map) */
 		list ($ret, $themeId) = 
 			GalleryCoreApi::getPluginParameter('module', 'core', 'default.theme');
@@ -274,7 +274,7 @@ class MapLegendAdminView extends GalleryView {
 	    $form['ExpandGroupLegend'] = true;
 	}
 	if(!array_key_exists('LegendPos', $form)) {
-	    $form['LegendPos'] = 0; /* right by default */
+	    $form['LegendPos'] = 'right'; /* right by default */
 	}
 
 	/* Explode the list of information in the legends if available */

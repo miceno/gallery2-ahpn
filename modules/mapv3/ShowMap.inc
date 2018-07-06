@@ -1124,7 +1124,7 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 	    $map['PhotoLegends'] = 
 		    (array_key_exists('PhotoLegends', $param) && ($param['PhotoLegends'] != '')) 
 			? explode('|', $param['PhotoLegends']) : '';
-	    $map['LegendPos'] = (!array_key_exists('LegendPos', $param)) ? 0 : $param['LegendPos'];
+	    $map['LegendPos'] = (!array_key_exists('LegendPos', $param)) ? 'right' : $param['LegendPos'];
 	    $map['allmarkers'] = GoogleMapUtilities::AllMarkers();
 
 	    

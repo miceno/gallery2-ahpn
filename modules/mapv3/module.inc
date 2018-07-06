@@ -115,7 +115,7 @@ class mapv3Module extends GalleryModule {
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ExpandAlbumLegend', 1);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ExpandPhotoLegend', 1);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ShowFilters', 0);
-	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'LegendPos', 0);
+	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'LegendPos', 'right');
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'GxMagnifierFeature', 0);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ThemeFeature', 0);
 	GalleryCoreApi::setPluginParameter('module', 'mapv3', 'MarkerFeature', 0);
