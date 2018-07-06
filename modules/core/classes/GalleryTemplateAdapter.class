@@ -716,7 +716,8 @@ class GalleryTemplateAdapter {
 	    }
 	    $tag = '<a href="' . $urlGenerator->generateUrl($link['params'], $link['options']) . '"'
 		. (isset($link['script']) ? ' onclick="' . $link['script'] . ';return false"' : '')
-		. (isset($link['attrs']) ? ' ' . $link['attrs'] : '');
+		. (isset($link['attrs']) ? ' ' . $link['attrs'] : ''
+		. ' alt="' . $text. '" title="'. $text . '"' );
 	    $endTag = '</a>';
 	}
 	foreach ($params as $key => $value) {
