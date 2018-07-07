@@ -45,7 +45,7 @@ class mapv3Module extends GalleryModule {
 	$this->setGroup('gallery', $gallery->i18n('Gallery'));
 	$this->setCallbacks('registerEventListeners|getSiteAdminViews|getItemSummaries'
 			    . '|getItemLinks');
-	$this->setRequiredCoreApi(array(7, 0));
+	$this->setRequiredCoreApi(array(7, 54));
 	$this->setRequiredModuleApi(array(3, 0));
     }
 

@@ -2556,6 +2556,8 @@ class CoreModuleExtras {
 	    /* R2.3 RC-2 */
 	case '1.2.37':
 	    /* R2.3 */
+	case '1.3.1':
+	    /* R2.3.2-ahpn */
 
 	case 'end of upgrade path':
 	    /*
@@ -2915,6 +2917,7 @@ if (!isset($gallery) || !method_exists($gallery, \'setConfig\')) {
 	case '1.2.35':
 	case '1.2.36':
 	case '1.2.37':
+	case '1.3.1':
 
 	case 'end of upgrade path':
 	    /*
