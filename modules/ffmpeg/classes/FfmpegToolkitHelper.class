@@ -195,15 +195,34 @@ class FfmpegToolkitHelper {
 	/* We only care about video for now */
 	/** @todo: Add '3g2' => '3g2', '3gp' => '3gp' when recognized as videos */
 	$relevantTypes = array('mpeg' => 'mpeg', 'asf' => 'asf', 'avi' => 'avi',
-			       'mov' => 'mov', 'wmv1' => 'wmv', 'flv' => 'flv', 'mp4' => 'mp4');
+			       'mov' => 'mov', 'wmv1' => 'wmv', 'flv' => 'flv', 'mp4' => 'mp4',
+				'3gp2' => '3gp2', '3gp' => '3gp', '3gpp' => '3gpp');
 	/* We only care about encoding flash video for now */
-	$relevantEncode = array('flv' => 'flv');
+	$relevantEncode = array('flv' => 'flv', '3gp' => '3gpp', '3gpp' => '3gpp');
 	/**
 	 * @todo: Add 'adpcm_swf' => 'adpcm_swf' to relevantAudioCodecs if/when videos play
 	 *        correctly
 	 */
-	$relevantAudioCodecs = array('mp3' => 'mp3', 'libmp3lame' => 'mp3');
-	list ($ignored, $results) = $platform->exec(array(array($ffmpegPath, '-formats')));
+	$relevantAudioCodecs = array('mp3' => 'mp3', 'libmp3lame' => 'mp3', 'wav' => 'wav');
+	
+	/* First read formats */
+	list ($ignored, $results_formats) = $platform->exec(array(array($ffmpegPath, '-formats')));
+	
+	/*
+	 * ffmpeg 4.0.x and above provide results using formats and codecs in separate
+	 * command line options, so we should first invoke formats and then codecs.
+	 */
+	/* Then read codecs */
+	list ($ignored, $results_codecs) = $platform->exec(array(array($ffmpegPath, '-codecs')));
+	
+	/* Add a blank line on the results */
+	$results_codecs[] = "";
+	$results_formats[] = "";
+	
+	/* Merge all results in a single list */
+	$results = array_merge($results_codecs, $results_formats);
+	
+	/* Read version */
 	$version = array();
 	list ($ignored, $ignored, $version) =
 		$platform->exec(array(array($ffmpegPath, '-version')));
@@ -251,6 +270,10 @@ class FfmpegToolkitHelper {
 	     *  D V D  8bps
 	     *   EA    ac3
 	     *  DEA    adpcm_4xm
+	     *
+	     * ffmpeg > 0.6 shows results using `formats` and `codecs` in separate
+	     * command line options, so we should first invoke `-formats` and then `-codecs`.
+	     *
 	     */
 	    if (preg_match('|Input audio/video file formats: (.*)$|', $resultLine, $regs)) {
 		/* We have found 0.4.7 format, read single line */
@@ -317,7 +340,7 @@ class FfmpegToolkitHelper {
 		} else {
 		    /* Parse codecs */
 		    do {
-			$type = substr($resultLine, 8);
+			$type = trim(substr($resultLine, 8, 20));
 			$decode = ('D' == substr($resultLine, 1, 1));
 			$encode = ('E' == substr($resultLine, 2, 1));
 			$audio  = ('A' == substr($resultLine, 3, 1));
@@ -336,6 +359,7 @@ class FfmpegToolkitHelper {
 			}
 			$resultLine = $results[$i++];
 		    } while (!empty($resultLine));
+		    $success = true;
 		}
 	    }
 	}
