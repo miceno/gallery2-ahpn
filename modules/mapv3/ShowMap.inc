@@ -29,7 +29,7 @@
  */
 
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 
 class ShowMapController extends GalleryController {
     function handleRequest($form) {
@@ -293,7 +293,7 @@ class ShowMapView extends GalleryView {
 	}
 
 	/* Get the API key for this URL */
-	list ($ret, $map['googleMapKey']) = mapHelper::fetchApiKey();
+	list ($ret, $map['googleMapKey']) = mapv3Helper::fetchApiKey();
 	if ($ret) {
 	    return $ret;
 	}
@@ -327,10 +327,10 @@ class ShowMapView extends GalleryView {
 	    				? $param['EnableRouteNumber'] 
 	    				: 0;
 
-	    $color = mapHelper::getItemColor(177);
+	    $color = mapv3Helper::getItemColor(177);
 
 	    /* Get the items with GPS coordinates */
-	    list ($ret, $gpsitems) = mapHelper::getGPSItems();
+	    list ($ret, $gpsitems) = mapv3Helper::getGPSItems();
 	    if ($ret) {
 		return array ($ret, null);
 	    }
@@ -344,13 +344,13 @@ class ShowMapView extends GalleryView {
 		$albumfilter = html_entity_decode(GalleryUtilities::getRequestVariables('album'));
 
 		list ($ret, $parentsequences) = 
-		    mapHelper::getParentSequence($gpsitems, $LevelFilterRoot, $LevelFilterAll, $albumfilter);
+		    mapv3Helper::getParentSequence($gpsitems, $LevelFilterRoot, $LevelFilterAll, $albumfilter);
 		if ($ret) {
 		    return array ($ret, null);
 		}
 
 		/* Get the groups */
-		list ($ret, $groups) = mapHelper::getGPSGroups($map['ThumbHeight']);
+		list ($ret, $groups) = mapv3Helper::getGPSGroups($map['ThumbHeight']);
 		if ($ret) {
 		    return array ($ret, null);
 		}
@@ -538,7 +538,7 @@ if ($DEBUG_REGROUP) print " -------------- ZOOMLEVEL $z -----------------\n";
 					if ($mapPoints[$id]['display']) {
 					    /* if not, they are already in a previous group */
 					    $groupItemDists[$groupId][$id] =
-						    mapHelper::PixelDistance(
+						    mapv3Helper::PixelDistance(
 							    $mapPoints[$id]['gps'],
 							    $groups[$groupId]['gps'], $z);
 					    $pixdist = $groupItemDists[$groupId][$id];
@@ -579,7 +579,7 @@ if ($DEBUG_REGROUP) print " Adding Item  $id to groups $groupId\n";
 				foreach ($showItems as $id1 => $true1) {
 				    foreach ($showItems as $id2 => $true2) {
 					if ($id1 <> $id2) {
-					    $dist = mapHelper::PixelDistance(
+					    $dist = mapv3Helper::PixelDistance(
 						    $mapPoints[$id1]['gps'],
 						    $mapPoints[$id2]['gps'], $z);
 					    $distances[$id1][$id2] = $dist;
@@ -772,7 +772,7 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 				    foreach ($showGroups as $gid2 => $true2) {
 					if ($gid1 < $gid2) {
 					    $groupDists[$gid1][$gid2] =
-						    mapHelper::PixelDistance(
+						    mapv3Helper::PixelDistance(
 							    $groups[$gid1]['gps'],
 							    $groups[$gid2]['gps'], $z);
 					    $pixdist = $groupDists[$gid1][$gid2];
@@ -1102,7 +1102,7 @@ if ($DEBUG_REGROUP) print " DELETING new group $g2\n";
 	    
 	    
 	    if ((array_key_exists('Routes', $param)) and ($param['Routes'] != '')) {
-		list ($ret, $map['Routes'], $map['routeitem']) = mapHelper::getRoutes($mapPoints, $map['EnableRouteNumber'], $MarkerSets, $DefaultColors);
+		list ($ret, $map['Routes'], $map['routeitem']) = mapv3Helper::getRoutes($mapPoints, $map['EnableRouteNumber'], $MarkerSets, $DefaultColors);
 		if ($ret) {
 		    return array ($ret, null);
 		}

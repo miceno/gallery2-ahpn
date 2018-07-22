@@ -25,7 +25,7 @@
  *
  */
 
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
@@ -88,7 +88,7 @@ class mapItemEdit extends ItemEditPlugin {
 		    $form['fields']['ZoomLevel'] = '0.0';
 		}
 
-		$ret = mapHelper::saveFieldValues($item, $form['fields']);
+		$ret = mapv3Helper::saveFieldValues($item, $form['fields']);
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}
@@ -97,7 +97,7 @@ class mapItemEdit extends ItemEditPlugin {
 	} else if (isset($form['action']['getexif'])) {
 
 	    $form['fields']['GPS'] = $form['exif'];
-	    $ret = mapHelper::saveFieldValues($item, $form['fields']);
+	    $ret = mapv3Helper::saveFieldValues($item, $form['fields']);
 	    if ($ret) {
 		return array($ret->wrap(__FILE__, __LINE__), null, null, null);
 	    }
@@ -143,7 +143,7 @@ class mapItemEdit extends ItemEditPlugin {
 	}
 
 	/* Get the API key for the current URL */
-	list ($ret, $form['apiKey']) = mapHelper::fetchApiKey();
+	list ($ret, $form['apiKey']) = mapv3Helper::fetchApiKey();
 	if ($ret) {
 	    return array($ret, null, null);
 	}
@@ -163,7 +163,7 @@ class mapItemEdit extends ItemEditPlugin {
 		? 'album'
 		: ((GalleryUtilities::isA($item, 'GalleryPhotoItem')) ? 'photo' : 'common');
 	list ($ret, $tmp, $param, $isContainerSettings) =
-	    mapHelper::fetchFieldValues(array($item), null, $set);
+	    mapv3Helper::fetchFieldValues(array($item), null, $set);
 	if ($ret) {
 	    return array($ret->wrap(__FILE__, __LINE__), null, null);
 	}
@@ -211,7 +211,7 @@ class mapItemEdit extends ItemEditPlugin {
 	if (GalleryUtilities::isA($item, 'GalleryAlbumItem')) {
 	    return true;
 	}
-	list ($ret, $param) = mapHelper::loadParameters($item->getParentId());
+	list ($ret, $param) = mapv3Helper::loadParameters($item->getParentId());
 	if ($ret) {
 	    return false;
 	}

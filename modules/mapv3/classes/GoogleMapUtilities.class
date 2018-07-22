@@ -578,7 +578,7 @@ class GoogleMapUtilities {
 			/* set upper bounds for items ( */
 			foreach ($points as $id => $point) {
 				if ($point['parentDist'] >= 0) {
-					$pixdist = mapHelper::PixelDistance($point['gps'], $points[$point['parentId']]['gps'], $z);
+					$pixdist = mapv3Helper::PixelDistance($point['gps'], $points[$point['parentId']]['gps'], $z);
 					if ($pixdist <= $distance) {
 						/* hide this one, set $z+1 when first time hidden */
 						if ($point['regroupShowHigh'] <= $z) {

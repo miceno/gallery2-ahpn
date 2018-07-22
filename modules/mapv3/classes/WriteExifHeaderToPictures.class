@@ -25,7 +25,7 @@
  */
 
 GalleryCoreApi::requireOnce('modules/core/AdminMaintenance.inc');
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
@@ -99,7 +99,7 @@ class WriteExifHeaderToPictures extends MaintenanceTask {
 	if ($ret) {
 	    return array($ret, null);
 	}
-	list ($ret, $coorddata) = mapHelper::fetchFieldValues($items);
+	list ($ret, $coorddata) = mapv3Helper::fetchFieldValues($items);
 	if ($ret) {
 	    return array($ret, null);
 	}

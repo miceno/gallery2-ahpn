@@ -38,7 +38,7 @@ GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
  * @package map
  * @subpackage Classes
  */
-class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
+class mapv3Helper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
     /**
      * Load and decode module parameters
@@ -120,19 +120,19 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
      * @static
      */
     function addField($newField, $set, $containerId = 0) {
-	list ($ret, $param) = mapHelper::loadParameters($containerId, false);
+	list ($ret, $param) = mapv3Helper::loadParameters($containerId, false);
         if ($ret) {
              return $ret->wrap(__FILE__, __LINE__);
         }
 	foreach ($param as $list) {
-	    $idx = mapHelper::findParameter($list, $newField);
+	    $idx = mapv3Helper::findParameter($list, $newField);
 	    if ($idx >= 0) {
 		return array(null, false);
 	    }
 	}
 	$param[$set][] = array('field' => $newField,
 			       'summary' => false, 'detail' => true, 'choices' => array());
-	$ret = mapHelper::saveParameters(array($set => $param[$set]), $containerId);
+	$ret = mapv3Helper::saveParameters(array($set => $param[$set]), $containerId);
         if ($ret) {
              return $ret->wrap(__FILE__, __LINE__);
         }
@@ -223,7 +223,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 								 : (int)$item->getParentId();
 
 	    list ($ret, $param[$itemId], $isContainer[$itemId]) =
-		mapHelper::loadParameters($containerId);
+		mapv3Helper::loadParameters($containerId);
 	    if ($ret) {
 		return array($ret, null);
 	    }
@@ -329,7 +329,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
   
 		if ($coords != null) {
 		    $fields['GPS'] = $coords;
-		    $ret = mapHelper::saveFieldValues($item, $fields);
+		    $ret = mapv3Helper::saveFieldValues($item, $fields);
 		    if ($ret) {
 			return $ret->wrap(__FILE__, __LINE__);
 		    }
@@ -352,7 +352,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	$status = array();
 
 	if (isset($form['action']['save'])) {
-	    list ($ret, $param) = mapHelper::loadParameters($containerId, false);
+	    list ($ret, $param) = mapv3Helper::loadParameters($containerId, false);
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -368,7 +368,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		    }
 		}
 	    }
-	    $ret = mapHelper::saveParameters($newParam, $containerId);
+	    $ret = mapv3Helper::saveParameters($newParam, $containerId);
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -381,7 +381,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		$status['error']['empty'] = 1;
 		return array(null, $status);
 	    }
-	    list ($ret, $added) = mapHelper::addField($newField, $set, $containerId);
+	    list ($ret, $added) = mapv3Helper::addField($newField, $set, $containerId);
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -393,11 +393,11 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	} else if (isset($form['action']['go'])) {
 	    foreach ($form['action']['go'] as $set => $tmp) {
 	    } /** @todo: Is this intended--empty action for foreach? */
-	    list ($ret, $param, $isContainer) = mapHelper::loadParameters($containerId, false);
+	    list ($ret, $param, $isContainer) = mapv3Helper::loadParameters($containerId, false);
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
-	    $idx = mapHelper::findParameter($param[$set], $form[$set]['goField']);
+	    $idx = mapv3Helper::findParameter($param[$set], $form[$set]['goField']);
 	    if ($idx < 0) {
 		return array(GalleryCoreApi::error(ERROR_MISSING_OBJECT, __FILE__, __LINE__), null);
 	    }
@@ -407,7 +407,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		/* Remove from $set, add to common; no db change */
 		$param['common'][] = $param[$set][$idx];
 		unset($param[$set][$idx]);
-		$ret = mapHelper::saveParameters(
+		$ret = mapv3Helper::saveParameters(
 			array('common' => $param['common'], $set => $param[$set]), $containerId);
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
@@ -417,11 +417,11 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	    case 'remove':
 		/* Remove from $set; delete from all items */
 		unset($param[$set][$idx]);
-		$ret = mapHelper::saveParameters(array($set => $param[$set]), $containerId);
+		$ret = mapv3Helper::saveParameters(array($set => $param[$set]), $containerId);
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}
-		$ret = mapHelper::deleteField($form[$set]['goField'],
+		$ret = mapv3Helper::deleteField($form[$set]['goField'],
 					      $isContainer ? $containerId : 0);
                 if ($ret) {
                      return $ret->wrap(__FILE__, __LINE__);
@@ -436,13 +436,13 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		$newSet = $form[$set]['goAction'];
 		$param[$newSet][] = $param[$set][$idx];
 		unset($param[$set][$idx]);
-		$ret = mapHelper::saveParameters(
+		$ret = mapv3Helper::saveParameters(
 			array('common' => $param['common'], $newSet => $param[$newSet]), 
 			$containerId);
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}
-		$ret = mapHelper::deleteField($form[$set]['goField'],
+		$ret = mapv3Helper::deleteField($form[$set]['goField'],
 					      $isContainer ? $containerId : 0, $newSet);
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
@@ -462,15 +462,15 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		    $choices[] = $tmp;
 		}
 	    }
-	    list ($ret, $param) = mapHelper::loadParameters($containerId, false);
+	    list ($ret, $param) = mapv3Helper::loadParameters($containerId, false);
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
 	    foreach ($param as $set => $list) {
-		$idx = mapHelper::findParameter($list, $form['pickField']);
+		$idx = mapv3Helper::findParameter($list, $form['pickField']);
 		if ($idx >= 0) {
 		    $param[$set][$idx]['choices'] = $choices;
-		    $ret = mapHelper::saveParameters(array($set => $param[$set]), $containerId);
+		    $ret = mapv3Helper::saveParameters(array($set => $param[$set]), $containerId);
 		    if ($ret) {
 			return $ret->wrap(__FILE__, __LINE__);
 		    }
@@ -503,7 +503,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	$form['set'][] = array('key' => 'album', 'name' => $gallery->i18n('Album Fields'));
 	$form['set'][] = array('key' => 'photo', 'name' => $gallery->i18n('Photo Fields'));
 
-	list ($ret, $form['fields']) = mapHelper::loadParameters($containerId, false);
+	list ($ret, $form['fields']) = mapv3Helper::loadParameters($containerId, false);
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
@@ -517,7 +517,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
     function createmaps($fieldNames, $containerId = 0) {
 	$duplicates = array();
 	foreach ($fieldNames as $fieldName) {
-	    list ($ret, $added) = mapHelper::addField($fieldName, 'common', $containerId);
+	    list ($ret, $added) = mapv3Helper::addField($fieldName, 'common', $containerId);
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -536,7 +536,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
-	$ret = mapHelper::saveFieldValues($item, $data);
+	$ret = mapv3Helper::saveFieldValues($item, $data);
 	if ($ret) {
 	    return $ret->wrap(__FILE__, __LINE__);
 	}
@@ -570,7 +570,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 
 	/* Grab the current URL directory */
 	$urlDir = $urlGenerator->getCurrentUrlDir();
-	list ($ret, $profile) = mapHelper::fetchKeyProfileForUrl($urlDir);
+	list ($ret, $profile) = mapv3Helper::fetchKeyProfileForUrl($urlDir);
 	if ($ret) {
 	    return array($ret, null);
 	}
@@ -590,12 +590,12 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	$profile = array();
 
 	/* Get the key profiles and test each one against the passed URL. */
-	list ($ret, $allKeySets) = mapHelper::getAllKeyProfiles();
+	list ($ret, $allKeySets) = mapv3Helper::getAllKeyProfiles();
 	if ($ret) {
 	    return array($ret, null);
 	}
 
-	$index = mapHelper::_matchLongestUrl($allKeySets, $url);
+	$index = mapv3Helper::_matchLongestUrl($allKeySets, $url);
 	if ($index != -1) {
 	    $profile = $allKeySets[$index];
 	}
@@ -615,17 +615,17 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	/*
 	 * Get the key profiles and test each one against the passed URL. Delete the matching one.
 	 */
-	list ($ret, $allKeySets) = mapHelper::getAllKeyProfiles();
+	list ($ret, $allKeySets) = mapv3Helper::getAllKeyProfiles();
 	if ($ret) {
 	    return array($ret, false);
 	}
 
-	$index = mapHelper::_matchLongestUrl($allKeySets, $url);
+	$index = mapv3Helper::_matchLongestUrl($allKeySets, $url);
 	if ($index != -1) {
 	    unset($allKeySets[$index]);
 	}
 
-	$ret = mapHelper::_saveAllKeyProfiles($allKeySets);
+	$ret = mapv3Helper::_saveAllKeyProfiles($allKeySets);
 	return array($ret, $found);
     }
 
@@ -641,7 +641,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
      */
     function saveKeyProfile($name, $url, $apiKey, $oldUrl) {
 	/* Get all the key profiles. */
-	list ($ret, $allKeySets) = mapHelper::getAllKeyProfiles();
+	list ($ret, $allKeySets) = mapv3Helper::getAllKeyProfiles();
 	if ($ret) {
 	    return array($ret, null);
 	}
@@ -651,7 +651,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	    /* If we're editing a key, locate it by the oldUrl and modify the saved profile.
 	     * If no match, then add a new profile.
 	     */
-	    $index = mapHelper::_matchLongestUrl($allKeySets, $oldUrl);
+	    $index = mapv3Helper::_matchLongestUrl($allKeySets, $oldUrl);
 	    if ($index != -1) {
 		$allKeySets[$index]['url'] = $url;
 		$allKeySets[$index]['name'] = $name;
@@ -666,7 +666,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	    /* Add a new key profile */
 	    $allKeySets[] = array('url' => $url, 'name' => $name, 'apiKey' => $apiKey);
 	}
-	$ret = mapHelper::_saveAllKeyProfiles($allKeySets);
+	$ret = mapv3Helper::_saveAllKeyProfiles($allKeySets);
 	return $ret;
     }
     
@@ -946,8 +946,8 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 	    $items[$result[0]] = array(
 		'id' => $result[0],
 		'gps' => $result[1],
-		'color' => mapHelper::getItemColor($result[0]),
-		'zoomlevel' => mapHelper::getItemZoomLevel($result[0]),
+		'color' => mapv3Helper::getItemColor($result[0]),
+		'zoomlevel' => mapv3Helper::getItemZoomLevel($result[0]),
 		'itemLink' => $itemLink,
 		'parentId' => $item->getParentId(),
 		'hasChild' => false,
@@ -955,7 +955,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		'posy' => $explodedCoord[1]
 		);
 
-	    list ($ret, $additionalProperties) = mapHelper::_getPropertiesForItemId($result[0]);
+	    list ($ret, $additionalProperties) = mapv3Helper::_getPropertiesForItemId($result[0]);
 	    if ($ret) {
 		return array ($ret, null);
 	    }
@@ -1064,7 +1064,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		}
 		
 		$items = array();
-		list ($ret, $groupsinfos) = mapHelper::_getGroupsFromDB();
+		list ($ret, $groupsinfos) = mapv3Helper::_getGroupsFromDB();
 		if ($ret) {
 			return array ($ret, null);
 		}
@@ -1079,8 +1079,8 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 			$items[$result[0]] = array(
 			    'id' => $result[0],
 				'gps' => $result[1],
-				'color' => mapHelper::getItemColor($result[0]),
-				'zoomlevel' => mapHelper::getItemZoomLevel($result[0]),
+				'color' => mapv3Helper::getItemColor($result[0]),
+				'zoomlevel' => mapv3Helper::getItemZoomLevel($result[0]),
 				'itemLink' => $itemLink,
 			    'title' => $groupsinfos[$result[0]]['title'],
 			    'description' => $groupsinfos[$result[0]]['description'],
@@ -1317,7 +1317,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 			$type = $item->getEntityType();
 			$imagename = $MarkerSets[$type];
 			$defaultcolor = $DefaultColors[$type];
-			$color = mapHelper::getItemColor($routeinfo[$i]);
+			$color = mapv3Helper::getItemColor($routeinfo[$i]);
 			$color = ($color == "default") ? $defaultcolor : $color;
 
 			$sourceimage = $mapModBaseDir . 'images/markers/' . $imagename
@@ -1352,7 +1352,7 @@ class mapHelper extends mapInterface_1_0 /* and GalleryEventListener */ {
 		    /*
 		     * for each item, grab the coordinates and store them in an array.
 		     */
-		    $tmppoint[] = explode(',', mapHelper::getItemGPSCoordinatesFromDB($routeinfo[$i]));
+		    $tmppoint[] = explode(',', mapv3Helper::getItemGPSCoordinatesFromDB($routeinfo[$i]));
 		}
 	    }
 	    $routeitems[$routeinfo[1]] = $rawitem;

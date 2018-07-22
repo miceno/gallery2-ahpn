@@ -24,7 +24,7 @@
  * Fixed several bugs where conditional test variables were not initialized every pass
  * Removed lots of dead code related to importing GPS track
  * Validates field values to ensure they are in legal range
- * Changed to use mapHelper function to retrieve field values
+ * Changed to use mapv3Helper function to retrieve field values
  * Changed to recursive function to export a single item or create a hierarchy of
     all subitems of current item
  * Only include subitems (in particular ChildDataItems) that have GPS coordinates set
@@ -133,11 +133,11 @@ class GoogleEarthView extends GalleryView {
     function _createGETree($item, $data, $ancestors) {
 	$base_path = dirname(__FILE__) . '/';
 	
-	GalleryCoreApi::requireOnce($base_path . 'classes/mapHelper.class');
+	GalleryCoreApi::requireOnce($base_path . 'classes/mapv3Helper.class');
 
 	$returnstring = ''; /* start with a blank string */
 	if (empty($data)) { /* workaround for first call if no field data passed */
-	    list ($ret, $data) = mapHelper::fetchFieldValues(array($item));
+	    list ($ret, $data) = mapv3Helper::fetchFieldValues(array($item));
 	}
 
 	/* If it's an album or similar */
@@ -160,7 +160,7 @@ class GoogleEarthView extends GalleryView {
 		    }
 
 		    /* Grab the field data for the child items */
-		    list ($ret, $fielddata) = mapHelper::fetchFieldValues($childItems);
+		    list ($ret, $fielddata) = mapv3Helper::fetchFieldValues($childItems);
 		    if ($ret) {
 			return array($ret->wrap(__FILE__, __LINE__), null);
 		    }

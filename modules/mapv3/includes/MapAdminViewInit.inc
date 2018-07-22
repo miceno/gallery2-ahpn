@@ -39,9 +39,9 @@
     }
 
     /* Add the google map fields (we don't care about errors) */
-    list($ret, $added) = mapHelper::addField('GPS', 'common', 0);
-    list($ret, $added) = mapHelper::addField('ZoomLevel', 'common', 0);
-    list($ret, $added) = mapHelper::addField('GELookAt', 'common', 0);
+    list($ret, $added) = mapv3Helper::addField('GPS', 'common', 0);
+    list($ret, $added) = mapv3Helper::addField('ZoomLevel', 'common', 0);
+    list($ret, $added) = mapv3Helper::addField('GELookAt', 'common', 0);
 
     /* Save the Color Names into the Custom Field */
     $handle = fopen($basegallerydir . 'modules/mapv3/images/markers/' . $param['useMarkerSet']
@@ -58,7 +58,7 @@
 		     . '/colorlist') - 1));
     fclose($handle);
 
-    list ($ret, $params) = mapHelper::loadParameters(0, false);
+    list ($ret, $params) = mapv3Helper::loadParameters(0, false);
      
     $newparam['common'] = $params['common'];
     
@@ -72,7 +72,7 @@
 	    array ('field' => 'Color', 'summary' => '', 'detail' => 1,
 			'choices' => $albumlist);
 
-    $ret = mapHelper::saveParameters($newparam, 0);
+    $ret = mapv3Helper::saveParameters($newparam, 0);
 
     /* Add additional fields */
     $form['mode'] = GalleryUtilities::getRequestVariables('mode');

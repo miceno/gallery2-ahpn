@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 
 /**
  * @package map
@@ -48,7 +48,7 @@ class mapv3Callbacks {
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
-	    list ($ret, $fields) = mapHelper::fetchFieldValues(array($item), 'detail');
+	    list ($ret, $fields) = mapv3Helper::fetchFieldValues(array($item), 'detail');
 	    if ($ret) {
 		return $ret->wrap(__FILE__, __LINE__);
 	    }
@@ -183,7 +183,7 @@ class mapv3Callbacks {
 		    $ItemType = $module->translate('Item');
 		}
 		/* Grab the field data for the item */
-		list ($ret, $data) = mapHelper::fetchFieldValues(array($item));
+		list ($ret, $data) = mapv3Helper::fetchFieldValues(array($item));
 		if ($ret) {
 		    return array($ret->wrap(__FILE__, __LINE__), null);
 		}
@@ -258,7 +258,7 @@ class mapv3Callbacks {
 		}
 
 		/* Get the API key for the current URL */
-		list ($ret, $APIKey) = mapHelper::fetchApiKey();
+		list ($ret, $APIKey) = mapv3Helper::fetchApiKey();
 		if ($ret) {
 		    return $ret;
 		}
@@ -323,7 +323,7 @@ class mapv3Callbacks {
 		 */
 		$markerItemIds[] = $params['itemId'];
 
-		/** @todo Add a mapHelper function for this */
+		/** @todo Add a mapv3Helper function for this */
 		/* Get the Item data */
 		$query = '
 		SELECT

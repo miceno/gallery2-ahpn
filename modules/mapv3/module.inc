@@ -53,15 +53,15 @@ class mapv3Module extends GalleryModule {
      * @see GalleryModule::registerEventListeners()
      */
     function registerEventListeners() {
-	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
-	GalleryCoreApi::registerEventListener('GalleryEntity::delete', new mapHelper());
-	GalleryCoreApi::registerEventListener('GalleryEntity::save', new mapHelper());
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
+	GalleryCoreApi::registerEventListener('GalleryEntity::delete', new mapv3Helper());
+	GalleryCoreApi::registerEventListener('GalleryEntity::save', new mapv3Helper());
     }
 
     function needsConfiguration() {
-	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
     	/* This module requires a Google Map API key. */
-	list ($ret, $profiles) = mapHelper::getAllKeyProfiles();
+	list ($ret, $profiles) = mapv3Helper::getAllKeyProfiles();
 	if ($ret) {
 	    return array($ret, null);
 	}
@@ -193,11 +193,11 @@ class mapv3Module extends GalleryModule {
      * @see GalleryModule::getItemSummaries()
      */
     function getItemSummaries($items, $permissions) {
-	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 	GalleryCoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
 	$summaries = $data = array();
 
-	list ($ret, $data) = mapHelper::fetchFieldValues($items, 'summary');
+	list ($ret, $data) = mapv3Helper::fetchFieldValues($items, 'summary');
 	if ($ret) {
 	    return array($ret, null);
 	}
@@ -249,16 +249,16 @@ class mapv3Module extends GalleryModule {
 
 	/* Register interface implementation */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
-		'mapInterface_1_0', 'mapHelper', 'mapv3',
-		'modules/mapv3/classes/mapHelper.class', 'mapv3', null);
+		'mapInterface_1_0', 'mapv3Helper', 'mapv3',
+		'modules/mapv3/classes/mapv3Helper.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
 
 	/* Register search implementation */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
-		'GallerySearchInterface_1_0', 'mapSearch', 'mapv3',
-		'modules/mapv3/classes/mapSearch.class', 'mapv3', null);
+		'GallerySearchInterface_1_0', 'mapv3Search', 'mapv3',
+		'modules/mapv3/classes/mapv3Search.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;
 	}
@@ -285,7 +285,7 @@ class mapv3Module extends GalleryModule {
      */
     function getItemLinks($items, $wantsDetailedLinks, $permissions) {
 
-	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+	GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 	$links = array();
 
 	list ($ret, $linktype) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'linktype');
@@ -313,7 +313,7 @@ class mapv3Module extends GalleryModule {
   
 		if ($linktype == 1) {
 		    /* Dynamic link -> search for item in the album/subalbum with GPS coords */
-		    list ($ret, $count) = mapHelper::getCountItemWithCoords($item->getId());
+		    list ($ret, $count) = mapv3Helper::getCountItemWithCoords($item->getId());
 		    if ($ret) {
                 return array($ret, null);
             }
@@ -342,7 +342,7 @@ class mapv3Module extends GalleryModule {
 			 * The current album (or parent of the current photo) does not have any
 			 * GPS item, check from the root
 			 */
-        		list ($ret, $count) = mapHelper::getCountItemWithCoords();
+        		list ($ret, $count) = mapv3Helper::getCountItemWithCoords();
         		if ($ret) {
                             return array($ret, null);
                         }

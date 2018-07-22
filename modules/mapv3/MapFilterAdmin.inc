@@ -29,7 +29,7 @@
 
 $base_path = 'modules/mapv3/';
 
-GalleryCoreApi::requireOnce($base_path . 'classes/mapHelper.class');
+GalleryCoreApi::requireOnce($base_path . 'classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce($base_path . 'classes/GoogleMapUtilities.class');
 
 /**

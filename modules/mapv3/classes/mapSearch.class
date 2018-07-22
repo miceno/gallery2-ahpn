@@ -37,7 +37,7 @@ GalleryCoreApi::requireOnce('modules/search/classes/GallerySearchInterface_1_0.c
  * @subpackage Classes
  *
  */
-class mapSearch extends GallerySearchInterface_1_0 {
+class mapv3Search extends GallerySearchInterface_1_0 {
 
     /**
      * @see GallerySearchInterface_1_0::getSearchModuleInfo()

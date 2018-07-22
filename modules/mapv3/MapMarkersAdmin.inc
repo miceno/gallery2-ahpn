@@ -26,7 +26,7 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
@@ -74,7 +74,7 @@ class MapMarkersAdminController extends GalleryController {
 		}
 
 		/* make sure the 'Color' CustomField is inline with the marker set selected */
-		list ($ret, $param) = mapHelper::loadParameters(0, false);
+		list ($ret, $param) = mapv3Helper::loadParameters(0, false);
 		$newparam['common'] = $param['common'];
 
 		if (isset($form['useMarkerSet'])) {
@@ -110,7 +110,7 @@ class MapMarkersAdminController extends GalleryController {
 
 		}
 
-		$ret = mapHelper::saveParameters($newparam, 0);
+		$ret = mapv3Helper::saveParameters($newparam, 0);
 
 		if (!isset($form['defaultphotocolor'])) {
 		    $form['defaultphotocolor'] = '';

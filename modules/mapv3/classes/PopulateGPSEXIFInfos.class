@@ -25,7 +25,7 @@
  */
 
 GalleryCoreApi::requireOnce('modules/core/AdminMaintenance.inc');
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
@@ -94,9 +94,9 @@ class PopulateGPSEXIFInfos extends MaintenanceTask {
 	    }
 
 	    if ($coords != null) {
-		list ($ret, $fields) = mapHelper::fetchFieldValues(array($item));
+		list ($ret, $fields) = mapv3Helper::fetchFieldValues(array($item));
 		$fields[$id]['GPS'] = $coords;
-		$ret = mapHelper::saveFieldValues($item, $fields[$id]);
+		$ret = mapv3Helper::saveFieldValues($item, $fields[$id]);
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}

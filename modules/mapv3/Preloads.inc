@@ -32,9 +32,9 @@ class mapv3Preloads {
 	    list ($ret, $item) = GalleryCoreApi::loadEntitiesById($itemId);
 	    if (!$ret && /* extend to all data items ? */
 		    GalleryUtilities::isA($item, 'GalleryPhotoItem')) {
-		GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+		GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 		list ($ret, $tmp, $param, $isContainerSettings) =
-			mapHelper::fetchFieldValues(array($item), null, 'photo');
+			mapv3Helper::fetchFieldValues(array($item), null, 'photo');
 		if ($ret) {
 		    return $ret->wrap(__FILE__, __LINE__);
 		}

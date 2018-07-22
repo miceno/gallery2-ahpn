@@ -26,7 +26,7 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**

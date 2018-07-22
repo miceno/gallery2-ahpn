@@ -26,7 +26,7 @@
  * judge me by it. :)
  */
 
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapHelper.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
@@ -149,7 +149,7 @@ class MapSiteAdminController extends GalleryController {
 
 	    $url = $form['mapKeys'];
 
-	    list ($ret, $success) = mapHelper::deleteKeyProfile($url);
+	    list ($ret, $success) = mapv3Helper::deleteKeyProfile($url);
 
 	    $status['profileDeleted'] = $success;
 
@@ -166,7 +166,7 @@ class MapSiteAdminController extends GalleryController {
 	    if (!empty($form['oldProfileUrl'])) {
 		/* Check if the profile was modified by someone else simultaneously */
 		list ($ret, $oldProfile) = 
-			mapHelper::fetchKeyProfileForUrl($form['oldProfileUrl']);
+			mapv3Helper::fetchKeyProfileForUrl($form['oldProfileUrl']);
 		if ($ret) {
 		    return $ret;
 		}
@@ -188,7 +188,7 @@ class MapSiteAdminController extends GalleryController {
 		$error[] = 'form[error][editProfile][apiKey][missing]';
 	    }
 	    if (empty($error)) {
-	        mapHelper::saveKeyProfile(trim($form['editProfile']['name']),
+	        mapv3Helper::saveKeyProfile(trim($form['editProfile']['name']),
 					  trim($form['editProfile']['url']),
 					  trim($form['editProfile']['apiKey']),
 					  $form['oldProfileUrl']);
@@ -339,13 +339,13 @@ class mapSiteAdminView extends GalleryView {
 	$urlGen = $gallery->getUrlGenerator();
 	$form['baseUrl'] = $urlGen->getCurrentUrlDir();
 
-	list ($ret, $form['arrayMapKeys']) = mapHelper::getAllKeyProfiles();
+	list ($ret, $form['arrayMapKeys']) = mapv3Helper::getAllKeyProfiles();
 	if ($ret) {
 	    return $ret;
 	}
 
 	$editUrl = GalleryUtilities::getRequestVariables('keyUrl');
-	list ($ret, $profile) = mapHelper::fetchKeyProfileForUrl($editUrl);
+	list ($ret, $profile) = mapv3Helper::fetchKeyProfileForUrl($editUrl);
 	if ($ret) {
 	    return $ret;
 	}
