@@ -249,7 +249,7 @@ class mapv3Module extends GalleryModule {
 
 	/* Register interface implementation */
 	$ret = GalleryCoreApi::registerFactoryImplementation(
-		'mapInterface_1_0', 'mapv3Helper', 'mapv3',
+		'mapv3Interface_1_0', 'mapv3Helper', 'mapv3',
 		'modules/mapv3/classes/mapv3Helper.class', 'mapv3', null);
 	if ($ret) {
 	    return $ret;

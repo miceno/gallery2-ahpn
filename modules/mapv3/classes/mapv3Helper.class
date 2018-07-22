@@ -29,7 +29,7 @@
  */
 define('map_SESSION_KEY', 'mapv3.adminMode.itemId');
 
-GalleryCoreApi::requireOnce('modules/mapv3/classes/mapInterface_1_0.class');
+GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Interface_1_0.class');
 GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
 
 /**
@@ -38,7 +38,7 @@ GalleryCoreApi::requireOnce('modules/mapv3/classes/GoogleMapUtilities.class');
  * @package map
  * @subpackage Classes
  */
-class mapv3Helper extends mapInterface_1_0 /* and GalleryEventListener */ {
+class mapv3Helper extends mapv3Interface_1_0 /* and GalleryEventListener */ {
 
     /**
      * Load and decode module parameters
@@ -512,7 +512,7 @@ class mapv3Helper extends mapInterface_1_0 /* and GalleryEventListener */ {
     }
 
     /**
-     * @see mapInterface_1_0::createmaps()
+     * @see mapv3Interface_1_0::createmaps()
      */
     function createmaps($fieldNames, $containerId = 0) {
 	$duplicates = array();
@@ -529,7 +529,7 @@ class mapv3Helper extends mapInterface_1_0 /* and GalleryEventListener */ {
     }
 
     /**
-     * @see mapInterface_1_0::setmapValues()
+     * @see mapv3Interface_1_0::setmapValues()
      */
     function setmapValues($itemId, $data) {
 	list ($ret, $item) = GalleryCoreApi::loadEntitiesById($itemId);

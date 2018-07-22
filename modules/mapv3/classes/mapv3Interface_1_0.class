@@ -30,7 +30,7 @@
  * @package map
  * @subpackage Classes
  */
-class mapInterface_1_0 {
+class mapv3Interface_1_0 {
 
     /**
      * Create new custom fields
