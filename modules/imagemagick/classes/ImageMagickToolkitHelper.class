@@ -287,17 +287,16 @@ class ImageMagickToolkitHelper {
 	    if ($ret) {
 		return array($ret, null);
 	    }
-	    $command = array_merge($command, array('-verbose', $dataPath . $test['file']));
+	    $command = array_merge($command, array($dataPath . $test['file']));
 	    list ($success, $results) = $platform->exec(array($command));
 
 	    $successCount += $success;
+	    
 	    if ($success || $test['file'] == 'truncated.pcd') {
 		/* Ignore error status for truncated.pcd.. it should still identify the file ok */
-		foreach ($results as $resultLine) {
-		    if (preg_match($test['expected'], $resultLine)) {
-			foreach ($test['mime'] as $type) {
-			    $mimeTypes[$type] = 1;
-			}
+		if (preg_match($test['expected'], implode(',', $results))) {
+		    foreach ($test['mime'] as $type) {
+			$mimeTypes[$type] = 1;
 		    }
 		}
 	    }
@@ -382,7 +381,7 @@ class ImageMagickToolkitHelper {
 		    $success = false;
 		    $results = array($module->translate('File does not exist'));
 		} else {
-		    $command = array_merge($command, array('-verbose', $dataPath . 'test.gif'));
+		    $command = array_merge($command, array($dataPath . 'test.gif'));
 		    list ($success, $results) = $platform->exec(array($command));
 		}
 
