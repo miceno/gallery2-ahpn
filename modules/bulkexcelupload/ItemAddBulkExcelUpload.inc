@@ -31,38 +31,58 @@
  * @subpackage UserInterface
  */
 class ItemAddBulkExcelUpload extends ItemAddPlugin {
-    private static function _createCsv($excelPath, $zipPath, $debug)
+    /**
+     * Create a CSV file suitable for import.
+     *
+     * @param $excelPath string Path to excel file.
+     * @param $zipPath string Path to zip file with the images. Images should
+     * be in the same order as they appear on the excel file.
+     * @param $readHeader boolean Excel file will have a header row.
+     * @param $debug boolean Activate debug or verbose mode.
+     * @return array Returns a tuple of GalleryStatus, the CSV data, and the
+     * verbose or debug output.
+     *
+     */
+    private static function _createCsv($excelPath, $zipPath, $readHeader,
+				       $debug)
     {
         // TODO: implement create csv code.
-        $error = null;
-        $data = array();
-        return array($error, $data);
+	$error = null;
+	$data = array(
+	    /* Header */
+	    join("\t", array("title", "summary", "description", "keywords", "filename")),
+	    join("\t", array("0001 L'Aliança [1900]",
+		"Façana del primitiu edifici de la Societat L'Aliança",
+		"Façana del primitiu edifici de la Societat L'Aliança.",
+		"1,3.1,Entitats,CD/paper,Wad - Ras,Autor: Desconegut,[1900]",
+		"/kunden/homepages/8/d228439513/htdocs/private/gallery/bulk/tmpk3XF_5/0001 L'Aliança [1900].jpg")),
+	    join("\t", array("0033 L'Aliança 1981",
+		"Ball al Casino de L'Aliança",
+		"Ball al Casino de L' Aliança.",
+		"33,3.1.1,Entitats,CD/paper,Rambla del Poblenou,Autor: El Periódico,07-03-1981",
+		"/kunden/homepages/8/d228439513/htdocs/private/gallery/bulk/tmpk3XF_5/0033 L'Aliança 1981.jpg"))
+	);
+        $output = array();
+        global $gallery;
+        $gallery->debug_r($data);
+        return array($error, $data, $output);
     }
     
     /**
-     * @param $form
-     * @param $error
-     * @param $gallery
-     * @param $platform
-     * @return array
+     * Returns if a field contains a valid filename.
+     *
+     * @param $file_field File field to validate
+     * @return boolean File validation. A readable non-directory returns true.
      */
-    protected static function _validate_file($form, $field)
+    protected static function _validate_file($file_field)
     {
-	global $gallery;
- 
-	$error = array();
-	if (empty($form[$field])) {
-	    $error = "form[error][$field]";
-	}
+        global $gallery;
+	$platform =& $gallery->getPlatform();
 	
-	if (is_null($error)) {
-	    $platform =& $gallery->getPlatform();
+	$is_valid = ($platform->is_readable($file_field)
+	    && !$platform->is_dir($file_field));
 	    
-	    if (!$platform->is_readable($form[$field])) {
-		$error = "form[error][$field][invalid]";
-	    }
-	}
-	return $error;
+	return $is_valid;
     }
     
     /**
@@ -71,7 +91,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
      * @param $data string CSV Input data
      * @param $basePath string Base path for the files in the CSV input data
      * @param $item object Item to upload entities to
-     * @return array GalleryStatus
+     * @return array GalleryStatus, errors, warnings.
      */
     static function _bulkUpload($data, $basePath, &$item)
     {
@@ -79,12 +99,21 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
 	$platform =& $gallery->getPlatform();
 	$status = $error = array();
  
-	$fields = str_split("\t", trim(array_shift($data)));
-	$count = count($fields);
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
+	if ($ret) {
+	    return array($ret, null, null);
+	}
+	/* Read header fields */
+	$header = explode("\t", trim(array_shift($data)));
+	$column_count = count($header);
+	
+	/* Read line by line */
 	foreach ($data as $line) {
-	    $line = str_split("\t", trim($line));
-	    for ($i = 0; $i < $count; $i++) {
-		$line[$fields[$i]] = $line[$i];
+	    $warnings = array();
+	    
+	    $line = explode("\t", trim($line));
+	    for ($i = 0; $i < $column_count; $i++) {
+		$line[$header[$i]] = $line[$i];
 	    }
 	    
 	    list ($_, $extension) =
@@ -140,43 +169,41 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
 		$newItemId = $newItem->getId();
 	    } else {
 		$newItemId = null;
+		$warnings[] = $module->translate("File does not exist");
 	    }
 	    
-	    $status = array(
+	    $status['addedFiles'][] = array(
 		'fileName' => GalleryCoreApi::convertToUtf8($fileName),
 		'id' => $newItemId,
-		'warnings' => array());
+		'warnings' => $warnings);
 	}
 	return array(null, $error, $status);
     }
     
     /**
      * @see ItemAddPlugin::handleRequest
+     *
+     * Do not perform data validation. In case form data is not valid, raise
+     * errors or exceptions.
+     *
      */
     function handleRequest($form, &$item, &$addController) {
+        global $gallery;
+    
+	// $gallery->debug( "linea: " );
+ 
 	$status = $error = array();
 	if (isset($form['action']['add'])) {
+	    $gallery->debug_r($form);
+	    
+	    $file = array('name' => $form['name']['excelPath'],
+		'type' => $form['type']['excelPath'],
+		'tmp_name' => $form['tmp_name']['excelPath'],
+		'size' => $form['size']['excelPath']);
 	    
 	    /**
-	     * Check for the excel file.
+	     * TODO: Read or not the Header
 	     */
-	    $error = self::_validate_file($form, 'excelPath');
-	    if (!is_null($error)) {
-		return array(null, $error, $status);
-	    }
-	    
-	    /**
-	     * Check for the zip file.
-	     */
-	    $error = self::_validate_file($form, 'zipPath');
-	    if (!is_null($error)) {
-		return array(null, $error, $status);
-	    }
-	    
-	    // Read Excel file
-	    // Read zip file
-	    // Transform Excel data into CSV data for bulkupload
-	    // Call bulkupload with csv file
 	    
 	    list ($ret, $lockId) = GalleryCoreApi::acquireReadLock($item->getId());
 	    if ($ret) {
@@ -185,13 +212,20 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
 	    
 	    // Set default preview to true.
 	    $debug = true;
-	    // Create CSV from excel and zip.
+	    /**
+	     * Create CSV from excel and zip.
+	     */
 	    list ($ret, $data, $output) = ItemAddBulkExcelUpload::_createCsv
-	    ($form['excelPath'], $form['zipPath'], $debug);
+	    ($form['tmp_name']['excelPath'], $form['tmp_name']['zipPath'],
+	    $form['readHeader'], $debug);
 	    if ($ret) {
 		return array($ret, null, null);
 	    }
-	    $ret = ItemAddBulkExcelUpload::_bulkUpload($data, $item);
+	    /**
+	     * Bulk upload.
+	     */
+	    list($ret, $error, $status) = ItemAddBulkExcelUpload::_bulkUpload
+	    ($data, $form['tmp_name']['excelPath'], $item);
 	    if ($ret) {
 		return array($ret, null, null);
 	    }
@@ -201,6 +235,10 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
 		return array($ret, null, null);
 	    }
 	}
+	else {
+	    $gallery->error( "no valid action" );
+	}
+	$gallery->debug( "returning from excel import... " );
 
 	return array(null, $error, $status);
     }
@@ -208,23 +246,44 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
 
     /**
      * @see ItemAdd:loadTemplate
+     *
+     * Validate field values.
+     *
      */
     function loadTemplate(&$template, &$form, $item) {
+        global $gallery;
+        
 	if ($form['formName'] != 'ItemAddBulkExcelUpload') {
 	    $form['formName'] = 'ItemAddBulkExcelUpload';
 	}
-	if (empty( $form['excelPath'] )) {
-            list ($_, $_, $listDir) = fetchListDirectories();
-	    $form['excelPath'] = $listDir[0];
+	
+	if (array_key_exists('excelPath', $form)) {
+	    $ret = self::_validate_file($form['excelPath']);
+	    if (!$ret) {
+		$form['error']['excelPath']['invalid'] = 1;
+	    }
 	}
-
-	if (empty( $form['zipPath'] )) {
-            list ($_, $_, $listDir) = fetchListDirectories();
-	    $form['zipPath'] = $listDir[0];
+	if (array_key_exists('zipPath', $form)) {
+	    $ret = self::_validate_file($form['zipPath']);
+	    if (!$ret) {
+		$form['error']['zipPath']['invalid'] = 1;
+	    }
 	}
-
+ 
+	if (empty( $form['readHeader'] )) {
+	    $form['readHeader'] = 'on';
+	}
+ 
+	/* Set the ItemAdmin form's encoding type specially since we're uploading binary files */
+	if ($template->hasVariable('ItemAdmin')) {
+	    $ItemAdmin =& $template->getVariableByReference('ItemAdmin');
+	    $ItemAdmin['enctype'] = 'multipart/form-data';
+	} else {
+	    $ItemAdmin['enctype'] = 'multipart/form-data';
+	    $template->setVariable('ItemAdmin', $ItemAdmin);
+	}
 	return array(null,
-		     'modules/bulkexcelupload/templates/ItemAddBulk.tpl',
+		     'modules/bulkexcelupload/templates/ItemAddBulkExcelUpload.tpl',
 		     'modules_bulkexcelupload');
     }
 
@@ -241,21 +300,5 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
     }
 }
 
-function fetchListDirectories(){
-        list ($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module',
- 'itemadd');
-        if ($ret) {
-            return array($ret, null, null);
-        }
-        $localServerDirList = array();
-        $localServerDirListInSystemCharset = array();
-        for ($i = 1; !empty($param['uploadLocalServer.dir.' . $i]); $i++) {
-            $localServerDirList[] = $param['uploadLocalServer.dir.' . $i];
-            $localServerDirListInSystemCharset[] =
-                GalleryCoreApi::convertFromUtf8($param['uploadLocalServer.dir.'
-. $i]);
-        }                                                     
-        return array(null, $localServerDirList, $localServerDirListInSystemCharset);
-}
 
 
