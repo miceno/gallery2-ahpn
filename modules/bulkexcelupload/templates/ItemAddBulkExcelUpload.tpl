@@ -14,42 +14,55 @@
 
 <div class="gbBlock">
   <p class="giDescription">
-    {g->text text="Add many files at once with pre-prepared title, summary, description and keywords."}
+    {g->text text="Add many files at once with pre-prepared fields."}
     <a onclick="document.getElementById('ItemAddBulk_instructions').style.display='block'">{g->text text="[help]"}</a>
   </p>
   <p style="display: none" id="ItemAddBulk_instructions" class="giDescription">
-    {capture assign=sampleDataFile}<a href="{g->url href="modules/bulkexcelupload/data/sample.txt"}">{/capture}
+    {capture assign=sampleDataFile}<a href="{g->url href="modules/bulkexcelupload/data/sample.zip"}">{/capture}
     {capture assign=sampleExcelSpreadsheet}<a href="{g->url href="modules/bulkexcelupload/data/sample.xls"}">{/capture}
-    {g->text text="The photos you want to add must be on the ZIP file in the same order as they are on the XLS file.
-    Create a data file containing the title, summary, description and keywords to each photo, and then enter the path
-    to the XLS and ZIP files in the box below. For convenience, you can author the data file in Excel and then save
-    it in the %sText (tab delimited)%s format.  Here is a %ssample data file%s and a %ssample excel spreadsheet%s." arg1="<b>" arg2="</b>" arg3=$sampleDataFile arg4="</a>" arg5=$sampleExcelSpreadsheet arg6="</a>"}
+    {g->text text="
+    Create a data file containing the Registre, Referència, Temes, Suport, Descripció, Lloc, Autor and Data to each
+    photo, and then enter the path
+    to the XLSX and ZIP files in the box below. For convenience, you can author the data file in Excel and then save
+    it in the %sXLSX%s format.
+    The photos you want to add must be on the ZIP file in the same order as they are on the XLSX file.
+    Here is a %ssample data file%s and a %ssample excel spreadsheet%s." arg1="<b>" arg2="</b>" arg3=$sampleDataFile arg4="</a>" arg5=$sampleExcelSpreadsheet arg6="</a>"}
   </p>
 
-  <h4> {g->text text="Excel File"} </h4>
-  <input type="text" size="120" name="{g->formVar var="form[excelpath]"}" value="{$form.excelpath}"
-         id='giFormExcelPath' autocomplete="off"/>
-  {g->autoComplete element="giFormExcelPath"}
-    {g->url arg1="view=core.SimpleCallback" arg2="command=lookupFiles" arg3="prefix=__VALUE__"
-            htmlEntities=false}
-  {/g->autoComplete}
-  {if isset($form.error.excelpath)}
-  <div class="giError">
+  <label for="giExcelPath"><h4> {g->text text="Excel File"} </h4></label>
+  <input id='giExcelPath' type="file" size="120" name="{g->formVar var="form[excelPath]"}"/>
+
+  {if isset($form.error.excelPath.invalid)}
+    <div class="giError">
     {g->text text="Invalid path for Excel file."}
-  </div>
+    </div>
   {/if}
-  <h4> {g->text text="Zip File"} </h4>
-  <input type="text" size="120" name="{g->formVar var="form[zippath]"}" value="{$form.zippath}"
-         id='giFormZipPath' autocomplete="off"/>
-  {g->autoComplete element="giFormZipPath"}
-    {g->url arg1="view=core.SimpleCallback" arg2="command=lookupFiles" arg3="prefix=__VALUE__"
-            htmlEntities=false}
-  {/g->autoComplete}
-  {if isset($form.error.zippath)}
-  <div class="giError">
+    {if isset($form.error.excelPath.missing)}
+	<div class="giError">
+	    {g->text text="MIssing path for Excel file."}
+	</div>
+    {/if}
+
+  <label for="giZipPath"><h4> {g->text text="Zip File"} </h4></label>
+  <input id='giZipPath' type="file" size="120" name="{g->formVar var="form[zipPath]"}"/>
+
+  {if isset($form.error.zipPath.invalid)}
+    <div class="giError">
     {g->text text="Invalid path for ZIP file."}
-  </div>
+    </div>
   {/if}
+  {if isset($form.error.zipPath.missing)}
+    <div class="giError">
+    {g->text text="MIssing path for ZIP file."}
+    </div>
+  {/if}
+
+    <h4> {g->text text="Read header"} </h4>
+        <input type="checkbox" {if $form.readHeader=="on"}checked="checked" {/if}
+        onclick="document.getElementById('readHeader').value = this.checked ? 'on' : 'off'"/>
+    <input type="hidden" id="readHeader"
+	name="{g->formVar var="form[readHeader]"}" value="{$form.readHeader}"/>
+
 </div>
 
 {* Include our extra ItemAddOptions *}
