@@ -44,6 +44,8 @@ class BulkExcelUploadModule extends GalleryModule {
 	$this->setCallbacks('getSiteAdminViews');
 	$this->setRequiredCoreApi(array(7, 2));
 	$this->setRequiredModuleApi(array(3, 0));
+	
+	$this->_templateVersion = 1;
     }
 
     /**
