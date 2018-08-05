@@ -54,7 +54,7 @@ class BulkExcelUploadModule extends GalleryModule {
     function performFactoryRegistrations() {
 	$ret = GalleryCoreApi::registerFactoryImplementation(
 	    'ItemAddPlugin', 'ItemAddBulkExcelUpload', 'ItemAddBulkExcelUpload',
-	    'modules/bulkexcelupload/ItemAddBulk.inc', 'bulkexcelupload', null);
+	    'modules/bulkexcelupload/ItemAddBulkExcelUpload.inc', 'bulkexcelupload', null);
 	if ($ret) {
 	    return $ret;
 	}
