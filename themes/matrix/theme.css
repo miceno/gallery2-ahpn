@@ -152,6 +152,10 @@ td.giAlbumCell table, td.giItemCell table {
     font-size: 1em;
 }
 
+.gsHidden {
+    display: none;
+}
+
 /* ********************************************************************************
  * Matrix Theme for Gallery 2
  * by Ross A. Reyman, Jon Huang, and Chad Kieffer
