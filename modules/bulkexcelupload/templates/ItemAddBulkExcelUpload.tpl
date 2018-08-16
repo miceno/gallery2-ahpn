@@ -72,9 +72,15 @@
   {/if}
     {if isset($form.error.excelPath.missing)}
 	<div class="giError">
-	    {g->text text="MIssing path for Excel file."}
+	    {g->text text="Missing path for Excel file."}
 	</div>
     {/if}
+  <input id="checkbox_hasHeader" type="checkbox" {if $form.hasHeader=="on"}checked="checked" {/if}
+         onclick="document.getElementById('hasHeader').value = this.checked ? 'on' : 'off'"/>
+  <label for="checkbox_hasHeader">{g->text text="Read header"}</label>
+  <input type="hidden" id="hasHeader"
+         name="{g->formVar var="form[hasHeader]"}" value="{$form.hasHeader}"/>
+
 
   <label for="giZipPath"><h4> {g->text text="Zip File"} </h4></label>
   <input id='giZipPath' type="file" size="120" name="{g->formVar var="form[zipPath]"}"/>
@@ -86,15 +92,9 @@
   {/if}
   {if isset($form.error.zipPath.missing)}
     <div class="giError">
-    {g->text text="MIssing path for ZIP file."}
+    {g->text text="Missing path for ZIP file."}
     </div>
   {/if}
-
-    <h4> {g->text text="Read header"} </h4>
-        <input type="checkbox" {if $form.hasHeader=="on"}checked="checked" {/if}
-        onclick="document.getElementById('hasHeader').value = this.checked ? 'on' : 'off'"/>
-    <input type="hidden" id="hasHeader"
-	name="{g->formVar var="form[hasHeader]"}" value="{$form.hasHeader}"/>
 
 </div>
 
