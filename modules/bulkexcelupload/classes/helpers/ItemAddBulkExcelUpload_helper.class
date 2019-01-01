@@ -63,7 +63,11 @@ class ItemAddBulkExcelUpload_helper
 	$za = new ZipArchive();
 	if ($za->open($zipFile) == true) {
 	    for ($i = 0; $i < $za->numFiles; $i++) {
-		$zipFiles[] = $za->getNameIndex($i);
+		$entry = $za->getNameIndex($i);
+		if ( strpos( $entry, DIRECTORY_SEPARATOR ) !== false ){
+		    continue; // skip directories
+		}
+		$zipFiles[] = $entry;
 	    }
 	} else {
 	    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE,
@@ -112,7 +116,7 @@ class ItemAddBulkExcelUpload_helper
      * @param $debug
      * @return array|null
      */
-    public static function _expandZip($zipPath, $basePath, $debug)
+    public static function _expandZip($zipPath, $basePath, $filenames, $debug)
     {
 	global $gallery;
 	
@@ -124,7 +128,7 @@ class ItemAddBulkExcelUpload_helper
 	$status = null;
 	$error = array();
 	if ($za->open($zipPath) == TRUE) {
-	    $ret = $za->extractTo($basePath);
+	    $ret = $za->extractTo($basePath, $filenames);
 	    if ($ret == TRUE) {
 		$gallery->debug("ZIP file extracted to $basePath.");
 		$ret = null;
@@ -191,10 +195,12 @@ class ItemAddBulkExcelUpload_helper
 	    $data[] = $HEADER;
 	    $start = $hasHeader ? 1 : 0;
 	    
-	    if (count($rows) != count($files)){
-	    	return array("Number of rows in XLSX does not match number of files in ZIP file", null);
+	    $count_rows = count($rows);
+	    $count_files = count($files);
+	    if ($count_files != $count_rows){
+	    	return array("Number of rows in XLSX ($count_rows) does not match number of files in ZIP file ($count_files)", null);
 	    } else {
-		for ($i = $start; $i < count($rows); $i++) {
+		for ($i = $start; $i < $count_rows; $i++) {
 		    $current_file = $files[$i];
 		    $current_row = $rows[$i];
 		    

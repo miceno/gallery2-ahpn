@@ -165,7 +165,8 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		/**
 		 * Uncompress ZIP file.
 		 */
-		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip($zipFile['tmp_name'], $baseTmpPath, $debug);
+		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip
+		($zipFile['tmp_name'], $baseTmpPath, $fileNames, $debug);
 		if ($ret) {
 		    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
 		}
