@@ -81,32 +81,36 @@ class ItemAddBulkExcelUpload_helper
      */
     public static function _readExcel($fileName, $hasHeader)
     {
-        GalleryCoreApi::requireOnce('modules/bulkexcelupload/vendor/simplexlsx.class.php');
-	$xlsx = SimpleXLSX::parse($fileName);
- 
-	$rows = array();
+	// TODO: set fields on the admin interface.
 	$header = array("number", "folder", "terms", "media", "description",
 	    "place", "author", "date");
+	GalleryCoreApi::requireOnce('modules/bulkexcelupload/vendor/simplexlsx.class.php');
 	
-	foreach ($xlsx->rows() as $r => $row) {
-	    if ($hasHeader && $r === 0) {
-		continue;
+	$ret = null;
+	$xlsx = SimpleXLSX::parse($fileName);
+	$result_rows = array();
+	if ($xlsx) {
+	    foreach ($xlsx->rows() as $r => $row) {
+		if ($hasHeader && $r === 0) {
+		    continue;
+		}
+		$data = array();
+		foreach ($row as $c => $cell) {
+		    $data[$header[$c]] = $cell;
+		}
+		$result_rows[] = $data;
 	    }
-	    $data = array();
-	    foreach ($row as $c => $cell) {
-	        $data[$header[$c]] = $cell;
-		       
-	    }
-	    $rows[] = $data;
+	} else {
+	    $ret = ERROR_BAD_DATA_TYPE;
 	}
-	return $rows;
+	return array($ret, $result_rows);
     }
     
     /**
      * @param $zipPath
      * @param $basePath
      * @param $debug
-     * @return bool|null
+     * @return array|null
      */
     public static function _expandZip($zipPath, $basePath, $debug)
     {
@@ -117,17 +121,20 @@ class ItemAddBulkExcelUpload_helper
 	}
 	$za = new ZipArchive();
 	$ret = null;
+	$status = null;
+	$error = array();
 	if ($za->open($zipPath) == TRUE) {
 	    $ret = $za->extractTo($basePath);
 	    if ($ret == TRUE) {
 		$gallery->debug("ZIP file extracted to $basePath.");
 		$ret = null;
 	    } else {
+		$error[] = "";
 		$gallery->debug("Error ($ret) extracting file $zipPath.");
 	    }
 	}
 	$za->close();
-	return $ret;
+	return array($ret, $error, $status);
     }
     
     /**
@@ -147,7 +154,7 @@ class ItemAddBulkExcelUpload_helper
 						$keyword_delimiter,
 						$debug)
     {
-        // TODO: Get keyword delimiter from `keyalbum` module.
+	// TODO: Get keyword delimiter from `keyalbum` module.
 	if ($keyword_delimiter == null) {
 	    $keyword_delimiter = ",";
 	}
@@ -191,17 +198,17 @@ class ItemAddBulkExcelUpload_helper
 		/* */
 		// Initialize empty array for the output line.
 		$data_line = array();
-
+		
 		// Title is the file name without the extension
 		$title = GalleryUtilities::getFileBase($current_file);
 		$data_line['title'] = $title;
-
+		
 		// Summary is a summary of the description column of the excel
 		// file. We summarize the description to provide a shorter text.
 		$summary = $current_row['description'];
 		$data_line['summary'] = substr($summary, 0,
 		    ItemAddBulkExcelUpload_helper::$MAX_SUMMARY);
-
+		
 		// Description is the description column of the excel file.
 		// We summarize the description to provide a shorter text.
 		$description = $current_row['description'];
@@ -227,10 +234,10 @@ class ItemAddBulkExcelUpload_helper
 		    $current_row['place'],
 		    "Autor: " . $current_row['author'],
 		    ItemAddBulkExcelUpload_helper::getDateFromExcel
-		($current_row['date'])
+		    ($current_row['date'])
 		);
 		$data_line['keywords'] = join($keyword_delimiter, $keywords);
-
+		
 		// TODO: Review paths
 		// Add the file with the base path.
 		$image_path = $basePath .
@@ -261,54 +268,57 @@ class ItemAddBulkExcelUpload_helper
     {
 	global $gallery;
 	$platform =& $gallery->getPlatform();
- 
+	
 	$error = array();
 	$warning = null;
-	if (empty($form['tmp_name'][$file_field]) || empty
-	    ($form['size'][$file_field])) {
 	
+	$is_valid = (!empty($form['tmp_name'][$file_field]) && !empty
+	    ($form['size'][$file_field]));
+	
+	if (!$is_valid) {
+	    
 	    $error[] = 'form[error][upload][' . $file_field . ']';
 	    if (empty($form['error'])) {
 		$form['error'][$file_field] = -1;
 	    }
-	    switch($form['error'][$file_field]) {
+	    switch ($form['error'][$file_field]) {
 		case UPLOAD_ERR_INI_SIZE:
 		    $warning = array(
 			'text' => 'Input file %s exceeds maximum permitted file size',
 			'arg1' => $form['name'][$file_field]);
+		    $error = "form[error][$file_field][maxfilesize]";
 		    break;
-	    
+		
 		case UPLOAD_ERR_FORM_SIZE:
 		    $warning = array(
 			'text' => 'Input file %s exceeds file size specified in the form',
 			'arg1' => $form['name'][$file_field]);
+		    $error = "form[error][$file_field][totaluploadsize]";
 		    break;
-	    
+		
 		case UPLOAD_ERR_PARTIAL:
 		    $warning = array(
 			'text' => 'Input file %s was only partially uploaded',
 			'arg1' => $form['name'][$file_field]);
+		    $error = "form[error][$file_field][partialupload]";
 		    break;
-	    
+		
 		default:
 		    $warning = array(
 			'text' => 'Input file %s was not uploaded. Error %d',
 			'arg1' => $form['name'][$file_field],
 			'arg2' => $form['error'][$file_field]);
+		    $error = "form[error][$file_field][notuploaded]["
+			. $form['error'][$file_field] . "]";
 	    }
-	}
-	
-	$is_valid = (!empty($form['tmp_name'][$file_field]) && !empty
-	    ($form['size'][$file_field]));
-	
-	if($is_valid){
+	} else {
 	    $file_name = $form['tmp_name'][$file_field];
 	    
 	    $is_valid = $is_valid && $platform->is_readable($file_name)
-	    		&& !$platform->is_dir($file_name);
+		&& !$platform->is_dir($file_name);
 	}
 	
-	return array($is_valid, $warning);
+	return array($is_valid, $warning, $error);
     }
     
     /**
@@ -335,9 +345,12 @@ class ItemAddBulkExcelUpload_helper
 	$header = array_shift($data);
 	$gallery->debug("Header line...");
 	$gallery->debug_r($header);
- 
+	
 	/* Read line by line */
 	foreach ($data as $line) {
+	    
+	    $newItemId = null;
+	    
 	    $gallery->debug("Reading line...");
 	    $gallery->debug_r($line);
 	    $warnings = array();
@@ -346,49 +359,50 @@ class ItemAddBulkExcelUpload_helper
 	    $gallery->debug("Reading fields...");
 	    $gallery->debug_r($fields);
 	    
-	    list ($_, $extension) =
-		GalleryUtilities::getFileNameComponents(basename
-		($fields['filename']));
-	    list ($ret, $mimeType) = GalleryCoreApi::convertExtensionToMime($extension);
-	    if ($ret) {
-		return array($ret, null, null);
-	    }
-	    
 	    $fileName = $fields['filename'];
 	    if (!($fileName[0] == '/' || $fileName[0] == '\\')) {
+		// Add the basePath to the file name in case it is a relative
+		// path.
 		$fileName = dirname($basePath) . '/' . $fileName;
 	    }
 	    
 	    if ($platform->is_readable($fileName)) {
-		$gallery->debug("About to add the Item: " . join(", ", array(
+		list ($_, $extension) = GalleryUtilities::getFileNameComponents(basename($fields['filename']));
+		list ($ret, $mimeType) = GalleryCoreApi::convertExtensionToMime($extension);
+		if ($ret) {
+		    $warnings[] = $module->translate(array("text" => "Wrong mimetype for extension %s of file %s", 'arg1' => $extension, 'arg2' => $fileName));
+		} else {
+		    
+		    $gallery->debug("About to add the Item: " . join(", ", array(
+			    $fileName,
+			    $fields['title'],
+			    $fields['summary'],
+			    $fields['description'],
+			    $mimeType,
+			    $item->getId())));
+		    
+		    list ($ret, $newItem) = GalleryCoreApi::addItemToAlbum(
 			$fileName,
-			$fields['title'],
-			$fields['summary'],
-			$fields['description'],
+			isset($fields['title']) ? $fields['title'] : '',
+			isset($fields['title']) ? $fields['title'] : '',
+			isset($fields['summary']) ? $fields['summary'] : '',
+			isset($fields['description']) ? $fields['description'] : '',
 			$mimeType,
-			$item->getId())));
-		
-		list ($ret, $newItem) = GalleryCoreApi::addItemToAlbum(
-		    $fileName,
-		    isset($fields['title']) ? $fields['title'] : '',
-		    isset($fields['title']) ? $fields['title'] : '',
-		    isset($fields['summary']) ? $fields['summary'] : '',
-		    isset($fields['description']) ? $fields['description'] : '',
-		    $mimeType,
-		    $item->getId(),
-		    false);
-		if ($ret) {
-		    return array($ret, null, null);
+			$item->getId(),
+			false);
+		    if ($ret) {
+			$warnings[] = $module->translate(array("text" => "Unable to addItemToAlbum for file %s", 'arg1' => $fileName));
+		    } else {
+			$ret = ItemAddBulkExcelUpload_helper::_setKeywords($fields['keywords'], $newItem);
+			if ($ret) {
+			    $warnings[] = $module->translate(array('text' => "Unable to setKeywords '%s' for file %s", 'arg1' => join(",", $fields['keywords']), 'arg2' => $fileName));
+			}
+			$newItemId = $newItem->getId();
+		    }
 		}
 		
-		$ret = ItemAddBulkExcelUpload_helper::_setKeywords($fields['keywords'], $newItem);
-		if ($ret) {
-		    return array($ret, null, null);
-		}
-		$newItemId = $newItem->getId();
 	    } else {
-		$newItemId = null;
-		$warnings[] = $module->translate("File does not exist");
+		$warnings[] = $module->translate(array("text" => "File %s does not exist", 'arg1' => $fileName));
 	    }
 	    
 	    $status['addedFiles'][] = array(
@@ -398,14 +412,15 @@ class ItemAddBulkExcelUpload_helper
 	}
 	return array(null, $error, $status);
     }
-
-    public static function getFolderNames($filename=null){
+    
+    public static function getFolderNames($filename = null)
+    {
 	static $folderNames = null;
- 
-	if ( is_null( $folderNames ) ){
+	
+	if (is_null($folderNames)) {
 	    $folderNames = array();
 	    
-	    if (!isset($filename)){
+	    if (!isset($filename)) {
 		$filename = 'modules/bulkexcelupload/data/carpetes.csv';
 	    }
 	    $data = GalleryPlatform::file($filename);
@@ -414,15 +429,15 @@ class ItemAddBulkExcelUpload_helper
 		$folderNames[$line[0]] = $line[1];
 	    }
 	}
-    
-    	return $folderNames;
+	
+	return $folderNames;
     }
     
     public static function getFolderName($code)
     {
-        $folderNames = ItemAddBulkExcelUpload_helper::getFolderNames();
-        $result = "";
-	if(array_key_exists($code, $folderNames)){
+	$folderNames = ItemAddBulkExcelUpload_helper::getFolderNames();
+	$result = "";
+	if (array_key_exists($code, $folderNames)) {
 	    $result = $folderNames[$code];
 	}
 	return $result;

@@ -65,11 +65,11 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	global $gallery;
 	$platform =& $gallery->getPlatform();
 	$classes_path = 'modules/bulkexcelupload/classes/helpers/';
- 
+	
 	$status = $error = array();
- 
+	
 	GalleryCoreApi::requireOnce($classes_path . 'ItemAddBulkExcelUpload_helper.class');
- 
+	
 	// $gallery->debug( "linea: " );
 	
 	if (isset($form['action']['add'])) {
@@ -80,40 +80,45 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	    
 	    $gallery->debug_r($form);
 	    
-	    list($isValidExcel, $warningExcel) =
-		ItemAddBulkExcelUpload_helper::_validate_file($form,'excelPath');
-	    if (!$isValidExcel){
-		$status['addedFiles'][] = array('fileName' => $form['name']['excelPath']?:'Excel file',
+	    list($isValidExcel, $warningExcel, $error_excel) =
+		ItemAddBulkExcelUpload_helper::_validate_file($form, 'excelPath');
+	    if (!$isValidExcel) {
+		$error[] = $error_excel;
+		$status['addedFiles'][] = array('fileName' => $form['name']['excelPath'] ?: 'Excel file',
 		    'id' => null,
 		    'warnings' => array($module->translate($warningExcel)));
-	    }
-	    else {
+	    } else {
 		$excelFile = array('name' => $form['name']['excelPath'],
 		    'type' => $form['type']['excelPath'],
 		    'tmp_name' => $form['tmp_name']['excelPath'],
 		    'size' => $form['size']['excelPath']);
 	    }
 	    
-	    list($isValidZip, $warningZip) =
+	    list($isValidZip, $warningZip, $error_zip) =
 		ItemAddBulkExcelUpload_helper::_validate_file($form, 'zipPath');
-	    if (!$isValidZip){
-		$status['addedFiles'][] = array('fileName' => $form['name']['zipPath']?:'ZIP file',
+	    if (!$isValidZip) {
+		$error[] = $error_zip;
+		$status['addedFiles'][] = array('fileName' => $form['name']['zipPath'] ?: 'ZIP file',
 		    'id' => null,
 		    'warnings' => array($module->translate($warningZip)));
-	    }
-	    else {
+	    } else {
 		$zipFile = array('name' => $form['name']['zipPath'],
 		    'type' => $form['type']['zipPath'],
 		    'tmp_name' => $form['tmp_name']['zipPath'],
 		    'size' => $form['size']['zipPath']);
 	    }
 	    
-	    $hasHeader = array_key_exists('hasHeader', $form) ? $form['hasHeader']=='on': false;
+	    # TODO: Move files to Gallery temp file (see ItemAddFromBrowser)
 	    
-	    if($isValidExcel && $isValidZip){
+	    $hasHeader = array_key_exists('hasHeader', $form) ? $form['hasHeader'] == 'on' : false;
+	    
+	    # TODO: Add updateProgressBar
+	    # TODO: Add guaranteeTimeLimit
+	    
+	    if ($isValidExcel && $isValidZip) {
 		// Set default preview to true.
 		$debug = true;
-	 
+		
 		/**
 		 * Create the temporary folder that will hold the images.
 		 *
@@ -123,37 +128,39 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		$base = $gallery->getConfig('data.gallery.tmp');
 		$baseTmpPath = $base . 'excelupload.dir';
 		$gallery->debug("Basepath = $baseTmpPath");
-	 
+		
 		if (!$platform->is_dir($baseTmpPath)) {
 		    if (!$platform->mkdir($baseTmpPath)) {
 			return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
 		    }
 		}
-	 
+		
 		/**
 		 * Read Excel File
 		 */
-		$rows = ItemAddBulkExcelUpload_helper::_readExcel($excelFile['tmp_name'], $hasHeader);
-	 	$gallery->debug("Excel rows");
-	 	$gallery->debug_r($rows);
+		list ($ret, $rows) = ItemAddBulkExcelUpload_helper::_readExcel($excelFile['tmp_name'], $hasHeader);
+		if ($ret) {
+		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, "Bad format of XLSX file"), null);
+		}
+		$gallery->debug("Excel rows");
+		$gallery->debug_r($rows);
 		/**
 		 * Read list of files in zip
 		 */
 		$fileNames = ItemAddBulkExcelUpload_helper::_readZip($zipFile['tmp_name']);
-	 	$gallery->debug("Zip files");
-	 	$gallery->debug_r($fileNames);
-	 
+		$gallery->debug("Zip files");
+		$gallery->debug_r($fileNames);
+		
 		/**
 		 * Create CSV from excel and zip.
 		 */
 		$data = ItemAddBulkExcelUpload_helper::_createDelimitedData($rows,
 		    $fileNames, $baseTmpPath, false, null, $debug);
-	    
+		
 		/**
 		 * Uncompress ZIP file.
 		 */
-		$ret = ItemAddBulkExcelUpload_helper::_expandZip
-		($zipFile['tmp_name'], $baseTmpPath, $debug);
+		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip($zipFile['tmp_name'], $baseTmpPath, $debug);
 		if ($ret) {
 		    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
 		}
@@ -164,26 +171,31 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		if ($ret) {
 		    return array($ret, null, null);
 		}
-	 
+		
 		list($ret, $error, $status) = ItemAddBulkExcelUpload_helper::_bulkUpload($data, $baseTmpPath, $item);
 		if ($ret) {
+		    GalleryCoreApi::releaseLocks($lockId);
 		    return array($ret, null, null);
 		}
-	 
+		
 		$ret = GalleryCoreApi::releaseLocks($lockId);
 		if ($ret) {
 		    return array($ret, null, null);
 		}
 	    }
 	    
-	    if(!empty($status)){
+	    if (!empty($status)) {
 		$gallery->debug("Non empty status");
 		$gallery->debug_r($status);
 		GalleryUtilities::putRequestVariable('ItemAddBulkExcelUploadStatus',
 		    $status['addedFiles']);
 	    }
+	    if (!empty($error)) {
+		$gallery->debug("Non empty error");
+		$gallery->debug_r($error);
+	    }
 	    
-
+	    
 	} else {
 	    $gallery->error("no valid action");
 	}
@@ -202,12 +214,12 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
     function loadTemplate(&$template, &$form, $item)
     {
 	global $gallery;
- 
+	
 	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
 	if ($ret) {
 	    return array($ret, null, null);
 	}
- 
+	
 	if ($form['formName'] != 'ItemAddBulkExcelUpload') {
 	    $form['formName'] = 'ItemAddBulkExcelUpload';
 	}
@@ -215,18 +227,18 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	if (empty($form['hasHeader'])) {
 	    $form['hasHeader'] = 'on';
 	}
- 
+	
 	$fileUploadsBool = GalleryUtilities::getPhpIniBool('file_uploads');
 	$totalUploadSize = ini_get('post_max_size');
 	if (preg_match("/(\d+)M/", $totalUploadSize, $matches)) {
 	    $totalUploadSize = $matches[1] * 1024 * 1024;
 	}
- 
+	
 	$maxFileSize = ini_get('upload_max_filesize');
 	if (preg_match("/(\d+)M/", $maxFileSize, $matches)) {
 	    $maxFileSize = $matches[1] * 1024 * 1024;
 	}
- 
+	
 	foreach (array('totalUploadSize', 'maxFileSize') as $key) {
 	    if ($$key >= 1024 * 1024) {
 		$$key = $module->translate(array('one' => '%d megabyte',
@@ -240,14 +252,14 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		    'arg1' => (int)($$key / (1024))));
 	    }
 	}
- 
+	
 	$status = GalleryUtilities::getRequestVariables('ItemAddBulkExcelUploadStatus');
 	$template->setVariable('ItemAddBulkExcelUpload',
 	    array('totalUploadSize' => $totalUploadSize,
 		'maxFileSize' => $maxFileSize,
 		'uploadsPermitted' => $fileUploadsBool,
 		'status' => $status));
- 
+	
 	/* Set the ItemAdmin form's encoding type specially since we're uploading binary files */
 	if ($template->hasVariable('ItemAdmin')) {
 	    $ItemAdmin =& $template->getVariableByReference('ItemAdmin');
