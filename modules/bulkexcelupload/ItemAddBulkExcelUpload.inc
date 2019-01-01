@@ -154,9 +154,14 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		/**
 		 * Create CSV from excel and zip.
 		 */
-		$data = ItemAddBulkExcelUpload_helper::_createDelimitedData($rows,
+		list ($ret, $data) = ItemAddBulkExcelUpload_helper
+		    ::_createDelimitedData($rows,
 		    $fileNames, $baseTmpPath, false, null, $debug);
 		
+		if ($ret){
+		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE,
+			null, null, $ret), null);
+		}
 		/**
 		 * Uncompress ZIP file.
 		 */

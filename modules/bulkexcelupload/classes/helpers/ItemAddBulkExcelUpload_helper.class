@@ -154,6 +154,7 @@ class ItemAddBulkExcelUpload_helper
 						$keyword_delimiter,
 						$debug)
     {
+        $ret = null;
 	// TODO: Get keyword delimiter from `keyalbum` module.
 	if ($keyword_delimiter == null) {
 	    $keyword_delimiter = ",";
@@ -190,61 +191,65 @@ class ItemAddBulkExcelUpload_helper
 	    $data[] = $HEADER;
 	    $start = $hasHeader ? 1 : 0;
 	    
-	    for ($i = $start; $i < count($rows); $i++) {
-		$current_file = $files[$i];
-		$current_row = $rows[$i];
-		
-		/* 2.2. Format row */
-		/* */
-		// Initialize empty array for the output line.
-		$data_line = array();
-		
-		// Title is the file name without the extension
-		$title = GalleryUtilities::getFileBase($current_file);
-		$data_line['title'] = $title;
-		
-		// Summary is a summary of the description column of the excel
-		// file. We summarize the description to provide a shorter text.
-		$summary = $current_row['description'];
-		$data_line['summary'] = substr($summary, 0,
-		    ItemAddBulkExcelUpload_helper::$MAX_SUMMARY);
-		
-		// Description is the description column of the excel file.
-		// We summarize the description to provide a shorter text.
-		$description = $current_row['description'];
-		$data_line['description'] = $description;
-		
-		/**
-		 * Keywords include:
-		 * 1. the image reference number.
-		 * 2. the folder code.
-		 * 3. the folder code name.
-		 * 4. the terms.
-		 * 5. the kind of media of the image.
-		 * 6. the place the image shows.
-		 * 7. the author.
-		 *
-		 */
-		$folder_number = $current_row['folder'];
-		$keywords = array($current_row['number'],
-		    $current_row['folder'] . ' ' .
-		    ItemAddBulkExcelUpload_helper::getFolderName($folder_number),
-		    $current_row['terms'],
-		    $current_row['media'],
-		    $current_row['place'],
-		    "Autor: " . $current_row['author'],
-		    ItemAddBulkExcelUpload_helper::getDateFromExcel
-		    ($current_row['date'])
-		);
-		$data_line['keywords'] = join($keyword_delimiter, $keywords);
-		
-		// TODO: Review paths
-		// Add the file with the base path.
-		$image_path = $basePath .
-		    DIRECTORY_SEPARATOR . $current_file;
-		$data_line['filename'] = $image_path;
-		
-		$data[] = $data_line;
+	    if (count($rows) != count($files)){
+	    	return array("Number of rows in XLSX does not match number of files in ZIP file", null);
+	    } else {
+		for ($i = $start; $i < count($rows); $i++) {
+		    $current_file = $files[$i];
+		    $current_row = $rows[$i];
+		    
+		    /* 2.2. Format row */
+		    /* */
+		    // Initialize empty array for the output line.
+		    $data_line = array();
+		    
+		    // Title is the file name without the extension
+		    $title = GalleryUtilities::getFileBase($current_file);
+		    $data_line['title'] = $title;
+		    
+		    // Summary is a summary of the description column of the excel
+		    // file. We summarize the description to provide a shorter text.
+		    $summary = $current_row['description'];
+		    $data_line['summary'] = substr($summary, 0,
+			ItemAddBulkExcelUpload_helper::$MAX_SUMMARY);
+		    
+		    // Description is the description column of the excel file.
+		    // We summarize the description to provide a shorter text.
+		    $description = $current_row['description'];
+		    $data_line['description'] = $description;
+		    
+		    /**
+		     * Keywords include:
+		     * 1. the image reference number.
+		     * 2. the folder code.
+		     * 3. the folder code name.
+		     * 4. the terms.
+		     * 5. the kind of media of the image.
+		     * 6. the place the image shows.
+		     * 7. the author.
+		     *
+		     */
+		    $folder_number = $current_row['folder'];
+		    $keywords = array($current_row['number'],
+			$current_row['folder'] . ' ' .
+			ItemAddBulkExcelUpload_helper::getFolderName($folder_number),
+			$current_row['terms'],
+			$current_row['media'],
+			$current_row['place'],
+			"Autor: " . $current_row['author'],
+			ItemAddBulkExcelUpload_helper::getDateFromExcel
+			($current_row['date'])
+		    );
+		    $data_line['keywords'] = join($keyword_delimiter, $keywords);
+		    
+		    // TODO: Review paths
+		    // Add the file with the base path.
+		    $image_path = $basePath .
+			DIRECTORY_SEPARATOR . $current_file;
+		    $data_line['filename'] = $image_path;
+		    
+		    $data[] = $data_line;
+		}
 	    }
 	}
 	if ($debug) {
@@ -253,7 +258,7 @@ class ItemAddBulkExcelUpload_helper
 	    $gallery->debug_r($data);
 	}
 	
-	return $data;
+	return array($ret, $data);
     }
     
     /**
