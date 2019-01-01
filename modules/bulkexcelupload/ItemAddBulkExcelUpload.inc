@@ -40,9 +40,10 @@ function create_excel_row($description, $number, $terms, $media, $place,
 }
 
 /**
- * This controller will handle the addition of an item as a children to another item.
+ * This controller will handle the addition of a bulk list of files using an
+ * excel file for descriptions of the images and a zip file with the images.
  *
- * @package ItemAdd
+ * @package ItemAddBulkExcelUpload
  * @subpackage UserInterface
  */
 class ItemAddBulkExcelUpload extends ItemAddPlugin
@@ -72,7 +73,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	// $gallery->debug( "linea: " );
 	
 	if (isset($form['action']['add'])) {
-	    list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'core');
+	    list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
 	    if ($ret) {
 		return array($ret, null, null);
 	    }
@@ -265,7 +266,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
      */
     function getTitle()
     {
-	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'core');
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
 	if ($ret) {
 	    return array($ret, null);
 	}
