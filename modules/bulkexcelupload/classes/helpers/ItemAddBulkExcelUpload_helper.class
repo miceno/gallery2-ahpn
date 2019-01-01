@@ -64,7 +64,7 @@ class ItemAddBulkExcelUpload_helper
 	if ($za->open($zipFile) == true) {
 	    for ($i = 0; $i < $za->numFiles; $i++) {
 		$entry = $za->getNameIndex($i);
-		if ( strpos( $entry, DIRECTORY_SEPARATOR ) !== false ){
+		if (strpos($entry, DIRECTORY_SEPARATOR) !== false) {
 		    continue; // skip directories
 		}
 		$zipFiles[] = $entry;
@@ -158,7 +158,7 @@ class ItemAddBulkExcelUpload_helper
 						$keyword_delimiter,
 						$debug)
     {
-        $ret = null;
+	$ret = null;
 	// TODO: Get keyword delimiter from `keyalbum` module.
 	if ($keyword_delimiter == null) {
 	    $keyword_delimiter = ",";
@@ -197,8 +197,8 @@ class ItemAddBulkExcelUpload_helper
 	    
 	    $count_rows = count($rows);
 	    $count_files = count($files);
-	    if ($count_files != $count_rows){
-	    	return array("Number of rows in XLSX ($count_rows) does not match number of files in ZIP file ($count_files)", null);
+	    if ($count_files != $count_rows) {
+		return array("Number of rows in XLSX ($count_rows) does not match number of files in ZIP file ($count_files)", null);
 	    } else {
 		for ($i = $start; $i < $count_rows; $i++) {
 		    $current_file = $files[$i];
@@ -236,15 +236,19 @@ class ItemAddBulkExcelUpload_helper
 		     *
 		     */
 		    $folder_number = $current_row['folder'];
+		    $folder_name =
+			ItemAddBulkExcelUpload_helper::getFolderName($folder_number);
+		    
+		    $dateFromExcel = ItemAddBulkExcelUpload_helper::getDateFromExcel($current_row['date']);
 		    $keywords = array($current_row['number'],
-			$current_row['folder'] . ' ' .
-			ItemAddBulkExcelUpload_helper::getFolderName($folder_number),
+			$folder_number,
+			$folder_name,
+			$folder_number . ' ' . $folder_name,
 			$current_row['terms'],
 			$current_row['media'],
 			$current_row['place'],
 			"Autor: " . $current_row['author'],
-			ItemAddBulkExcelUpload_helper::getDateFromExcel
-			($current_row['date'])
+			$dateFromExcel
 		    );
 		    $data_line['keywords'] = join($keyword_delimiter, $keywords);
 		    
