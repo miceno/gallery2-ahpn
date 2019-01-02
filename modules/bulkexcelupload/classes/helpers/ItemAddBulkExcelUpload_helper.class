@@ -28,23 +28,21 @@ class ItemAddBulkExcelUpload_helper
 	
 	/* Set the keywords by hand, since we don't offer that in the API */
 	if (!empty($keywords)) {
-	    list ($ret, $itemLockId) =
-		GalleryCoreApi::acquireWriteLock($itemId);
+	    list ($ret, $itemLockId) = GalleryCoreApi::acquireWriteLock($itemId);
 	    if ($ret) {
 		return $ret;
 	    }
-	    
 	    list ($ret, $newItem) = $newItem->refresh();
 	    if ($ret) {
+		GalleryCoreApi::releaseLocks($itemLockId);
 		return $ret;
 	    }
-	    
 	    $newItem->setKeywords($keywords);
 	    $ret = $newItem->save();
 	    if ($ret) {
+		GalleryCoreApi::releaseLocks($itemLockId);
 		return $ret;
 	    }
-	    
 	    $ret = GalleryCoreApi::releaseLocks($itemLockId);
 	    if ($ret) {
 		return $ret;
