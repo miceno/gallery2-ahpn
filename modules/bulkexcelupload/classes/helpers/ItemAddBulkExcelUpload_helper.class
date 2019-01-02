@@ -268,11 +268,6 @@ class ItemAddBulkExcelUpload_helper
 		}
 	    }
 	}
-	if ($debug) {
-	    global $gallery;
-	    $gallery->debug("Output data for createDelimitedFile");
-	    $gallery->debug_r($data);
-	}
 	
 	return array($ret, $data);
     }

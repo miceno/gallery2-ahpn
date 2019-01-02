@@ -143,7 +143,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $ret), null);
 		}
 		$gallery->debug("Excel rows");
-		$gallery->debug_r($rows);
+		$gallery->debug_r($rows, true);
 		/**
 		 * Read list of files in zip
 		 */
@@ -162,6 +162,8 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE,
 			null, null, $ret), null);
 		}
+		$gallery->debug("Output data for createDelimitedFile");
+		$gallery->debug_r($data, true);
 		/**
 		 * Uncompress ZIP file.
 		 */
