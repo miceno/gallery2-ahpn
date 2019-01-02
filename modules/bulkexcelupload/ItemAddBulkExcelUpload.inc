@@ -140,7 +140,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		 */
 		list ($ret, $rows) = ItemAddBulkExcelUpload_helper::_readExcel($excelFile['tmp_name'], $hasHeader);
 		if ($ret) {
-		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, "Bad format of XLSX file"), null);
+		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $ret), null);
 		}
 		$gallery->debug("Excel rows");
 		$gallery->debug_r($rows);
@@ -156,9 +156,9 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		 */
 		list ($ret, $data) = ItemAddBulkExcelUpload_helper
 		    ::_createDelimitedData($rows,
-		    $fileNames, $baseTmpPath, false, null, $debug);
+			$fileNames, $baseTmpPath, false, null, $debug);
 		
-		if ($ret){
+		if ($ret) {
 		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE,
 			null, null, $ret), null);
 		}
@@ -166,7 +166,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		 * Uncompress ZIP file.
 		 */
 		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip
-		($zipFile['tmp_name'], $baseTmpPath, $fileNames, $debug);
+		($zipFile['tmp_name'], $baseTmpPath, $fileNames);
 		if ($ret) {
 		    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
 		}

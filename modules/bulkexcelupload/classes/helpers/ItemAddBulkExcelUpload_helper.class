@@ -88,6 +88,7 @@ class ItemAddBulkExcelUpload_helper
 	// TODO: set fields on the admin interface.
 	$header = array("number", "folder", "terms", "media", "description",
 	    "place", "author", "date");
+	$header_cols = count($header);
 	GalleryCoreApi::requireOnce('modules/bulkexcelupload/vendor/simplexlsx.class.php');
 	
 	$ret = null;
@@ -103,9 +104,14 @@ class ItemAddBulkExcelUpload_helper
 		    $data[$header[$c]] = $cell;
 		}
 		$result_rows[] = $data;
+		$data_cols = count($data);
+		if ($data_cols != $header_cols) {
+		    $ret = "Number of columns ($data_cols) differ from header columns ($header_cols)";
+		    break;
+		}
 	    }
 	} else {
-	    $ret = ERROR_BAD_DATA_TYPE;
+	    $ret = "Unable to read XLSX format from file. Most probably it is in XLS format (not XLSX format).";
 	}
 	return array($ret, $result_rows);
     }
@@ -113,10 +119,10 @@ class ItemAddBulkExcelUpload_helper
     /**
      * @param $zipPath
      * @param $basePath
-     * @param $debug
+     * @param $filenames
      * @return array|null
      */
-    public static function _expandZip($zipPath, $basePath, $filenames, $debug)
+    public static function _expandZip($zipPath, $basePath, $filenames)
     {
 	global $gallery;
 	
