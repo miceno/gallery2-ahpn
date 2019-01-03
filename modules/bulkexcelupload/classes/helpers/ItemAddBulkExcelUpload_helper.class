@@ -218,7 +218,6 @@ class ItemAddBulkExcelUpload_helper
 			ItemAddBulkExcelUpload_helper::$MAX_SUMMARY);
 		    
 		    // Description is the description column of the excel file.
-		    // We summarize the description to provide a shorter text.
 		    $description = $current_row['description'];
 		    $data_line['description'] = $description;
 		    
@@ -330,11 +329,11 @@ class ItemAddBulkExcelUpload_helper
     }
     
     /**
-     * Bulk upload code. Parses a CSV text.
+     * Bulk upload code. Parses an array of entries.
      *
-     * @param $data array CSV Input data
-     * @param $basePath string Base path for the files in the CSV input data
-     * @param $item object Item to upload entities to
+     * @param $data array Input data
+     * @param $basePath string Base path for the images files in the data
+     * @param $item object Item to add entities to
      * @return array GalleryStatus, errors, warnings.
      */
     public static function _bulkUpload($data, $basePath, &$item)
@@ -421,6 +420,21 @@ class ItemAddBulkExcelUpload_helper
 	return array(null, $error, $status);
     }
     
+    /**
+     * Read the folder names from the file and keep it in memory.
+     *
+     * Folder name file is a CSV file, first column is the folder code and second is folder name.
+     *    folder_code1, folder_name1
+     *    ...
+     *
+     * Example:
+     *    3, Associacions
+     *    3.1.2, Entitats
+     *    ...
+     *
+     * @param null $filename
+     * @return array|null
+     */
     public static function getFolderNames($filename = null)
     {
 	static $folderNames = null;
@@ -441,6 +455,12 @@ class ItemAddBulkExcelUpload_helper
 	return $folderNames;
     }
     
+    /**
+     * Get the folder name of a encoded folder.
+     *
+     * @param $code
+     * @return mixed|string
+     */
     public static function getFolderName($code)
     {
 	$folderNames = ItemAddBulkExcelUpload_helper::getFolderNames();
