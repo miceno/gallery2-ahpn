@@ -341,9 +341,10 @@ class ItemAddBulkExcelUpload_helper
 	global $gallery;
 	$platform =& $gallery->getPlatform();
 	$status = $error = array();
-	
+
 	$gallery->debug('Bulk upload processing...');
 	
+	$basePathDirname = dirname($basePath);
 	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
 	if ($ret) {
 	    return array($ret, null, null);
@@ -352,25 +353,20 @@ class ItemAddBulkExcelUpload_helper
 	$header = array_shift($data);
 	$gallery->debug("Header line...");
 	$gallery->debug_r($header);
-	
+ 
 	/* Read line by line */
-	foreach ($data as $line) {
+	foreach ($data as $fields) {
 	    
 	    $newItemId = null;
 	    
-	    $gallery->debug("Reading line...");
-	    $gallery->debug_r($line);
-	    $warnings = array();
-	    
-	    $fields = $line;
 	    $gallery->debug("Reading fields...");
 	    $gallery->debug_r($fields);
+	    $warnings = array();
 	    
 	    $fileName = $fields['filename'];
-	    if (!($fileName[0] == '/' || $fileName[0] == '\\')) {
-		// Add the basePath to the file name in case it is a relative
-		// path.
-		$fileName = dirname($basePath) . '/' . $fileName;
+	    if (! GalleryUtilities::is_absolute_path($fileName) ) {
+		// Add the basePath to the file name in case it is a relative path.
+		$fileName = $basePathDirname . DIRECTORY_SEPARATOR . $fileName;
 	    }
 	    
 	    if ($platform->is_readable($fileName)) {
