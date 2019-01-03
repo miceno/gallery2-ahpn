@@ -158,7 +158,7 @@ class ItemAddBulkExcelUpload_helper
      */
     public static function _createDelimitedData($rows, $files, $basePath, $hasHeader, $keyword_delimiter)
     {
-	$HEADER = array("title", "summary", "description", "keywords", "filename");
+	$OUTPUT_HEADER = array("title", "summary", "description", "keywords", "filename");
 	$ret = null;
 	// TODO: Get keyword delimiter from `keyalbum` module.
 	if ($keyword_delimiter == null) {
@@ -168,7 +168,7 @@ class ItemAddBulkExcelUpload_helper
 	    // TODO: implement create csv code.
 	    $data = array(
 		/* Header */
-		$HEADER,
+		$OUTPUT_HEADER,
 		array("0001 L'Aliança [1900]",
 		    "Façana del primitiu edifici de la Societat L'Aliança",
 		    "Façana del primitiu edifici de la Societat L'Aliança.",
@@ -190,7 +190,7 @@ class ItemAddBulkExcelUpload_helper
 	     */
 	    
 	    /* 1. Output header */
-	    $data[] = $HEADER;
+	    $data[] = $OUTPUT_HEADER;
 	    $start = $hasHeader ? 1 : 0;
 	    
 	    $count_rows = count($rows);
