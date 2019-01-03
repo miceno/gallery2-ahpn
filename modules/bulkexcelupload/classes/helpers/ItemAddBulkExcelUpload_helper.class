@@ -405,6 +405,7 @@ class ItemAddBulkExcelUpload_helper
 			    $warnings[] = $module->translate(array('text' => "Unable to setKeywords '%s' for file %s", 'arg1' => join(",", $fields['keywords']), 'arg2' => $fileName));
 			}
 			$newItemId = $newItem->getId();
+			$warnings[] = "<span class='giSuccess'>". $module->translate("Succesfully uploaded!!") . "</span>";
 		    }
 		}
 		
