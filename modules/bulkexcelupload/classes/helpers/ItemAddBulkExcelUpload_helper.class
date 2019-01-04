@@ -213,13 +213,10 @@ class ItemAddBulkExcelUpload_helper
 		    
 		    // Summary is a summary of the description column of the excel
 		    // file. We summarize the description to provide a shorter text.
-		    $summary = $current_row['description'];
-		    $data_line['summary'] = substr($summary, 0,
-			ItemAddBulkExcelUpload_helper::$MAX_SUMMARY);
+		    $data_line['summary'] = ItemAddBulkExcelUpload_helper::_summarize($current_row['description']);
 		    
 		    // Description is the description column of the excel file.
-		    $description = $current_row['description'];
-		    $data_line['description'] = $description;
+		    $data_line['description'] = $current_row['description'];
 		    
 		    /**
 		     * Keywords include:
@@ -341,7 +338,7 @@ class ItemAddBulkExcelUpload_helper
 	global $gallery;
 	$platform =& $gallery->getPlatform();
 	$status = $error = array();
-
+	
 	$gallery->debug('Bulk upload processing...');
 	
 	$basePathDirname = dirname($basePath);
@@ -353,7 +350,7 @@ class ItemAddBulkExcelUpload_helper
 	$header = array_shift($data);
 	$gallery->debug("Header line...");
 	$gallery->debug_r($header);
- 
+	
 	/* Read line by line */
 	foreach ($data as $fields) {
 	    
@@ -364,7 +361,7 @@ class ItemAddBulkExcelUpload_helper
 	    $warnings = array();
 	    
 	    $fileName = $fields['filename'];
-	    if (! GalleryUtilities::is_absolute_path($fileName) ) {
+	    if (!GalleryUtilities::is_absolute_path($fileName)) {
 		// Add the basePath to the file name in case it is a relative path.
 		$fileName = $basePathDirname . DIRECTORY_SEPARATOR . $fileName;
 	    }
@@ -401,7 +398,7 @@ class ItemAddBulkExcelUpload_helper
 			    $warnings[] = $module->translate(array('text' => "Unable to setKeywords '%s' for file %s", 'arg1' => join(",", $fields['keywords']), 'arg2' => $fileName));
 			}
 			$newItemId = $newItem->getId();
-			$warnings[] = "<span class='giSuccess'>". $module->translate("Succesfully uploaded!!") . "</span>";
+			$warnings[] = "<span class='giSuccess'>" . $module->translate("Succesfully uploaded!!") . "</span>";
 		    }
 		}
 		
@@ -492,4 +489,55 @@ class ItemAddBulkExcelUpload_helper
 	return $date;
     }
     
+    
+    /**
+     * Summarize a description text. There are a bunch of different functions, choose whatever you prefer.
+     *
+     * @param $description
+     * @return bool|string
+     */
+    public static function _summarize($description)
+    {
+        return ItemAddBulkExcelUpload_helper::_summarize_by_size($description);
+    }
+    
+    /**
+     * Summarize a description text only by punctuation.
+     *
+     * @param $description
+     * @return bool|string
+     */
+    public static function _summarize_by_punctuation($description)
+    {
+	$delimiters = array(",", ".", "|", ":");
+	$ready = str_replace($delimiters, $delimiters[0], $description);
+	$launch = explode($delimiters[0], $ready);
+	return substr($launch[0], 0, self::$MAX_SUMMARY);
+    }
+    
+    /**
+     * Summarize a description text by size.
+     *
+     * @param $description
+     * @return bool|string
+     */
+    public static function _summarize_by_size($description)
+    {
+	if(strlen($description)<=self::$MAX_SUMMARY)
+	    return $description;
+    
+	// Get initial summary by size.
+	$summary = substr($description, 0, self::$MAX_SUMMARY);
+ 
+	# Replace all delimiters.
+	$delimiters = array(",", ".", "|", ":");
+	$dup_summary = str_replace($delimiters, $delimiters[0], $summary);
+ 
+	// Search for the last position of a delimiter.
+	$last_delimiter_pos = strrpos($dup_summary, $delimiters[0]);
+	if ($last_delimiter_pos !== false) {
+	    $summary = substr($summary, 0, $last_delimiter_pos);
+	}
+	return $summary;
+    }
 }
