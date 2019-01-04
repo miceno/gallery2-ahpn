@@ -14,7 +14,6 @@
 {if !empty($form.error)}
 <div class="gbBlock giError">
   <h2>
-    Form.error
     {g->text text="There was a problem processing your request, see below for details."}
   </h2>
   <div class="giWarning">
@@ -27,7 +26,7 @@
 
 {if !empty($form.error.upload)}
   <div class="gbBlock giError"><h2>
-      Form.error.upload {g->text text="There was a problem processing your request, see below for details."}
+      {g->text text="There was a problem processing your request, see below for details."}
     </h2>
     <div class="giWarning">
       {foreach from=$ItemAddBulkExcelUpload.status item=statusEntry}
