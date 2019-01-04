@@ -40,8 +40,6 @@
   <p class="giDescription">
     {g->text text="Upload an XLSX with image descriptions and a ZIP file with the images."}
     <a onclick="document.getElementById('ItemAddBulk_instructions').classList.toggle('hidden')">{g->text text="[help]"}</a>
-  </p>
-  <div id="ItemAddBulk_instructions" class="giDescription hidden">
     <p>
     {if $ItemAddBulkExcelUpload.maxFileSize == 0}
       {g->text text="<b>Note:</b> You can upload up to %s at one time.  If you want to upload more than that, you must upload the files separately, use a different upload format, or ask your system administrator to allow larger uploads." arg1=$ItemAddBulkExcelUpload.totalUploadSize}
@@ -49,6 +47,8 @@
       {g->text text="<b>Note:</b> You can upload up to %s at one time.  No individual file may be larger than %s. If you want to upload more than that, you must upload the files separately, use a different upload format, or ask your system administrator to allow larger uploads." arg1=$ItemAddBulkExcelUpload.totalUploadSize arg2=$ItemAddBulkExcelUpload.maxFileSize}
     {/if}
     </p>
+  </p>
+  <div id="ItemAddBulk_instructions" class="giDescription hidden">
     {capture assign=sampleDataFile}<a href="{g->url href="modules/bulkexcelupload/data/sample.zip"}">{/capture}
     {capture assign=sampleExcelSpreadsheet}<a href="{g->url href="modules/bulkexcelupload/data/sample.xlsx"}">{/capture}
     <p>{g->text text="
