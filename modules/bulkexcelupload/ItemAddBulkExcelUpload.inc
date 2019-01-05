@@ -65,28 +65,38 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	global $gallery;
 	$platform =& $gallery->getPlatform();
 	$classes_path = 'modules/bulkexcelupload/classes/helpers/';
+ 
+	$templateAdapter =& $gallery->getTemplateAdapter();
+	$storage =& $gallery->getStorage();
 	
 	$status = $error = array();
 	
-	GalleryCoreApi::requireOnce($classes_path . 'ItemAddBulkExcelUpload_helper.class');
-	
-	// $gallery->debug( "linea: " );
+	list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
+	if ($ret) {
+	    return array($ret, null, null);
+	}
+ 
+	$heading = $module->translate('Bulk upload from XLSX and ZIP file');
+	$gallery->guaranteeTimeLimit(60);
+	/* The "0" indicates 0 percent done, it will render the progress bar with 0% done. */
+	$templateAdapter->updateProgressBar($heading, $module->translate('Preparing...'), 0);
+ 
+	$gallery->debug("Form contents.....");
+	$gallery->debug_r($form);
 	
 	if (isset($form['action']['add'])) {
-	    list ($ret, $module) = GalleryCoreApi::loadPlugin('module', 'bulkexcelupload');
-	    if ($ret) {
-		return array($ret, null, null);
-	    }
 	    
-	    $gallery->debug_r($form);
+	    // Load helper
+	    GalleryCoreApi::requireOnce($classes_path . 'ItemAddBulkExcelUpload_helper.class');
 	    
 	    list($isValidExcel, $warningExcel, $error_excel) =
 		ItemAddBulkExcelUpload_helper::_validate_file($form, 'excelPath');
 	    if (!$isValidExcel) {
-		$error[] = $error_excel;
+		$templateAdapter->updateProgressBar("Error", null, 1);
 		$status['addedFiles'][] = array('fileName' => $form['name']['excelPath'] ?: 'Excel file',
 		    'id' => null,
-		    'warnings' => array($module->translate($warningExcel)));
+		    'warnings' => array("<span class='giError'>" . $module->translate($warningExcel) . "</span>"));
+	    	
 	    } else {
 		$excelFile = array('name' => $form['name']['excelPath'],
 		    'type' => $form['type']['excelPath'],
@@ -97,10 +107,11 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	    list($isValidZip, $warningZip, $error_zip) =
 		ItemAddBulkExcelUpload_helper::_validate_file($form, 'zipPath');
 	    if (!$isValidZip) {
-		$error[] = $error_zip;
+		$templateAdapter->updateProgressBar("Error", null, 1);
 		$status['addedFiles'][] = array('fileName' => $form['name']['zipPath'] ?: 'ZIP file',
 		    'id' => null,
-		    'warnings' => array($module->translate($warningZip)));
+		    'warnings' => array("<span class='giError'>" . $module->translate($warningZip) . "</span>"));
+
 	    } else {
 		$zipFile = array('name' => $form['name']['zipPath'],
 		    'type' => $form['type']['zipPath'],
@@ -109,15 +120,14 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	    }
 	    
 	    # TODO: Move files to Gallery temp file (see ItemAddFromBrowser)
-	    
 	    $hasHeader = array_key_exists('hasHeader', $form) ? $form['hasHeader'] == 'on' : false;
-	    
-	    # TODO: Add updateProgressBar
-	    # TODO: Add guaranteeTimeLimit
 	    
 	    if ($isValidExcel && $isValidZip) {
 		// Set default preview to true.
 		$debug = true;
+		$LOOP_PROGRESS = 1;
+
+		$templateAdapter->updateProgressBar($heading, $module->translate('Initializing data...'), 0.05);
 		
 		/**
 		 * Create the temporary folder that will hold the images.
@@ -138,75 +148,143 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		/**
 		 * Read Excel File
 		 */
-		list ($ret, $rows) = ItemAddBulkExcelUpload_helper::_readExcel($excelFile['tmp_name'], $hasHeader);
+		for( $j=0; $j<$LOOP_PROGRESS; $j++) {
+		    $templateAdapter->updateProgressBar($heading, $module->translate('Reading XLSX file...'), 0.10);
+		}
+		list ($ret, $excel_data) = ItemAddBulkExcelUpload_helper::_readExcel($excelFile['tmp_name'], $hasHeader);
 		if ($ret) {
 		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $ret), null);
 		}
-		$gallery->debug("Excel rows");
-		$gallery->debug_r($rows, true);
+		$gallery->debug("Excel data");
+		$gallery->debug_r($excel_data, true);
 		/**
 		 * Read list of files in zip
 		 */
+		for( $j=0; $j<$LOOP_PROGRESS; $j++) {
+		    $templateAdapter->updateProgressBar($heading, $module->translate('Reading ZIP listing...'), 0.15);
+		}
+		
 		$fileNames = ItemAddBulkExcelUpload_helper::_readZip($zipFile['tmp_name']);
 		$gallery->debug("Zip files");
 		$gallery->debug_r($fileNames);
+	 
+		// Check length of data matches.
+		$count_rows = count($excel_data);
+		$count_files = count($fileNames);
 		
-		/**
-		 * Create CSV from excel and zip.
-		 */
-		list ($ret, $data) = ItemAddBulkExcelUpload_helper::_createDelimitedData($rows, $fileNames,
-		    $baseTmpPath, false, null);
-		
-		if ($ret) {
-		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE,
-			null, null, $ret), null);
+		if ($count_files != $count_rows) {
+		    $message = "Number of rows in XLSX ($count_rows) does not match number of files in ZIP file ($count_files)";
+		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $message), null);
 		}
-		$gallery->debug("Output data for createDelimitedFile");
-		$gallery->debug_r($data, true);
 		/**
 		 * Uncompress ZIP file.
 		 */
-		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip
-		($zipFile['tmp_name'], $baseTmpPath, $fileNames);
+		for( $j=0; $j<$LOOP_PROGRESS; $j++) {
+		    $templateAdapter->updateProgressBar($heading, $module->translate('Uncompressing ZIP file...'), 0.20);
+		}
+		/* Prevent PHP timeouts */
+		$gallery->guaranteeTimeLimit(60);
+		
+		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip($zipFile['tmp_name'], $baseTmpPath, $fileNames);
 		if ($ret) {
 		    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
 		}
+	 
+		$SETUP_PROGRESS = 0.25;
 		/**
-		 * Bulk upload.
+		 * Create CSV from excel and zip.
 		 */
-		list ($ret, $lockId) = GalleryCoreApi::acquireReadLock($item->getId());
-		if ($ret) {
-		    return array($ret, null, null);
+		for( $j=0; $j<$LOOP_PROGRESS; $j++) {
+		    $templateAdapter->updateProgressBar($heading, $module->translate('Preparing photo metadata...'),
+			$SETUP_PROGRESS);
 		}
+		$batch_size = 50;
+		$total_batches = ceil(count($excel_data)/$batch_size);
+		$batch_progress = 2 * (1.0 - $SETUP_PROGRESS) / $total_batches;
+		$current_progress = $SETUP_PROGRESS;
+		$gallery->debug("Preparing to process batches of $batch_size elements, for a total of $total_batches.");
 		
-		list($ret, $error, $status) = ItemAddBulkExcelUpload_helper::_bulkUpload($data, $baseTmpPath, $item);
-		if ($ret) {
-		    GalleryCoreApi::releaseLocks($lockId);
-		    return array($ret, null, null);
-		}
-		
-		$ret = GalleryCoreApi::releaseLocks($lockId);
-		if ($ret) {
-		    return array($ret, null, null);
-		}
-	    }
+		for ( $current_batch = 0; $current_batch < $total_batches; $current_batch++){
+		    
+		    $gallery->guaranteeTimeLimit(60);
+		    $current_progress += $batch_progress;
+		    $templateAdapter->updateProgressBar($heading, 'Preparing photo metadata...', $current_progress);
+		    
+		    // Get excel_data and filenames
+		    $current_excel_data = array_slice($excel_data, $batch_size*$current_batch, $batch_size);
+		    $current_filenames = array_slice($fileNames, $batch_size*$current_batch, $batch_size);
+		    
+		    // create delimited data
+		    list ($ret, $current_delimited_data) = ItemAddBulkExcelUpload_helper::_createDelimitedData
+			    ($current_excel_data, $current_filenames, $baseTmpPath, false, null);
+		    
+		    if ($ret) {
+			return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE,
+			    null, null, $ret), null);
+		    }
+		    $gallery->debug("Output data for createDelimitedFile");
+		    $gallery->debug_r($current_delimited_data, true);
+		    
+		    /**
+		     * Bulk upload.
+		     */
+		    list ($ret, $lockId) = GalleryCoreApi::acquireReadLock($item->getId());
+		    if ($ret) {
+			return array($ret, null, null);
+		    }
+		    
+		    $current_progress += $batch_progress;
+		    $templateAdapter->updateProgressBar($heading, 'Adding photos...', $current_progress);
+		    
+		    $gallery->guaranteeTimeLimit(60);
+		    list($ret, $bulk_error, $bulk_status) = ItemAddBulkExcelUpload_helper::_bulkUpload
+		    ($current_delimited_data, $baseTmpPath, $item);
+		    if ($ret) {
+			GalleryCoreApi::releaseLocks($lockId);
+			return array($ret, null, null);
+		    }
+		    $error = array_merge($error, $bulk_error);
+		    $status = array_merge($status, $bulk_status);
+		    
+		    // Make checkpoint
+		    $gallery->guaranteeTimeLimit(60);
+		    $ret = $storage->checkPoint();
+		    if ($ret) {
+			GalleryCoreApi::releaseLocks($lockId);
+			return array($ret, null, null);
+		    }
+		    $gallery->guaranteeTimeLimit(60);
+		    list ($ret, $optionErrors) = $addController->postprocessItems($form, $status);
+		    if ($ret) {
+			return array($ret, null, null);
+		    }
+		    $error = array_merge($error, $optionErrors);
+		    if ($optionErrors) {
+			break;
+		    }
+		    
+		    $ret = GalleryCoreApi::releaseLocks($lockId);
+		    if ($ret) {
+			return array($ret, null, null);
+		    }
+		    
+		} // for
+
+	    } // if isValidxxx
 	    
 	    if (!empty($status)) {
 		$gallery->debug("Non empty status");
 		$gallery->debug_r($status);
-		GalleryUtilities::putRequestVariable('ItemAddBulkExcelUploadStatus',
-		    $status['addedFiles']);
 	    }
 	    if (!empty($error)) {
 		$gallery->debug("Non empty error");
 		$gallery->debug_r($error);
 	    }
 	    
-	    
 	} else {
-	    $gallery->error("no valid action");
+	    $gallery->error("No valid action");
 	}
-	$gallery->debug("returning from excel import... ");
+	$gallery->debug("Returning from Excel import... ");
 	
 	return array(null, $error, $status);
     }
