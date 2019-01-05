@@ -126,7 +126,8 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		// Set default preview to true.
 		$debug = true;
 		$LOOP_PROGRESS = 1;
-
+		$status['addedFiles'] = array();
+		
 		$templateAdapter->updateProgressBar($heading, $module->translate('Initializing data...'), 0.05);
 		
 		/**
@@ -243,8 +244,10 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 			GalleryCoreApi::releaseLocks($lockId);
 			return array($ret, null, null);
 		    }
+		    
+		    // Merge results.
 		    $error = array_merge($error, $bulk_error);
-		    $status = array_merge($status, $bulk_status);
+		    $status['addedFiles'] = array_merge($status['addedFiles'], $bulk_status['addedFiles']);
 		    
 		    // Make checkpoint
 		    $gallery->guaranteeTimeLimit(60);
