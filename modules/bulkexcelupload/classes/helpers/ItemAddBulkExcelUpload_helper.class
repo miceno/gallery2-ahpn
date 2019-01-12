@@ -104,12 +104,14 @@ class ItemAddBulkExcelUpload_helper
 		$result_rows[] = $data;
 		$data_cols = count($data);
 		if ($data_cols != $header_cols) {
-		    $ret = "Number of columns ($data_cols) differ from header columns ($header_cols)";
+			// TODO: Translate this message.
+		    $ret = "Numero de columnas del Excel ($data_cols) es distinto del numero de columnas necesario ($header_cols)";
 		    break;
 		}
 	    }
 	} else {
-	    $ret = "Unable to read XLSX format from file. Most probably it is in XLS format (not XLSX format).";
+		// TODO: Translate this message.
+	    $ret = "No se puede leer el fichero en formato XLSX. Probablemente está en formato XLS (y no en XLSX).";
 	}
 	return array($ret, $result_rows);
     }
@@ -196,7 +198,7 @@ class ItemAddBulkExcelUpload_helper
 	    $count_rows = count($rows);
 	    $count_files = count($files);
 	    if ($count_files != $count_rows) {
-		return array("Number of rows in XLSX ($count_rows) does not match number of files in ZIP file ($count_files)", null);
+		return array("El numero de filas del fichero XLSX ($count_rows) no coincide con el numero de lineas del fichero ZIP ($count_files)", null);
 	    } else {
 		for ($i = $start; $i < $count_rows; $i++) {
 		    $current_file = $files[$i];

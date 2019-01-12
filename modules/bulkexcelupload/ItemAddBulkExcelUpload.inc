@@ -174,7 +174,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		$count_files = count($fileNames);
 		
 		if ($count_files != $count_rows) {
-		    $message = "Number of rows in XLSX ($count_rows) does not match number of files in ZIP file ($count_files)";
+			$message = "El numero de filas del fichero XLSX ($count_rows) no coincide con el numero de lineas del fichero ZIP ($count_files)";
 		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $message), null);
 		}
 		/**

@@ -51,13 +51,8 @@
   <div id="ItemAddBulk_instructions" class="giDescription hidden">
     {capture assign=sampleDataFile}<a href="{g->url href="modules/bulkexcelupload/data/sample.zip"}">{/capture}
     {capture assign=sampleExcelSpreadsheet}<a href="{g->url href="modules/bulkexcelupload/data/sample.xlsx"}">{/capture}
-    <p>{g->text text="
-    Create an XSLX file containing the Number, Reference, Term, Media, Description, Place, Author and Date for each
-    image. Then create a ZIP with the image files, and enter the path
-    to the XLSX and ZIP files in the box below. For convenience, you can author the data file in Excel and then save
-    it in the <b>XLSX</b> format.
-    Images you want to add must be on the ZIP file in the same order as they are on the XLSX file.
-    Here is a %ssample data file%s and a %ssample excel spreadsheet%s." arg1=$sampleDataFile arg2="</a>" arg3=$sampleExcelSpreadsheet arg4="</a>"}
+    <p>{g->text text="Create an XSLX file containing the Number, Reference, Term, Media, Description, Place, Author and Date for each image.  Then create a ZIP with the image files, and enter the path to the XLSX and ZIP files in the box below.  For convenience, you can author the data file in Excel and then save it in the XLSX format.  Images you want to add must be on the ZIP file in the same order as they are on the XLSX file.  Here is a %ssample data file%s and a %ssample excel spreadsheet%s."
+      arg1=$sampleDataFile arg2="</a>" arg3=$sampleExcelSpreadsheet arg4="</a>"}
     </p>
   </div>
 
