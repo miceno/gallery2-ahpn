@@ -104,7 +104,7 @@ class ItemEditCaptionsController extends GalleryController {
 			if (!empty($newOriginationTimestamp)) {
 				$item->setOriginationTimestamp($newOriginationTimestamp);
 			}
-			
+
 			$ret = $item->save();
 			if ($ret) {
 			    return array($ret, null);
