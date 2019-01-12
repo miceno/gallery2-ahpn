@@ -182,7 +182,7 @@ class ItemEditCaptionsView extends GalleryView {
      */
     function loadTemplate(&$template, &$form) {
 	global $gallery;
-
+	$platform =& $gallery->getPlatform();
 	list ($page, $selectedId, $albumPage) =
 	    GalleryUtilities::getRequestVariables('page', 'selectedId', 'albumPage');
 
@@ -250,6 +250,23 @@ class ItemEditCaptionsView extends GalleryView {
 	    foreach ($childItems as $child) {
 		$childId = $child->getId();
 		$form['items'][$childId] = (array)$child;
+
+			/* The originateTimestamp that we can get from our toolkits */
+			list ($ret, $originationTimestamp) = GalleryCoreApi::fetchOriginationTimestamp($child);
+			if ($ret) {
+				return array($ret, null, null);
+			}
+			if ($originationTimestamp > 0) {
+				$form['items'][$childId]['originationTimestamp'] = array(
+						'timestamp' => $originationTimestamp,
+						'Time_Hour' => $platform->strftime('%H', $originationTimestamp),
+						'Time_Minute' => $platform->strftime('%M', $originationTimestamp),
+						'Time_Second' => $platform->strftime('%S', $originationTimestamp),
+						'Date_Day' => ltrim($platform->strftime('%d', $originationTimestamp), '0'),
+						'Date_Month' => $platform->strftime('%m', $originationTimestamp),
+						'Date_Year' => $platform->strftime('%Y', $originationTimestamp),
+				);
+			}
 
 		/* While we're at it, attach thumbnails and resizes */
 		if (isset($derivatives[$childId])) {
