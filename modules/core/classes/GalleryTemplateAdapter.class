@@ -1273,7 +1273,8 @@ class GalleryTemplateAdapter {
 	    $status = $status->getAsHtml($isAdmin);
 	} else {
 	    $status = 'Error ('
-		    . implode(', ', $status->getErrorCodeConstants($status->getErrorCode())) . ')';
+		    . implode(', ', $status->getErrorCodeConstants($status->getErrorCode())) . '): '
+		    . $status->getErrorMessage();
 	}
 	if (!function_exists('smarty_modifier_escape')) {
 	    GalleryCoreApi::requireOnce('lib/smarty/plugins/modifier.escape.php');
