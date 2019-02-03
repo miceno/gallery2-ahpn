@@ -45,7 +45,7 @@ class ShareSiteAdminController extends GalleryController {
 	    /* save parameters */
 	    foreach (array('onlyWhenLoggedIn','addThisAccountId') as $setting) {
 		$ret = GalleryCoreApi::setPluginParameter('module', 'share', $setting,
-			(isset($form[$setting]) && $form[$setting]) ? 1 : 0);
+			(isset($form[$setting]) && $form[$setting]) ? $form[$setting] : 0);
 		if ($ret) {
 		    return array($ret, null);
 		}
