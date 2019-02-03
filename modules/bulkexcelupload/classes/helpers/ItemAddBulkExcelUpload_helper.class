@@ -91,6 +91,7 @@ class ItemAddBulkExcelUpload_helper
 	
 	$ret = null;
 	$xlsx = SimpleXLSX::parse($fileName);
+	$xlsx->setDateTimeFormat('d/m/Y');
 	$result_rows = array();
 	if ($xlsx) {
 	    foreach ($xlsx->rows() as $r => $row) {
