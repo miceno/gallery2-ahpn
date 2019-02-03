@@ -121,7 +121,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 	    
 	    # TODO: Move files to Gallery temp file (see ItemAddFromBrowser)
 	    $hasHeader = array_key_exists('hasHeader', $form) ? $form['hasHeader'] == 'on' : false;
-	    
+
 	    if ($isValidExcel && $isValidZip) {
 		// Set default preview to true.
 		$debug = true;
@@ -142,7 +142,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		
 		if (!$platform->is_dir($baseTmpPath)) {
 		    if (!$platform->mkdir($baseTmpPath)) {
-			return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
+			return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null, null);
 		    }
 		}
 		
@@ -154,7 +154,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		}
 		list ($ret, $excel_data) = ItemAddBulkExcelUpload_helper::_readExcel($excelFile['tmp_name'], $hasHeader);
 		if ($ret) {
-		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $ret), null);
+		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $ret), null, null);
 		}
 		$gallery->debug("Excel data");
 		$gallery->debug_r($excel_data, true);
@@ -175,7 +175,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		
 		if ($count_files != $count_rows) {
 			$message = "El numero de filas del fichero XLSX ($count_rows) no coincide con el numero de lineas del fichero ZIP ($count_files)";
-		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $message), null);
+		    return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE, null, null, $message), null, null);
 		}
 		/**
 		 * Uncompress ZIP file.
@@ -188,7 +188,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		
 		list ($ret, ,) = ItemAddBulkExcelUpload_helper::_expandZip($zipFile['tmp_name'], $baseTmpPath, $fileNames);
 		if ($ret) {
-		    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null);
+		    return array(GalleryCoreApi::error(ERROR_PLATFORM_FAILURE), null, null);
 		}
 	 
 		$SETUP_PROGRESS = 0.25;
@@ -221,7 +221,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin
 		    
 		    if ($ret) {
 			return array(GalleryCoreApi::error(ERROR_BAD_DATA_TYPE,
-			    null, null, $ret), null);
+			    null, null, $ret), null, null);
 		    }
 		    $gallery->debug("Output data for createDelimitedFile");
 		    $gallery->debug_r($current_delimited_data, true);
