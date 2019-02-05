@@ -347,7 +347,7 @@ a:hover {ldelim} outline: none; {rdelim}
                 if (thumbPrevious) {
                     thumbPrevious.classList.remove('active');
                 }
-                thumb.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+                thumb.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'center'});
                 thumb.classList.toggle('active');
             }
         });
