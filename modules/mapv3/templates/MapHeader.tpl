@@ -24,6 +24,14 @@ a:hover {ldelim} outline: none; {rdelim}
     //<![CDATA[
 
     var DEBUGINFO = 1; //set to 1 to view the Glog, 0 otherwise
+    var allInfoWindows = [];
+    {literal}
+    function closeAllInfoWindows(){
+        for (var i=0;i<allInfoWindows.length;i++) {
+	    allInfoWindows[i].close();
+        }
+    }
+    {/literal}
 
     {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
     /* initialize some variable for the sidebar */
@@ -176,6 +184,44 @@ a:hover {ldelim} outline: none; {rdelim}
     //Google Map implementation
     map = new google.maps.Map(document.getElementById("map"));
 
+    createControlCloseInfoWindows(map);
+
+    {literal}
+        function createControlCloseInfoWindows(map){
+            var closeControlDiv = document.createElement('div');
+            var closeControl = new CloseInfoWindowsControl(closeControlDiv, map);
+
+            closeControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(closeControlDiv);
+        }
+
+        function CloseInfoWindowsControl(controlDiv, map) {
+
+	    // Set CSS for the control border.
+	    var controlUI = document.createElement('div');
+	    controlUI.style.backgroundColor = '#fff';
+	    controlUI.style.border = '2px solid #fff';
+	    controlUI.style.borderRadius = '3px';
+	    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+	    controlUI.style.cursor = 'pointer';
+	    controlUI.style.margin = '1em';
+	    controlUI.style.textAlign = 'center';
+	    controlUI.title = 'Click to close all info windows in the map';
+	    controlDiv.appendChild(controlUI);
+
+            var controlImage = document.createElement('img');
+            controlImage.src = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg enable-background='new 0 0 32 32' version='1.1' viewBox='0 0 32 32' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' fill='none'/%3E%3Ccircle cx='16' cy='28' r='4'/%3E%3Cpath d='m23.735 27.666h-2e-3 2e-3zm6.264-11.667c-2e-3 -7.732-6.268-13.999-14-14-7.732 1e-3 -13.999 6.268-14 14 0 3.094 1.015 5.964 2.721 8.281l-2.72 2.72h8v-8l-2.404 2.404c-1.007-1.559-1.595-3.406-1.596-5.405 0.01-5.521 4.479-9.989 10-10 5.521 0.01 9.989 4.479 9.999 10 2e-3 3.483-1.775 6.535-4.479 8.333l2.215 3.333c3.769-2.502 6.264-6.799 6.264-11.666z'/%3E%3C/svg%3E%0A";
+            controlImage.style.height = "18px";
+            controlImage.style.width = "18px";
+            controlImage.style.margin = "9px";
+            controlUI.appendChild(controlImage);
+
+	    // Setup the click event listeners: simply set the map to Chicago.
+	    controlUI.addEventListener('click', function() {
+	        closeAllInfoWindows();
+	    });
+        }
+        {/literal}
    // ================= infoOpened LISTENER ===========
     {* todo: InfoWindow listeners
     {literal}
@@ -336,6 +382,7 @@ a:hover {ldelim} outline: none; {rdelim}
                 }
                 var info_content = htmls.join();
                 infowindow = new google.maps.InfoWindow({content: info_content});
+                allInfoWindows.push(infowindow);
                 infowindow.open(map, marker);
             }else{
                 infowindow.open(map, marker);
