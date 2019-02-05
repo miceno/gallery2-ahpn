@@ -386,13 +386,12 @@ a:hover {ldelim} outline: none; {rdelim}
     {counter name="num2" start=-1 print=false}
     {counter name="num3" start=-1 print=false}
     {counter name="num4" start=-1 print=false}
+    /* creates the Thumbnail bar as we go */
     {foreach from=$mapv3.mapPoints item=point}
       {if $barPosition neq "0" and $mapv3.fullScreen neq 3}
-      /* creates the Thumbnail bar as we go */
-      var style = "";
-      //map.setCenter(new google.maps.Point({$point.gps}));
+      {* //map.setCenter(new google.maps.Point({$point.gps})); *}
       sidebarhtml += '' +
-          '<a id="thumb{counter name="num3"}" '+style+' ' +
+          '<a id="thumb{counter name="num3"}" ' +
           'href="#" ' +
           'onclick="new google.maps.event.trigger(markers[{counter name="num2"}], \'click\' ); return false;" ' +
           'onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" ' +
