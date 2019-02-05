@@ -58,31 +58,34 @@ a:hover {ldelim} outline: none; {rdelim}
     * */
 
     // ===== Show and Hide markers =====
-    function markerDisplay(number,show,type) {ldelim}
-      if (type != 'Regroup'){ldelim}
-        if ((show) && (!markers[number].onmap)) {ldelim}
+    {literal}
+    
+    function markerDisplay(number,show,type) {
+      if (type != 'Regroup'){
+        if ((show) && (!markers[number].onmap)) {
            if (DEBUGINFO) console.debug('Normal Icon,show,'+number);
            markers[number].onmap = true;
            markers[number].setMap(map);
-        {rdelim}
-        if ((!show) && (markers[number].onmap)) {ldelim}
+        }
+        if ((!show) && (markers[number].onmap)) {
            if (DEBUGINFO) console.debug('Normal Icon,hide,'+number);
            markers[number].onmap = false;
            markers[number].setMap(null);
-        {rdelim}
-      {rdelim}else{ldelim}
-        if ((show) && (!Rmarkers[number].onmap)) {ldelim}
+        }
+      }else{
+        if ((show) && (!Rmarkers[number].onmap)) {
            if (DEBUGINFO) console.debug('Regroup Icon,show,'+number);
            Rmarkers[number].onmap = true;
            Rmarkers[number].setMap(map);
-        {rdelim}
-        if ((!show) && (Rmarkers[number].onmap)) {ldelim}
+        }
+        if ((!show) && (Rmarkers[number].onmap)) {
            if (DEBUGINFO) console.debug('Regroup Icon,hide,'+number);
            Rmarkers[number].onmap = false;
            Rmarkers[number].setMap(null);
-        {rdelim}
-      {rdelim}
-    {rdelim}
+        }
+      }
+    }
+    {/literal}
 
     {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
     var myWidth = {$mapv3.mapWidth};
@@ -105,34 +108,72 @@ a:hover {ldelim} outline: none; {rdelim}
     var arrowmarker;
     var bounds = new google.maps.LatLngBounds();
     var maxZoom = 10; // default to somewhat zoomed-out
+    var ARROW_IMG_URL = "{g->url href="modules/mapv3/images/arrow.png"}";
 
     {if $mapv3.fullScreen neq 3}
+    {literal}
     /* functions related to the Thumbnail bar */
-    function show_arrow(number,xcoord,ycoord,type){ldelim}
+    function show_arrow(number,xcoord,ycoord,type){
       if (DEBUGINFO) console.debug('Show '+number+','+type);
       if (DEBUGINFO) console.debug('Hiding the Icon');
       markerDisplay(number,0,type);
-      var icon = {ldelim}{rdelim};
-      icon.url = "{g->url href="modules/mapv3/images/arrow.png"}";
+      var icon = {};
+      icon.url = ARROW_IMG_URL;
       icon.size = new google.maps.Size(20, 30);
       icon.anchor = new google.maps.Point(10, 30);
       // icon.infoWindowAnchor = new google.maps.Point(9, 2);
       var point = new google.maps.LatLng(xcoord, ycoord);
-      var newarrow = new google.maps.Marker({ldelim} position: point, icon: icon.url{rdelim});
+      var newarrow = new google.maps.Marker({ position: point, icon: icon.url});
       arrow = newarrow;
       newarrow.setMap(map);
-    {rdelim}
+    }
 
-    function hide_arrow(number,type){ldelim}
+    function hide_arrow(number,type){
       var marker = markers[number];
       if (type != 'normal') marker = Rmarkers[number];
       if (DEBUGINFO) console.debug('hide: '+number+','+type+';myzoom:'+myZoom+'; low:'+marker.showLow+',high:'+marker.showHigh);
-      if (myZoom <= marker.showLow && myZoom >= marker.showHigh) {ldelim}
+      if (myZoom <= marker.showLow && myZoom >= marker.showHigh) {
         if (DEBUGINFO) console.debug('Showing the Icon');
         markerDisplay(number,1,type); //marker.display(true);
-      {rdelim}
+      }
       arrow.setMap(null);
-    {rdelim}
+    }
+
+    function createControlCloseInfoWindows(map){
+        var closeControlDiv = document.createElement('div');
+        var closeControl = new CloseInfoWindowsControl(closeControlDiv, map);
+
+        closeControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(closeControlDiv);
+    }
+
+    function CloseInfoWindowsControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.margin = '1em';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to close all info windows in the map';
+        controlDiv.appendChild(controlUI);
+
+        var controlImage = document.createElement('img');
+        controlImage.src = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg enable-background='new 0 0 32 32' version='1.1' viewBox='0 0 32 32' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' fill='none'/%3E%3Ccircle cx='16' cy='28' r='4'/%3E%3Cpath d='m23.735 27.666h-2e-3 2e-3zm6.264-11.667c-2e-3 -7.732-6.268-13.999-14-14-7.732 1e-3 -13.999 6.268-14 14 0 3.094 1.015 5.964 2.721 8.281l-2.72 2.72h8v-8l-2.404 2.404c-1.007-1.559-1.595-3.406-1.596-5.405 0.01-5.521 4.479-9.989 10-10 5.521 0.01 9.989 4.479 9.999 10 2e-3 3.483-1.775 6.535-4.479 8.333l2.215 3.333c3.769-2.502 6.264-6.799 6.264-11.666z'/%3E%3C/svg%3E%0A";
+        controlImage.style.height = "18px";
+        controlImage.style.width = "18px";
+        controlImage.style.margin = "9px";
+        controlUI.appendChild(controlImage);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+	    closeAllInfoWindows();
+        });
+    }
+    {/literal}
     {/if} {* end $mapv3.fullscreen neq 3 *}
 
     function ShowMeTheMap(){ldelim}
@@ -147,42 +188,6 @@ a:hover {ldelim} outline: none; {rdelim}
 
     createControlCloseInfoWindows(map);
 
-    {literal}
-        function createControlCloseInfoWindows(map){
-            var closeControlDiv = document.createElement('div');
-            var closeControl = new CloseInfoWindowsControl(closeControlDiv, map);
-
-            closeControlDiv.index = 1;
-            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(closeControlDiv);
-        }
-
-        function CloseInfoWindowsControl(controlDiv, map) {
-
-	    // Set CSS for the control border.
-	    var controlUI = document.createElement('div');
-	    controlUI.style.backgroundColor = '#fff';
-	    controlUI.style.border = '2px solid #fff';
-	    controlUI.style.borderRadius = '3px';
-	    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-	    controlUI.style.cursor = 'pointer';
-	    controlUI.style.margin = '1em';
-	    controlUI.style.textAlign = 'center';
-	    controlUI.title = 'Click to close all info windows in the map';
-	    controlDiv.appendChild(controlUI);
-
-            var controlImage = document.createElement('img');
-            controlImage.src = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg enable-background='new 0 0 32 32' version='1.1' viewBox='0 0 32 32' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' fill='none'/%3E%3Ccircle cx='16' cy='28' r='4'/%3E%3Cpath d='m23.735 27.666h-2e-3 2e-3zm6.264-11.667c-2e-3 -7.732-6.268-13.999-14-14-7.732 1e-3 -13.999 6.268-14 14 0 3.094 1.015 5.964 2.721 8.281l-2.72 2.72h8v-8l-2.404 2.404c-1.007-1.559-1.595-3.406-1.596-5.405 0.01-5.521 4.479-9.989 10-10 5.521 0.01 9.989 4.479 9.999 10 2e-3 3.483-1.775 6.535-4.479 8.333l2.215 3.333c3.769-2.502 6.264-6.799 6.264-11.666z'/%3E%3C/svg%3E%0A";
-            controlImage.style.height = "18px";
-            controlImage.style.width = "18px";
-            controlImage.style.margin = "9px";
-            controlUI.appendChild(controlImage);
-
-	    // Setup the click event listeners: simply set the map to Chicago.
-	    controlUI.addEventListener('click', function() {
-	        closeAllInfoWindows();
-	    });
-        }
-        {/literal}
    // ================= infoOpened LISTENER ===========
     {* todo: InfoWindow listeners
     {literal}
