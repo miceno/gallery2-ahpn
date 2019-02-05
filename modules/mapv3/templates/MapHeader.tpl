@@ -335,8 +335,18 @@ a:hover {ldelim} outline: none; {rdelim}
             var infowindow = new google.maps.InfoWindow({content: info_content});
             infowindow.open(map, marker);
             setMapCenter(map, point);
+            var thumb = document.querySelector('#thumb'+this.num);
+            if (thumb){
+                var thumbPrevious = document.querySelector('.thumbbar .active');
+                if (thumbPrevious) {
+                    thumbPrevious.classList.remove('active');
+                }
+                thumb.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+                thumb.classList.toggle('active');
+            }
         });
         marker.tooltip = '<div class="tooltip">' + title + '<\/div>';
+        marker.num = marker_num;
         marker.type = type;
         markers[marker_num] = marker;
         marker_num++;
