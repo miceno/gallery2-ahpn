@@ -10,6 +10,9 @@
         .map-grab-wrapper {
             height: 75vh;
         }
+        #gsContent {
+            width: 85vw;
+        }
     </style>
     {/literal}
 {if $mapv3.fullScreen neq 2 and $mapv3.fullScreen neq 3}
