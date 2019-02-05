@@ -378,7 +378,7 @@ a:hover {ldelim} outline: none; {rdelim}
       sidebarhtml += '' +
           '<a id="thumb{counter name="num3"}" '+style+' ' +
           'href="#" ' +
-          'onclick="GEvent.trigger(markers[{counter name="num2"}],\'click\'); return false;" ' +
+          'onclick="new google.maps.event.trigger(markers[{counter name="num2"}], \'click\' ); return false;" ' +
           'onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" ' +
           'onmouseout="hide_arrow({counter name="num1"},\'normal\');">' +
           '<img style="\
