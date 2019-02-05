@@ -31,112 +31,64 @@ a:hover {ldelim} outline: none; {rdelim}
 	    allInfoWindows[i].close();
         }
     }
-    {/literal}
-
-    {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
-    /* initialize some variable for the sidebar */
-    var sidebarheight = {$mapv3.ThumbHeight+4};
-    {* Should this be ThumbWidth? *}
-    var sidebarwidth = {$mapv3.ThumbHeight+4};
-    {/if}
-    var sidebarhtml = '';
-    var sidebarsize = 0;
-
-    //Create the Map variable to be used to store the map infos
-    var map;
-    //Variable for the google map so that we can get it translated
-    var _divhistorytext = '{g->text text="Move history" forJavascript=true}:'
-    var _movetext = '{g->text text="move" forJavascript=true}';
-    var _zoomtext = '{g->text text="zoom" forJavascript=true}';
-    var _starttext = '{g->text text="start" forJavascript=true}';
-    var _windowtext = '{g->text text="window" forJavascript=true}';
-
     /*
-    *
-    * Global functions
-    *
-    * */
+     *
+     * Global functions
+     *
+     **/
 
     // ===== Show and Hide markers =====
-    {literal}
-    
     function markerDisplay(number,show,type) {
-      if (type != 'Regroup'){
-        if ((show) && (!markers[number].onmap)) {
-           if (DEBUGINFO) console.debug('Normal Icon,show,'+number);
-           markers[number].onmap = true;
-           markers[number].setMap(map);
+        if (type != 'Regroup'){
+	    if ((show) && (!markers[number].onmap)) {
+	        if (DEBUGINFO) console.debug('Normal Icon,show,'+number);
+	        markers[number].onmap = true;
+	        markers[number].setMap(map);
+	    }
+	    if ((!show) && (markers[number].onmap)) {
+	        if (DEBUGINFO) console.debug('Normal Icon,hide,'+number);
+	        markers[number].onmap = false;
+	        markers[number].setMap(null);
+	    }
+        }else{
+	    if ((show) && (!Rmarkers[number].onmap)) {
+	        if (DEBUGINFO) console.debug('Regroup Icon,show,'+number);
+	        Rmarkers[number].onmap = true;
+	        Rmarkers[number].setMap(map);
+	    }
+	    if ((!show) && (Rmarkers[number].onmap)) {
+	        if (DEBUGINFO) console.debug('Regroup Icon,hide,'+number);
+	        Rmarkers[number].onmap = false;
+	        Rmarkers[number].setMap(null);
+	    }
         }
-        if ((!show) && (markers[number].onmap)) {
-           if (DEBUGINFO) console.debug('Normal Icon,hide,'+number);
-           markers[number].onmap = false;
-           markers[number].setMap(null);
-        }
-      }else{
-        if ((show) && (!Rmarkers[number].onmap)) {
-           if (DEBUGINFO) console.debug('Regroup Icon,show,'+number);
-           Rmarkers[number].onmap = true;
-           Rmarkers[number].setMap(map);
-        }
-        if ((!show) && (Rmarkers[number].onmap)) {
-           if (DEBUGINFO) console.debug('Regroup Icon,hide,'+number);
-           Rmarkers[number].onmap = false;
-           Rmarkers[number].setMap(null);
-        }
-      }
     }
-    {/literal}
 
-    {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
-    var myWidth = {$mapv3.mapWidth};
-    {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 'right' and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "right")}+155{/if};{/if}
-    {if $barPosition eq "right" or $barPosition eq "left"}
-      minusW +={$mapv3.ThumbHeight}+30;
-    {/if}
-    {if $mapv3.mode eq "Pick"} var minusW = 410; {/if}
-    {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
-
-    var myHeight = {$mapv3.mapHeight};
-    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}+90{/if}{if $barPosition eq "top" or $barPosition eq "bottom"}+{$mapv3.ThumbHeight}+25{/if};{/if}
-    {if $mapv3.mode eq "Pick"} var minusH = 155; {/if}
-    {if $mapv3.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
-
-    var myZoom = {$mapv3.zoomLevel};
-
-    var markers = [];
-    var Rmarkers = [];
-    var arrowmarker;
-    var bounds = new google.maps.LatLngBounds();
-    var maxZoom = 10; // default to somewhat zoomed-out
-    var ARROW_IMG_URL = "{g->url href="modules/mapv3/images/arrow.png"}";
-
-    {if $mapv3.fullScreen neq 3}
-    {literal}
     /* functions related to the Thumbnail bar */
     function show_arrow(number,xcoord,ycoord,type){
-      if (DEBUGINFO) console.debug('Show '+number+','+type);
-      if (DEBUGINFO) console.debug('Hiding the Icon');
-      markerDisplay(number,0,type);
-      var icon = {};
-      icon.url = ARROW_IMG_URL;
-      icon.size = new google.maps.Size(20, 30);
-      icon.anchor = new google.maps.Point(10, 30);
-      // icon.infoWindowAnchor = new google.maps.Point(9, 2);
-      var point = new google.maps.LatLng(xcoord, ycoord);
-      var newarrow = new google.maps.Marker({ position: point, icon: icon.url});
-      arrow = newarrow;
-      newarrow.setMap(map);
+        if (DEBUGINFO) console.debug('Show '+number+','+type);
+        if (DEBUGINFO) console.debug('Hiding the Icon');
+        markerDisplay(number,0,type);
+        var icon = {};
+        icon.url = ARROW_IMG_URL;
+        icon.size = new google.maps.Size(20, 30);
+        icon.anchor = new google.maps.Point(10, 30);
+        // icon.infoWindowAnchor = new google.maps.Point(9, 2);
+        var point = new google.maps.LatLng(xcoord, ycoord);
+        var newarrow = new google.maps.Marker({ position: point, icon: icon.url});
+        arrow = newarrow;
+        newarrow.setMap(map);
     }
 
     function hide_arrow(number,type){
-      var marker = markers[number];
-      if (type != 'normal') marker = Rmarkers[number];
-      if (DEBUGINFO) console.debug('hide: '+number+','+type+';myzoom:'+myZoom+'; low:'+marker.showLow+',high:'+marker.showHigh);
-      if (myZoom <= marker.showLow && myZoom >= marker.showHigh) {
-        if (DEBUGINFO) console.debug('Showing the Icon');
-        markerDisplay(number,1,type); //marker.display(true);
-      }
-      arrow.setMap(null);
+        var marker = markers[number];
+        if (type != 'normal') marker = Rmarkers[number];
+        if (DEBUGINFO) console.debug('hide: '+number+','+type+';myzoom:'+myZoom+'; low:'+marker.showLow+',high:'+marker.showHigh);
+        if (myZoom <= marker.showLow && myZoom >= marker.showHigh) {
+	    if (DEBUGINFO) console.debug('Showing the Icon');
+	    markerDisplay(number,1,type); //marker.display(true);
+        }
+        arrow.setMap(null);
     }
 
     function createControlCloseInfoWindows(map){
@@ -173,8 +125,71 @@ a:hover {ldelim} outline: none; {rdelim}
 	    closeAllInfoWindows();
         });
     }
+
+    function setMapCenter(map, position){
+        map.setCenter(position);
+    }
+
+    function fromLatLngToPoint(latLng, map) {
+        var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+        var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+        var scale = Math.pow(2, map.getZoom());
+        var worldPoint = map.getProjection().fromLatLngToPoint(latLng);
+        return new google.maps.Point((worldPoint.x - bottomLeft.x) * scale, (worldPoint.y - topRight.y) * scale);
+    }
+
+    function showTooltip(marker) {
+        tooltip.innerHTML = marker.tooltip;
+        var point = map.getCenter();
+        var offset = fromLatLngToPoint(marker.position, map);
+        var anchor = marker.anchorPoint;
+        var height = tooltip.clientHeight;
+
+        tooltip.style.visibility="visible";
+    }
+
     {/literal}
-    {/if} {* end $mapv3.fullscreen neq 3 *}
+
+    {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
+    /* initialize some variable for the sidebar */
+    var sidebarheight = {$mapv3.ThumbHeight+4};
+    {* Should this be ThumbWidth? *}
+    var sidebarwidth = {$mapv3.ThumbHeight+4};
+    {/if}
+    var sidebarhtml = '';
+    var sidebarsize = 0;
+
+    //Create the Map variable to be used to store the map infos
+    var map;
+    //Variable for the google map so that we can get it translated
+    var _divhistorytext = '{g->text text="Move history" forJavascript=true}:'
+    var _movetext = '{g->text text="move" forJavascript=true}';
+    var _zoomtext = '{g->text text="zoom" forJavascript=true}';
+    var _starttext = '{g->text text="start" forJavascript=true}';
+    var _windowtext = '{g->text text="window" forJavascript=true}';
+
+    {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
+    var myWidth = {$mapv3.mapWidth};
+    {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 'right' and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "right")}+155{/if};{/if}
+    {if $barPosition eq "right" or $barPosition eq "left"}
+      minusW +={$mapv3.ThumbHeight}+30;
+    {/if}
+    {if $mapv3.mode eq "Pick"} var minusW = 410; {/if}
+    {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
+
+    var myHeight = {$mapv3.mapHeight};
+    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}+90{/if}{if $barPosition eq "top" or $barPosition eq "bottom"}+{$mapv3.ThumbHeight}+25{/if};{/if}
+    {if $mapv3.mode eq "Pick"} var minusH = 155; {/if}
+    {if $mapv3.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
+
+    var myZoom = {$mapv3.zoomLevel};
+
+    var markers = [];
+    var Rmarkers = [];
+    var arrowmarker;
+    var bounds = new google.maps.LatLngBounds();
+    var maxZoom = 10; // default to somewhat zoomed-out
+    var ARROW_IMG_URL = "{g->url href="modules/mapv3/images/arrow.png"}";
 
     function ShowMeTheMap(){ldelim}
 
@@ -241,322 +256,287 @@ a:hover {ldelim} outline: none; {rdelim}
     tooltip.style.visibility="hidden";
     if (DEBUGINFO) console.debug('done!');
 
-    {literal}
-    function setMapCenter(map, position){
-        map.setCenter(position);
-    }
-    {/literal}
-    {if $mapv3.fullScreen eq 3}
-    {* todo: Resize {literal}
-        see https://stackoverflow.com/questions/12030443/google-maps-api-v3-resize-event
-    if (document.all&&window.attachEvent) {ldelim} // IE-Win
-      window.attachEvent("onresize", function() {ldelim}this.map.onResize(){rdelim} );
-    {rdelim} else if (window.addEventListener) {ldelim} // Others
-      window.addEventListener("resize", function() {ldelim}this.map.onResize(){rdelim}, false );
-    {rdelim}
-    {/literal}
-    *}
-    {/if}
-
     {if $mapv3.mode eq "Normal"}
 
-    function fromLatLngToPoint(latLng, map) {ldelim}
-        var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
-        var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
-        var scale = Math.pow(2, map.getZoom());
-        var worldPoint = map.getProjection().fromLatLngToPoint(latLng);
-        return new google.maps.Point((worldPoint.x - bottomLeft.x) * scale, (worldPoint.y - topRight.y) * scale);
-    {rdelim}
+        var BaseIcon = {ldelim}{rdelim};
+        BaseIcon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+        BaseIcon.anchor = new google.maps.Point(6, 20);
+        BaseIcon.infoWindowAnchor = new google.maps.Point(5, 1);
 
-    function showTooltip(marker) {ldelim}
-      tooltip.innerHTML = marker.tooltip;
-      var point = map.getCenter();
-      var offset = fromLatLngToPoint(marker.position, map);
-      var anchor = marker.anchorPoint;
-      {* // TODO var width = marker.getIcon().size.width; *}
-      var height = tooltip.clientHeight;
+        {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
+            var replaceIcon = {ldelim}{rdelim};
+            replaceIcon.size = new google.maps.Size({$mapv3.ReplaceMarkerSizeX},{$mapv3.ReplaceMarkerSizeY});
+            replaceIcon.anchor = new google.maps.Point({$mapv3.replaceAnchorPos});
+            replaceIcon.url = "{g->url href="modules/mapv3/images/multi/`$mapv3.regroupIcon`.png"}";
 
-      tooltip.style.visibility="visible";
-    {rdelim}
-
-    var BaseIcon = {ldelim}{rdelim};
-    BaseIcon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-    BaseIcon.anchor = new google.maps.Point(6, 20);
-    BaseIcon.infoWindowAnchor = new google.maps.Point(5, 1);
-
-    {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
-    var replaceIcon = {ldelim}{rdelim};
-    replaceIcon.size = new google.maps.Size({$mapv3.ReplaceMarkerSizeX},{$mapv3.ReplaceMarkerSizeY});
-    replaceIcon.anchor = new google.maps.Point({$mapv3.replaceAnchorPos});
-    replaceIcon.url = "{g->url href="modules/mapv3/images/multi/`$mapv3.regroupIcon`.png"}";
-
-    function CreateRegroup(lat,lon, showLow, showHigh, nbDirect, nbItems, nbGroups){ldelim}
-      var point = new google.maps.LatLng(lat,lon);
-      {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}bounds.extend(point);{/if}
-      var marker = new google.maps.Marker(point,replaceIcon)
-      marker.onmap = true;
-      marker.showHigh = showHigh;
-      marker.showLow = showLow;
-      GEvent.addListener(marker,"mouseover", function() {ldelim}
-        showTooltip(marker);
-      {rdelim});
-      GEvent.addListener(marker,"mouseout", function() {ldelim}
-	    tooltip.style.visibility="hidden";
-      {rdelim});
-      GEvent.addListener(marker, "click", function() {ldelim}
-        tooltip.style.visibility="hidden";
-        map.setCenter(point,showLow+1);
-      {rdelim});
-      var directText = nbDirect>0 ? ""+nbDirect+" items and "+ (nbItems-nbDirect) +" more " : "";
-      var subgroupText = nbGroups>0 ? " ("+directText+"in "+nbGroups+" subgroups)" : "";
-      var title = ''+nbItems+' elements here'+subgroupText+'. Click to zoom in.';
-      marker.tooltip = '<div class="tooltip">'+title+'<\/div>';
-      marker.type = 'Regroup';
-      Rmarkers[Rmarker_num] = marker;
-      Rmarker_num++;
-      marker.setMap(map);
-    {rdelim}
-    {/if}
-    {literal}
-    function CreateMarker(lat, lon, itemLink, title, thumbLink, created, zoomlevel, thw, thh, summary, description, icon, showLow, showHigh, hide, type) {
-    {/literal}
-        var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
-        var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0}, {/if}"{$Labels}"{/foreach}];
-        var point = new google.maps.LatLng(lat, lon);
-        var infowindow = null;
-
-        {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
-        bounds.extend(point);
-        maxZoom = Math.max(maxZoom, zoomlevel);
+            function CreateRegroup(lat, lon, showLow, showHigh, nbDirect, nbItems, nbGroups) {ldelim}
+	        var point = new google.maps.LatLng(lat, lon);
+	        {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}bounds.extend(point);{/if}
+	        var marker = new google.maps.Marker(point, replaceIcon)
+	        marker.onmap = true;
+	        marker.showHigh = showHigh;
+	        marker.showLow = showLow;
+	        GEvent.addListener(marker, "mouseover", function () {ldelim}
+	            showTooltip(marker);
+	            {rdelim});
+	        GEvent.addListener(marker, "mouseout", function () {ldelim}
+	            tooltip.style.visibility = "hidden";
+	            {rdelim});
+	        GEvent.addListener(marker, "click", function () {ldelim}
+	            tooltip.style.visibility = "hidden";
+	            map.setCenter(point, showLow + 1);
+	            {rdelim});
+	        var directText = nbDirect > 0 ? "" + nbDirect + " items and " + (nbItems - nbDirect) + " more " : "";
+	        var subgroupText = nbGroups > 0 ? " (" + directText + "in " + nbGroups + " subgroups)" : "";
+	        var title = '' + nbItems + ' elements here' + subgroupText + '. Click to zoom in.';
+	        marker.tooltip = '<div class="tooltip">' + title + '<\/div>';
+	        marker.type = 'Regroup';
+	        Rmarkers[Rmarker_num] = marker;
+	        Rmarker_num++;
+	        marker.setMap(map);
+	        {rdelim}
         {/if}
         {literal}
-        var marker = new google.maps.Marker({position: point, icon: icon.url});
-        marker.onmap = true;
-        marker.showHigh = showHigh;
-        marker.showLow = showLow;
-        marker.addListener("mouseover", function () {
-            showTooltip(marker);
-        });
-        marker.addListener("mouseout", function () {
-            tooltip.style.visibility = "hidden";
-        });
-        marker.addListener("click", function () {
-            tooltip.style.visibility = "hidden";
-            if (infowindow === null){
-                if (htmls.length > 2) {
-	            htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
-                }
-                var info_content = htmls.join();
-                infowindow = new google.maps.InfoWindow({content: info_content});
-                allInfoWindows.push(infowindow);
-                infowindow.open(map, marker);
-            }else{
-                infowindow.open(map, marker);
-            }
-            setMapCenter(map, point);
-            var thumb = document.querySelector('#thumb'+this.num);
-            if (thumb){
-                var thumbPrevious = document.querySelector('.thumbbar .active');
-                if (thumbPrevious) {
-                    thumbPrevious.classList.remove('active');
-                }
-                thumb.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'center'});
-                thumb.classList.toggle('active');
-            }
-        });
-        marker.tooltip = '<div class="tooltip">' + title + '<\/div>';
-        marker.num = marker_num;
-        marker.type = type;
-        markers[marker_num] = marker;
-        marker_num++;
-
-        marker.setMap(map);
-
-        if (hide == 1) markerDisplay(marker_num - 1, 0, 'normal');
-    } /* function CreateMarker */
+        function CreateMarker(lat, lon, itemLink, title, thumbLink, created, zoomlevel, thw, thh, summary, description, icon, showLow, showHigh, hide, type) {
         {/literal}
+            var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
+            var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0}, {/if}"{$Labels}"{/foreach}];
+            var point = new google.maps.LatLng(lat, lon);
+            var infowindow = null;
 
-   //Create the base for all icons
-   var base_icon = {ldelim}{rdelim};
-   base_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-   base_icon.anchor = new google.maps.Point(6, 20);
-   base_icon.infoWindowAnchor = new google.maps.Point(5, 1);
+            {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
+            bounds.extend(point);
+            maxZoom = Math.max(maxZoom, zoomlevel);
+            {/if}
+            {literal}
+            var marker = new google.maps.Marker({position: point, icon: icon.url});
+            marker.onmap = true;
+            marker.showHigh = showHigh;
+            marker.showLow = showLow;
+            marker.addListener("mouseover", function () {
+                showTooltip(marker);
+            });
+            marker.addListener("mouseout", function () {
+                tooltip.style.visibility = "hidden";
+            });
+            marker.addListener("click", function () {
+                tooltip.style.visibility = "hidden";
+                if (infowindow === null){
+                    if (htmls.length > 2) {
+	                htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
+                    }
+                    var info_content = htmls.join();
+                    infowindow = new google.maps.InfoWindow({content: info_content});
+                    allInfoWindows.push(infowindow);
+                    infowindow.open(map, marker);
+                }else{
+                    infowindow.open(map, marker);
+                }
+                setMapCenter(map, point);
+                var thumb = document.querySelector('#thumb'+this.num);
+                if (thumb){
+                    var thumbPrevious = document.querySelector('.thumbbar .active');
+                    if (thumbPrevious) {
+                        thumbPrevious.classList.remove('active');
+                    }
+                    thumb.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'center'});
+                    thumb.classList.toggle('active');
+                }
+            });
+            marker.tooltip = '<div class="tooltip">' + title + '<\/div>';
+            marker.num = marker_num;
+            marker.type = type;
+            markers[marker_num] = marker;
+            marker_num++;
 
-   var default_photo_icon = {ldelim}{rdelim};
-   default_photo_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
-   default_photo_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-   default_photo_icon.anchor = new google.maps.Point({$mapv3.MarkerSizeX}/2, {$mapv3.MarkerSizeY});
+            marker.setMap(map);
 
-   var default_album_icon = {ldelim}{rdelim};
-   default_album_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
-   default_album_icon.size = new google.maps.Size({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
-   default_album_icon.anchor = new google.maps.Point({$mapv3.AlbumMarkerSizeX}/2,{$mapv3.AlbumMarkerSizeY});
+            if (hide == 1) markerDisplay(marker_num - 1, 0, 'normal');
+        } /* function CreateMarker */
+            {/literal}
 
-   var default_group_icon = {ldelim}{rdelim};
-   default_group_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
-   default_group_icon.size = new google.maps.Size({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
-   default_group_icon.anchor = new google.maps.Point({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
+       //Create the base for all icons
+       var base_icon = {ldelim}{rdelim};
+       base_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+       base_icon.anchor = new google.maps.Point(6, 20);
+       base_icon.infoWindowAnchor = new google.maps.Point(5, 1);
 
-    /* Loop over gallery items that have GPS coordinates
-        and output code to add them to the map. */
-    {if (!empty($mapv3.mapPoints))}
-    {counter name="num" start=-1 print=false}
-    {counter name="num1" start=-1 print=false}
-    {counter name="num2" start=-1 print=false}
-    {counter name="num3" start=-1 print=false}
-    {counter name="num4" start=-1 print=false}
-    /* creates the Thumbnail bar as we go */
-    {foreach from=$mapv3.mapPoints item=point}
-      {if $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
-      {* //map.setCenter(new google.maps.Point({$point.gps})); *}
-      sidebarhtml += '' +
-          '<a id="thumb{counter name="num3"}" ' +
-          'href="#" ' +
-          'onclick="new google.maps.event.trigger(markers[{counter name="num2"}], \'click\' ); return false;" ' +
-          'onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" ' +
-          'onmouseout="hide_arrow({counter name="num1"},\'normal\');">' +
-          '<img style="\
-            {strip}{if $barPosition eq "right" or $barPosition eq "left"}width{else}height
-            {/if}:{$mapv3.ThumbHeight}px;"{/strip}' +
-        'src="{$point.thumbLink}"/>{if $barPosition eq "right" or $barPosition eq "left"}<br/>{/if}<\/a>';
-      sidebarsize +={if $barPosition eq "right" or $barPosition eq "left"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
-      {/if}
+       var default_photo_icon = {ldelim}{rdelim};
+       default_photo_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
+       default_photo_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+       default_photo_icon.anchor = new google.maps.Point({$mapv3.MarkerSizeX}/2, {$mapv3.MarkerSizeY});
 
-      {* Check point type to assign markers and colors *}
-      {if $point.type eq "GalleryAlbumItem"}
-       {assign var=itemType value="album"}
-       {assign var=markerSet value="`$mapv3.useAlbumMarkerSet`"}
-       {assign var=markerColor value="`$mapv3.defaultalbumcolor`"}
-      {elseif $point.type eq "GoogleMapGroup"}
-       {assign var=itemType value="group"}
-       {assign var=markerSet value="`$mapv3.useGroupMarkerSet`"}
-       {assign var=markerColor value="`$mapv3.defaultgroupcolor`"}
-      {else}
-       {assign var=itemType value="photo"}
-       {assign var=markerSet value="`$mapv3.useMarkerSet`"}
-       {assign var=markerColor value="`$mapv3.defaultphotocolor`"}
-      {/if}
+       var default_album_icon = {ldelim}{rdelim};
+       default_album_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
+       default_album_icon.size = new google.maps.Size({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
+       default_album_icon.anchor = new google.maps.Point({$mapv3.AlbumMarkerSizeX}/2,{$mapv3.AlbumMarkerSizeY});
 
-      {assign var=iconDef value="default_"}
-      {if $point.color neq "default"}
-      var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
-      {assign var=iconDef value=""}{* Clear the "Default" and flag that we declared the variable *}
-      {assign var=markerColor value="`$point.color`"}
-      {$itemType}_icon.url = "{g->url href="modules/mapv3/images/markers/`$markerSet`/marker_`$point.color`.png"}";
-      {/if}
-      {* quick hacky fix for missing numbered markers *}
-      {if $mapv3.EnableRouteNumber}
-      {foreach from=$mapv3.routeitem key=name item=items}
-       {foreach from=$items item=id key=num}
-        {if $point.id == $id}
-         {if $iconDef eq "default_"}{* variable hasn't been declared yet *}
-          {assign var=iconDef value=""}{* Clear the "Default" text *}
-          var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
-         {/if}
-         {$itemType}_icon.url = "{g->url href="modules/mapv3/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
+       var default_group_icon = {ldelim}{rdelim};
+       default_group_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
+       default_group_icon.size = new google.maps.Size({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
+       default_group_icon.anchor = new google.maps.Point({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
+
+        /* Loop over gallery items that have GPS coordinates
+            and output code to add them to the map. */
+        {if (!empty($mapv3.mapPoints))}
+            {counter name="num" start=-1 print=false}
+            {counter name="num1" start=-1 print=false}
+            {counter name="num2" start=-1 print=false}
+            {counter name="num3" start=-1 print=false}
+            {counter name="num4" start=-1 print=false}
+            /* creates the Thumbnail bar as we go */
+            {foreach from=$mapv3.mapPoints item=point}
+                  {if $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
+                  {* //map.setCenter(new google.maps.Point({$point.gps})); *}
+                  sidebarhtml += '' +
+                      '<a id="thumb{counter name="num3"}" ' +
+                      'href="#" ' +
+                      'onclick="new google.maps.event.trigger(markers[{counter name="num2"}], \'click\' ); return false;" ' +
+                      'onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" ' +
+                      'onmouseout="hide_arrow({counter name="num1"},\'normal\');">' +
+                      '<img style="\
+                        {strip}{if $barPosition eq "right" or $barPosition eq "left"}width{else}height
+                        {/if}:{$mapv3.ThumbHeight}px;"{/strip}' +
+                    'src="{$point.thumbLink}"/>{if $barPosition eq "right" or $barPosition eq "left"}<br/>{/if}<\/a>';
+                  sidebarsize +={if $barPosition eq "right" or $barPosition eq "left"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
+                  {/if}
+
+                  {* Check point type to assign markers and colors *}
+                  {if $point.type eq "GalleryAlbumItem"}
+                   {assign var=itemType value="album"}
+                   {assign var=markerSet value="`$mapv3.useAlbumMarkerSet`"}
+                   {assign var=markerColor value="`$mapv3.defaultalbumcolor`"}
+                  {elseif $point.type eq "GoogleMapGroup"}
+                   {assign var=itemType value="group"}
+                   {assign var=markerSet value="`$mapv3.useGroupMarkerSet`"}
+                   {assign var=markerColor value="`$mapv3.defaultgroupcolor`"}
+                  {else}
+                   {assign var=itemType value="photo"}
+                   {assign var=markerSet value="`$mapv3.useMarkerSet`"}
+                   {assign var=markerColor value="`$mapv3.defaultphotocolor`"}
+                  {/if}
+
+                  {assign var=iconDef value="default_"}
+                  {if $point.color neq "default"}
+                  var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
+                  {assign var=iconDef value=""}{* Clear the "Default" and flag that we declared the variable *}
+                  {assign var=markerColor value="`$point.color`"}
+                  {$itemType}_icon.url = "{g->url href="modules/mapv3/images/markers/`$markerSet`/marker_`$point.color`.png"}";
+                  {/if}
+                  {* quick hacky fix for missing numbered markers *}
+                  {if $mapv3.EnableRouteNumber}
+                  {foreach from=$mapv3.routeitem key=name item=items}
+                   {foreach from=$items item=id key=num}
+                    {if $point.id == $id}
+                     {if $iconDef eq "default_"}{* variable hasn't been declared yet *}
+                      {assign var=iconDef value=""}{* Clear the "Default" text *}
+                      var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
+                     {/if}
+                     {$itemType}_icon.url = "{g->url href="modules/mapv3/images/routes/`$name`/`$num+1`-marker_`$markerColor`.png"}";
+                    {/if}
+                   {/foreach}
+                  {/foreach}
+                  {/if}
+                  {if $point.id|truncate:1:"" neq 'T'}
+                    {strip}
+                    CreateMarker({$point.gps},
+                        "{$point.itemLink}",
+                        "{$point.title|markup|escape:"javascript"}",
+                        "{$point.thumbLink}",
+                        "{$point.created}",
+                        {$point.zoomlevel},
+                        {$point.thumbWidth},
+                        {$point.thumbHeight},
+                        {if $mapv3.showItemSummaries && !empty($point.summary)}
+                            "{$point.summary|markup|escape:"javascript"}"
+                        {else}
+                            ""
+                        {/if},
+                        {if $mapv3.showItemDescriptions && !empty($point.description)}
+                            "{$point.description|markup|escape:"javascript"}"
+                        {else}
+                            ""
+                        {/if},
+                      {$iconDef}{$itemType}_icon,
+                      {$point.regroupShowLow},
+                      {$point.regroupShowHigh},
+                      0,
+                      "{$point.type}");
+                    {/strip}
+                  {/if}
+            {/foreach}
+
+            {if isset($barPosition) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
+                var thumbdiv = document.getElementById("thumbs");
+                thumbdiv.innerHTML = sidebarhtml;
+                var mapdiv = document.getElementById("map");
+
+                {if $barPosition eq "top" or $barPosition eq "bottom"}
+                if (sidebarsize+1 > myWidth)  sidebarheight = {$mapv3.ThumbHeight+25};
+                thumbdiv.style.height = sidebarheight+"px";
+                {else}
+                {* Should this be $mapv3.ThumbWidth? *}
+                if (sidebarsize+1 > myHeight)  sidebarwidth = {$mapv3.ThumbWeight+25};
+                thumbdiv.style.width = sidebarwidth+"px";
+                {/if}
+
+            {/if}
+
         {/if}
-       {/foreach}
-      {/foreach}
-      {/if}
-      {if $point.id|truncate:1:"" neq 'T'}
-        {strip}
-        CreateMarker({$point.gps},
-            "{$point.itemLink}",
-            "{$point.title|markup|escape:"javascript"}",
-            "{$point.thumbLink}",
-            "{$point.created}",
-            {$point.zoomlevel},
-            {$point.thumbWidth},
-            {$point.thumbHeight},
-            {if $mapv3.showItemSummaries && !empty($point.summary)}
-                "{$point.summary|markup|escape:"javascript"}"
-            {else}
-                ""
-            {/if},
-            {if $mapv3.showItemDescriptions && !empty($point.description)}
-                "{$point.description|markup|escape:"javascript"}"
-            {else}
-                ""
-            {/if},
-          {$iconDef}{$itemType}_icon,
-          {$point.regroupShowLow},
-          {$point.regroupShowHigh},
-          0,
-          "{$point.type}");
-        {/strip}
-      {/if}
-    {/foreach}
 
-    {if isset($barPosition) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
-    var thumbdiv = document.getElementById("thumbs");
-    thumbdiv.innerHTML = sidebarhtml;
-    var mapdiv = document.getElementById("map");
+        /* Loop over routes if any and display them */
+        {if (!empty($mapv3.Routes))}
+            var point;
+            {foreach from=$mapv3.Routes item=routes}
+              var points = [];
+              {if $routes.5 eq "Yes"}
+              {foreach from=$routes[7] item=point}
+                 point = new google.maps.LatLng({$point[0]},{$point[1]});
+                 points.push(point);
+                 {if (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route')))}bounds.extend(point);{/if}
+              {/foreach}
+              var poly = new google.maps.Polyline({ldelim}
+                  path: points,
+                  strokeColor: "{$routes[2]}",
+                  strokeWeight: {$routes[3]},
+                  strokeOpacity: {$routes[4]}
+              {rdelim});
+              poly.setMap(map);
+              {/if}
+            {/foreach}
+        {/if}
 
-    {if $barPosition eq "top" or $barPosition eq "bottom"}
-    if (sidebarsize+1 > myWidth)  sidebarheight = {$mapv3.ThumbHeight+25};
-    thumbdiv.style.height = sidebarheight+"px";
-    {else}
-    {* Should this be $mapv3.ThumbWidth? *}
-    if (sidebarsize+1 > myHeight)  sidebarwidth = {$mapv3.ThumbWeight+25};
-    thumbdiv.style.width = sidebarwidth+"px";
-    {/if}
+        {if $mapv3.AutoCenterZoom and (!isset($mapv3.Filter) or (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route') or ($mapv3.Filter|truncate:5:"" eq 'Album') or ($mapv3.Filter|truncate:5:"" eq 'Group'))))}
+            map.fitBounds(bounds);
+        {/if}
 
-    {/if}
+        {* set the correct zoom slide notch and show/hide the regrouped item *}
+        zoom = map.getZoom();
+        myZoom = 19-zoom;
 
-    {/if}
-
-    /* Loop over routes if any and display them */
-    {if (!empty($mapv3.Routes))}
-    var point;
-    {foreach from=$mapv3.Routes item=routes}
-      var points = [];
-      {if $routes.5 eq "Yes"}
-      {foreach from=$routes[7] item=point}
-         point = new google.maps.LatLng({$point[0]},{$point[1]});
-         points.push(point);
-         {if (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route')))}bounds.extend(point);{/if}
-      {/foreach}
-      var poly = new google.maps.Polyline({ldelim}
-          path: points,
-          strokeColor: "{$routes[2]}",
-          strokeWeight: {$routes[3]},
-          strokeOpacity: {$routes[4]}
-      {rdelim});
-      poly.setMap(map);
-      {/if}
-    {/foreach}
-    {/if}
-
-    {if $mapv3.AutoCenterZoom and (!isset($mapv3.Filter) or (isset($mapv3.Filter) and (($mapv3.Filter|truncate:5:"" eq 'Route') or ($mapv3.Filter|truncate:5:"" eq 'Album') or ($mapv3.Filter|truncate:5:"" eq 'Group'))))}
-        map.fitBounds(bounds);
-    {/if}
-
-    {* set the correct zoom slide notch and show/hide the regrouped item *}
-    zoom = map.getZoom();
-    myZoom = 19-zoom;
-
-    for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
-        var marker = markers[i];
-        if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
-          markerDisplay(i,1,'normal'); //marker.display(true);
-          var CorrectA = document.getElementById('thumb'+i);
-          if (CorrectA != null ) CorrectA.style.display = "inline";
+        for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
+            var marker = markers[i];
+            if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
+              markerDisplay(i,1,'normal'); //marker.display(true);
+              var CorrectA = document.getElementById('thumb'+i);
+              if (CorrectA != null ) CorrectA.style.display = "inline";
+            {rdelim}
+            else {ldelim}
+              markerDisplay(i,0,'normal'); //marker.display(false);
+              var CorrectA = document.getElementById('thumb'+i);
+              if (CorrectA != null) CorrectA.style.display = "none";
+            {rdelim}
         {rdelim}
-        else {ldelim}
-          markerDisplay(i,0,'normal'); //marker.display(false);
-          var CorrectA = document.getElementById('thumb'+i);
-          if (CorrectA != null) CorrectA.style.display = "none";
+
+        for (var i=0; i < Rmarkers.length; i++) {ldelim} //Updating the normal items
+            var marker = Rmarkers[i];
+            if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
+              markerDisplay(i,1,'Regroup'); //marker.display(true);
+            {rdelim}
+            else {ldelim}
+              markerDisplay(i,0,'Regroup'); //marker.display(false);
+            {rdelim}
         {rdelim}
-    {rdelim}
-    for (var i=0; i < Rmarkers.length; i++) {ldelim} //Updating the normal items
-        var marker = Rmarkers[i];
-        if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
-          markerDisplay(i,1,'Regroup'); //marker.display(true);
-        {rdelim}
-        else {ldelim}
-          markerDisplay(i,0,'Regroup'); //marker.display(false);
-        {rdelim}
-    {rdelim}
 
     {/if}
 
