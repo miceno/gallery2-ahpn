@@ -107,7 +107,7 @@
                 {/if}
             {/if }
             {if $mapv3.mode neq "Pick" and $mapv3.fullScreen neq 3}
-                {if $mapv3.ThumbBarPos eq "1" or $mapv3.ThumbBarPos eq "3" or $mapv3.ThumbBarPos eq "4"}
+                {if $mapv3.ThumbBarPos eq "top" or $mapv3.ThumbBarPos eq "right" or $mapv3.ThumbBarPos eq "left"}
                     {g->block type="mapv3.Thumb"}
                 {/if}
 
@@ -152,7 +152,7 @@
                  </div> {* End of the map div *}
             </div>
         {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
-            {if $mapv3.ThumbBarPos eq "2"}{g->block type="mapv3.Thumb"}{/if}
+            {if $mapv3.ThumbBarPos eq "bottom"}{g->block type="mapv3.Thumb"}{/if}
             {if isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "4" and !$mapv3.fullScreen}
               {g->block type="mapv3.mapFilter"}
             {/if}

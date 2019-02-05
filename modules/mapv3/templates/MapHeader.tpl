@@ -25,7 +25,7 @@ a:hover {ldelim} outline: none; {rdelim}
 
     var DEBUGINFO = 1; //set to 1 to view the Glog, 0 otherwise
 
-    {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $barPosition neq "0" and $mapv3.fullScreen neq 3}
+    {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
     /* initialize some variable for the sidebar */
     var sidebarheight = {$mapv3.ThumbHeight+4};
     {* Should this be ThumbWidth? *}
@@ -118,14 +118,14 @@ a:hover {ldelim} outline: none; {rdelim}
     {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
     var myWidth = {$mapv3.mapWidth};
     {if $mapv3.mode eq "Normal"}var minusW = {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}210{else}20{/if}{if ($mapv3.LegendPos eq 'right' and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "right")}+155{/if};{/if}
-    {if $barPosition eq "3" or $barPosition eq "4"}
+    {if $barPosition eq "right" or $barPosition eq "left"}
       minusW +={$mapv3.ThumbHeight}+30;
     {/if}
     {if $mapv3.mode eq "Pick"} var minusW = 410; {/if}
     {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
 
     var myHeight = {$mapv3.mapHeight};
-    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}+90{/if}{if $barPosition eq "1" or $barPosition eq "2"}+{$mapv3.ThumbHeight}+25{/if};{/if}
+    {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}+90{/if}{if $barPosition eq "top" or $barPosition eq "bottom"}+{$mapv3.ThumbHeight}+25{/if};{/if}
     {if $mapv3.mode eq "Pick"} var minusH = 155; {/if}
     {if $mapv3.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
 
@@ -388,7 +388,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {counter name="num4" start=-1 print=false}
     /* creates the Thumbnail bar as we go */
     {foreach from=$mapv3.mapPoints item=point}
-      {if $barPosition neq "0" and $mapv3.fullScreen neq 3}
+      {if $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
       {* //map.setCenter(new google.maps.Point({$point.gps})); *}
       sidebarhtml += '' +
           '<a id="thumb{counter name="num3"}" ' +
@@ -397,11 +397,13 @@ a:hover {ldelim} outline: none; {rdelim}
           'onmouseover="show_arrow({counter name="num"},{$point.gps},\'normal\');" ' +
           'onmouseout="hide_arrow({counter name="num1"},\'normal\');">' +
           '<img style="\
-            {strip}{if $barPosition eq "3" or $barPosition eq "4"}width{else}height
+            {strip}{if $barPosition eq "right" or $barPosition eq "left"}width{else}height
             {/if}:{$mapv3.ThumbHeight}px;"{/strip}' +
-        'src="{$point.thumbLink}"/>{if $barPosition eq "3" or $barPosition eq "4"}<br/>{/if}<\/a>';
-      sidebarsize +={if $barPosition eq "3" or $barPosition eq "4"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
+        'src="{$point.thumbLink}"/>{if $barPosition eq "right" or $barPosition eq "left"}<br/>{/if}<\/a>';
+      sidebarsize +={if $barPosition eq "right" or $barPosition eq "left"}{$point.thumbbarHeight}{else}{$point.thumbbarWidth}{/if}+2;
       {/if}
+
+      {* Check point type to assign markers and colors *}
       {if $point.type eq "GalleryAlbumItem"}
        {assign var=itemType value="album"}
        {assign var=markerSet value="`$mapv3.useAlbumMarkerSet`"}
@@ -415,6 +417,7 @@ a:hover {ldelim} outline: none; {rdelim}
        {assign var=markerSet value="`$mapv3.useMarkerSet`"}
        {assign var=markerColor value="`$mapv3.defaultphotocolor`"}
       {/if}
+
       {assign var=iconDef value="default_"}
       {if $point.color neq "default"}
       var {$itemType}_icon = JSON.parse(JSON.stringify(default_{$itemType}_icon));
@@ -465,12 +468,12 @@ a:hover {ldelim} outline: none; {rdelim}
       {/if}
     {/foreach}
 
-    {if isset($barPosition) and $barPosition neq 0 and $mapv3.fullScreen neq 3}
+    {if isset($barPosition) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
     var thumbdiv = document.getElementById("thumbs");
     thumbdiv.innerHTML = sidebarhtml;
     var mapdiv = document.getElementById("map");
 
-    {if $barPosition eq "1" or $barPosition eq "2"}
+    {if $barPosition eq "top" or $barPosition eq "bottom"}
     if (sidebarsize+1 > myWidth)  sidebarheight = {$mapv3.ThumbHeight+25};
     thumbdiv.style.height = sidebarheight+"px";
     {else}

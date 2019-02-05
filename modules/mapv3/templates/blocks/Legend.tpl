@@ -7,7 +7,7 @@
 {if $map.LegendPos eq 'right' or $map.LegendPos eq 'left'}
 <div class="{$class}">
 {/if}
-  <div id="legend" class="gcBackground1" style="{if $map.LegendPos eq 'right'}right:5px;{if $map.ThumbBarPos eq '1'}position:relative;top:-{$map.ThumbHeight}px;{/if}{/if}{if $map.LegendPos eq 'right' or $map.LegendPos eq 'left'}width:150px;{else}width:mywidth;{/if}border: 2px solid black;padding:.5em;">
+  <div id="legend" class="gcBackground1" style="{if $map.LegendPos eq 'right'}right:5px;{if $map.ThumbBarPos eq 'top'}position:relative;top:-{$map.ThumbHeight}px;{/if}{/if}{if $map.LegendPos eq 'right' or $map.LegendPos eq 'left'}width:150px;{else}width:mywidth;{/if}border: 2px solid black;padding:.5em;">
     <center><h2>{g->text text="Legend(s)"}</h2></center><br/>
     {if $map.AlbumLegend eq "1"}
     {if $map.LegendPos eq 'right' or $map.LegendPos eq 'left'}

@@ -163,7 +163,7 @@ class MapThemeAdminView extends GalleryView {
 	    $form['MapWindowType'] = 'default';
 	}
 	if (!array_key_exists('ThumbBarPos', $form)) {
-	    $form['ThumbBarPos'] = 0;
+	    $form['ThumbBarPos'] = 'hidden';
 	}
 	if (!array_key_exists('ThumbHeight', $form)) {
 	    $form['ThumbHeight'] = 60;
