@@ -45,9 +45,10 @@ $map['infowindows'][0]=$map['infowindows'][0]."
         +'<br/><br/><font color=black><b>Location:</b><br>'+lat+','+lon+'</font>'";
 
 if ($map['showZoomLinks']){
-$map['infowindows'][0]=$map['infowindows'][0]."
-        +'<br/><br/><a href=\"#zoominlink\" onclick=\"javascript:map.setCenter(new GLatLng('+lat+','+lon+'), '+zoomlevel+'); return false;\">".$module->translate("Zoom In")."</a>'";
+	$map['infowindows'][0]=$map['infowindows'][0]."
+        +'<br/><br/><a href=\"#zoominlink\" onclick=\"javascript:map.setCenter(new google.maps.LatLng('+lat+','+lon+'));map.setZoom('+zoomlevel+'); return false;\">".$module->translate("Zoom In")."</a>'";
 }
 $map['infowindows'][0]=$map['infowindows'][0]."
         +'</div>'";
+
 ?>
