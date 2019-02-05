@@ -174,20 +174,26 @@ class MapThemeAdminView extends GalleryView {
 	/* setup the list of InfoWindow templates */
 	$mydir = dir($basegallerydir . 'modules/mapv3/templates/infowindow/');
 	$form['windowlist'] = '';
+	$infowindowFiles = array();
 	/* Loop through all file and folder in the directory */
 	while ($file = $mydir->read()) {
-	    /* if we have a file then proceed with it */
-	    if (GoogleMapUtilities::GoodFile($basegallerydir . 'modules/mapv3/templates/infowindow/',
-		    $file)) {
+		/* if we have a file then proceed with it */
+		if (GoogleMapUtilities::GoodFile($basegallerydir . 'modules/mapv3/templates/infowindow/',
+			$file)) {
+			$infowindowFiles[] = $file;
+		}
+	}
+	$mydir->close();
+	asort($infowindowFiles);
+	foreach($infowindowFiles as $file){
 		$form['windowlist'] .= '<option value="' . substr($file, 0, -4) . '" ';
 		if ((array_key_exists('MapWindowType', $form))
 			and ($form['MapWindowType'] == substr($file, 0, -4))) {
 		    $form['windowlist'] .= 'selected';
 		}
 		$form['windowlist'] .= '>' . substr($file, 0, -4) . "</option>\n\t";
-	    }
 	}
-	$mydir->close();
+
 	/*
 	 * Just make sure anything got created, if, not return an error that there is no control 
 	 * available
