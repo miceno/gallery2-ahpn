@@ -229,6 +229,11 @@ a:hover {ldelim} outline: none; {rdelim}
     tooltip.style.visibility="hidden";
     if (DEBUGINFO) console.debug('done!');
 
+    {literal}
+    function setMapCenter(map, position){
+        map.setCenter(position);
+    }
+    {/literal}
     {if $mapv3.fullScreen eq 3}
     {* todo: Resize {literal}
         see https://stackoverflow.com/questions/12030443/google-maps-api-v3-resize-event
@@ -319,16 +324,17 @@ a:hover {ldelim} outline: none; {rdelim}
             showTooltip(marker);
         });
         marker.addListener("mouseout", function () {
-            tooltip.style.visibility = "hidden"
+            tooltip.style.visibility = "hidden";
         });
         marker.addListener("click", function () {
-            tooltip.style.visibility = "hidden"
+            tooltip.style.visibility = "hidden";
             if (htmls.length > 2) {
                 htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
             }
             var info_content = htmls.join();
             var infowindow = new google.maps.InfoWindow({content: info_content});
             infowindow.open(map, marker);
+            setMapCenter(map, point);
         });
         marker.tooltip = '<div class="tooltip">' + title + '<\/div>';
         marker.type = type;
