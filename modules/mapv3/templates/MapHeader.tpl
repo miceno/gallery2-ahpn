@@ -45,45 +45,6 @@ a:hover {ldelim} outline: none; {rdelim}
     //Create the Map variable to be used to store the map infos
     var map;
     //Variable for the google map so that we can get it translated
-    var _mSiteName = '{g->text text="Google Local" forJavascript=true}';
-    var _mZoomIn = '{g->text text="Zoom In" forJavascript=true}';
-    var _mZoomOut = '{g->text text="Zoom Out" forJavascript=true}';
-    var _mZoomSet = '{g->text text="Click to set zoom level" forJavascript=true}';
-    var _mZoomDrag = '{g->text text="Drag to zoom" forJavascript=true}';
-    var _mPanWest = '{g->text text="Go left" forJavascript=true}';
-    var _mPanEast = '{g->text text="Go right" forJavascript=true}';
-    var _mPanNorth = '{g->text text="Go up" forJavascript=true}';
-    var _mPanSouth = '{g->text text="Go down" forJavascript=true}';
-    var _mLastResult = '{g->text text="Return to the last result" forJavascript=true}';
-    var _mGoogleCopy = '{g->text text="(c)2007 Google" forJavascript=true}';
-    var _mDataCopy = '{g->text text="Map data (c)2007 " forJavascript=true}';
-    var _mNavteq = '{g->text text="NAVTEQ(tm)" forJavascript=true}';
-    var _mTeleAtlas = '{g->text text="Tele Atlas" forJavascript=true}';
-    var _mZenrin = '{g->text text="ZENRIN" forJavascript=true}';
-    var _mZenrinCopy = '{g->text text="Map (c)2007 " forJavascript=true}';
-    var _mNormalMap = '{g->text text="Map" forJavascript=true}';
-    var _mNormalMapShort = '{g->text text="Map" hint="Short form for Map" forJavascript=true}';
-    var _mHybridMap = '{g->text text="Hybrid" forJavascript=true}';
-    var _mHybridMapShort = '{g->text text="Hyb" hint="Short form for Hybrid" forJavascript=true}';
-    var _mNew = '{g->text text="New!" forJavascript=true}';
-    var _mTerms = '{g->text text="Terms of Use" forJavascript=true}';
-    var _mKeyholeMap = '{g->text text="Satellite" forJavascript=true}';
-    var _mKeyholeMapShort = '{g->text text="Sat" hint="Short form for Satellite" forJavascript=true}';
-    var _mKeyholeCopy = '{g->text text="Imagery (c)2007 " forJavascript=true}';
-    var _mScale = '{g->text text="Scale at the center of the map" forJavascript=true}';
-    var _mKilometers = '{g->text text="km" forJavascript=true}';
-    var _mMiles = '{g->text text="mi" forJavascript=true}';
-    var _mMeters = '{g->text text="m" forJavascript=true}';
-    var _mFeet = '{g->text text="ft" forJavascript=true}';
-    var _mDecimalPoint = '{g->text text="." hint="Decimal point" forJavascript=true}';
-    var _mThousandsSeparator = '{g->text text="," hint="Thousands separator" forJavascript=true}';
-    var _mMapErrorTile = "{g->text text="We are sorry, but we don't have maps at this zoom level for this region. Try zooming out for a broader look." forJavascript=true}";
-    var _mKeyholeErrorTile = "{g->text text="We are sorry, but we don't have imagery at this zoom level for this region. Try zooming out for a broader look." forJavascript=true}";
-    var _mTermsURL = '{g->text text="https://www.google.com/intl/en_ALL/help/terms_local.html" forJavascript=true}';
-    var _mStaticPath = '{g->text text="https://www.google.com/intl/en_ALL/mapfiles/" forJavascript=true}';
-    var _mDomain = '{g->text text="google.com" forJavascript=true}';
-    var _mApiBadKey = '{g->text text="The Google Maps API key used on this web site was registered for a different web site. You can generate a new key for this web site at http://www.google.com/apis/maps/" forJavascript=true}';
-
     var _divhistorytext = '{g->text text="Move history" forJavascript=true}:'
     var _movetext = '{g->text text="move" forJavascript=true}';
     var _zoomtext = '{g->text text="zoom" forJavascript=true}';
