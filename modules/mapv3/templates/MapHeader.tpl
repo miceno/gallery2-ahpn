@@ -311,6 +311,8 @@ a:hover {ldelim} outline: none; {rdelim}
         var htmls = [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}];
         var labels = [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0}, {/if}"{$Labels}"{/foreach}];
         var point = new google.maps.LatLng(lat, lon);
+        var infowindow = null;
+
         {if !isset($mapv3.Filter) or (isset($mapv3.Filter) and ($mapv3.Filter|truncate:5:"" neq 'Route'))}
         bounds.extend(point);
         maxZoom = Math.max(maxZoom, zoomlevel);
@@ -328,12 +330,16 @@ a:hover {ldelim} outline: none; {rdelim}
         });
         marker.addListener("click", function () {
             tooltip.style.visibility = "hidden";
-            if (htmls.length > 2) {
-                htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
+            if (infowindow === null){
+                if (htmls.length > 2) {
+	            htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
+                }
+                var info_content = htmls.join();
+                infowindow = new google.maps.InfoWindow({content: info_content});
+                infowindow.open(map, marker);
+            }else{
+                infowindow.open(map, marker);
             }
-            var info_content = htmls.join();
-            var infowindow = new google.maps.InfoWindow({content: info_content});
-            infowindow.open(map, marker);
             setMapCenter(map, point);
             var thumb = document.querySelector('#thumb'+this.num);
             if (thumb){
