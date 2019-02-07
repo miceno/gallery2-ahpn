@@ -25,12 +25,103 @@ a:hover {ldelim} outline: none; {rdelim}
 
     var DEBUGINFO = 1; //set to 1 to view the Glog, 0 otherwise
     var allInfoWindows = [];
+
+    var lat, lon, itemLink, title, thumbLink, thw, thh, created, summary, zoomlevel;
+    var mapConfig = {ldelim}
+        {if $mapv3.mode eq "Normal" and isset($mapv3.ThumbBarPos) and $barPosition neq "hidden" and $mapv3.fullScreen neq 3}
+        /* initialize some variable for the sidebar */
+        'sidebarheight' : {$mapv3.ThumbHeight+4},
+        {* Should this be ThumbWidth? *}
+        'sidebarwidth' : {$mapv3.ThumbHeight+4},
+        {/if}
+        {* Text string translations *}
+
+        '_divhistorytext' : '{g->text text="Move history" forJavascript=true}:',
+        '_movetext' : '{g->text text="move" forJavascript=true}',
+        '_zoomtext' : '{g->text text="zoom" forJavascript=true}',
+        '_starttext' : '{g->text text="start" forJavascript=true}',
+        '_windowtext' : '{g->text text="window" forJavascript=true}',
+
+        {*                     *}
+        {*                     *}
+        {*      MAP WIDTH      *}
+        {*                     *}
+        {*                     *}
+
+        {if $mapv3.mode eq "Normal"}
+            {assign var='minusW' value='0'}
+
+            {if $mapv3.sidebar eq 1 and $mapv3.fullScreen eq 0}
+                {assign var='minusW' value='210'}
+            {else}
+                {assign var='minusW' value='20'}
+            {/if}
+            {if ($mapv3.LegendPos eq 'right' and $mapv3.LegendFeature neq '0' and ($mapv3.AlbumLegend or $mapv3.PhotoLegend or (isset($mapv3.regroupItems) and $mapv3.regroupItems))) or ($mapv3.FilterFeature neq '0' and isset($mapv3.ShowFilters) and $mapv3.ShowFilters eq "right")}
+                {assign var='minusW' value="`$minusW+155`"}
+            {/if}
+
+        {elseif $mapv3.mode eq "Pick"}
+            {assign var='minusW' value='410'}
+        {/if}
+
+        {if $barPosition eq "right" or $barPosition eq "left"}
+            {assign var='minusW' value="`$minusW + $mapv3.ThumbHeight + 30`"}
+        {/if}
+
+
+        {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
+        {if $mapv3.WidthFormat eq "%"}
+        'myWidth' : getmapwidth({$mapv3.mapWidth},{$minusW});
+        {else}
+        'myWidth' : {$mapv3.mapWidth},
+        {/if}
+
+        {*                     *}
+        {*                     *}
+        {*      MAP HEIGHT     *}
+        {*                     *}
+        {*                     *}
+        {if $mapv3.mode eq "Normal"}
+            {assign var='minusH' value='150'}
+            {if $mapv3.fullScreen eq 2}{assign var='minusH' value="`$minusH - 120`"}{/if}
+            {if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}{assign var='minusH' value="`$minusH + 25`"}{/if}
+            {if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}{assign var='minusH' value="`$minusH + 90`"}{/if}
+            {if $barPosition eq "top" or $barPosition eq "bottom"}{assign var='minusH' value="`$minusH + $mapv3.ThumbHeight + 25`"}{/if}
+        {elseif $mapv3.mode eq "Pick"}
+	    {assign var='minusH' value='155'}
+        {/if}
+
+        {if $mapv3.HeightFormat eq "%"}
+        'myHeight' : getmapheight({$mapv3.mapHeight},{$minusH});
+        {else}
+        'myHeight' : {$mapv3.mapHeight},
+        {/if}
+
+	'myZoom' : {$mapv3.zoomLevel},
+        'ARROW_IMG_URL' : "{g->url href='modules/mapv3/images/arrow.png'}",
+
+	'centerLongLat': "{$mapv3.centerLongLat}",
+        'mapType': '{$mapv3.mapType}',
+
+        /* TODO: keep it for a lazy evaluation */
+        'htmls' : [{foreach from=$mapv3.infowindows item=infowindow key=num}{if $num >0},{/if}{$infowindow}{/foreach}],
+
+        /* TODO: keep it for a lazy evaluation */
+        'labels' : [{foreach from=$mapv3.Labels item=Labels key=num}{if $num >0}, {/if}"{$Labels}"{/foreach}],
+
+        'markerSizeX': {$mapv3.MarkerSizeX},
+        'markerSizeY': {$mapv3.MarkerSizeY},
+
+    {rdelim};
+
     {literal}
+    // ===== Close all opened info windows =====
     function closeAllInfoWindows(){
         for (var i=0;i<allInfoWindows.length;i++) {
 	    allInfoWindows[i].close();
         }
     }
+
     /*
      *
      * Global functions
@@ -178,6 +269,7 @@ a:hover {ldelim} outline: none; {rdelim}
     {if $mapv3.WidthFormat eq "%"} myWidth = getmapwidth(myWidth,minusW); {/if}
 
     var myHeight = {$mapv3.mapHeight};
+
     {if $mapv3.mode eq "Normal"}var minusH = 150{if $mapv3.fullScreen eq 2}-120{/if}{if $mapv3.ShowFilters eq "top" or $mapv3.ShowFilters eq "bottom"}+25{/if}{if $mapv3.LegendPos eq 'top' or $mapv3.LegendPos eq 'bottom'}+90{/if}{if $barPosition eq "top" or $barPosition eq "bottom"}+{$mapv3.ThumbHeight}+25{/if};{/if}
     {if $mapv3.mode eq "Pick"} var minusH = 155; {/if}
     {if $mapv3.HeightFormat eq "%"} myHeight = getmapheight(myHeight,minusH); {/if}
@@ -190,6 +282,7 @@ a:hover {ldelim} outline: none; {rdelim}
     var bounds = new google.maps.LatLngBounds();
     var maxZoom = 10; // default to somewhat zoomed-out
     var ARROW_IMG_URL = "{g->url href="modules/mapv3/images/arrow.png"}";
+
 
     function ShowMeTheMap(){ldelim}
 
@@ -360,6 +453,7 @@ a:hover {ldelim} outline: none; {rdelim}
        base_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
        base_icon.anchor = new google.maps.Point(6, 20);
        base_icon.infoWindowAnchor = new google.maps.Point(5, 1);
+        {* Variables VARIABLES *}
 
        var default_photo_icon = {ldelim}{rdelim};
        default_photo_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
@@ -537,10 +631,8 @@ a:hover {ldelim} outline: none; {rdelim}
               markerDisplay(i,0,'Regroup'); //marker.display(false);
             {rdelim}
         {rdelim}
-
-    {/if}
-
-    {if $mapv3.mode eq "Pick"}
+        
+    {elseif $mapv3.mode eq "Pick"}
         map.addListener('center_changed', function() {ldelim}
         var center = map.getCenter();
         center_marker.setPosition(center);
