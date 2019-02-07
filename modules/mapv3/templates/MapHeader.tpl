@@ -111,8 +111,12 @@ a:hover {ldelim} outline: none; {rdelim}
 
         'markerSizeX': {$mapv3.MarkerSizeX},
         'markerSizeY': {$mapv3.MarkerSizeY},
+        'IMAGE_UP': '{g->url href="modules/mapv3/images/up.png"}',
+        'IMAGE_DOWN': '{g->url href="modules/mapv3/images/down.png"}',
 
     {rdelim};
+    {capture assign='IMAGE_UP'}{g->url href='modules/mapv3/images/up.png'}{/capture}
+    {capture assign='IMAGE_DOWN'}{g->url href='modules/mapv3/images/down.png'}{/capture}
 
     {literal}
     // ===== Close all opened info windows =====
@@ -355,8 +359,30 @@ a:hover {ldelim} outline: none; {rdelim}
         BaseIcon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
         BaseIcon.anchor = new google.maps.Point(6, 20);
         BaseIcon.infoWindowAnchor = new google.maps.Point(5, 1);
+        //Create the base for all icons
 
-        {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
+        var base_icon = {ldelim}{rdelim};
+        base_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+        base_icon.anchor = new google.maps.Point(6, 20);
+        base_icon.infoWindowAnchor = new google.maps.Point(5, 1);
+        {* Variables VARIABLES *}
+
+        var default_photo_icon = {ldelim}{rdelim};
+        default_photo_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
+        default_photo_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
+        default_photo_icon.anchor = new google.maps.Point({$mapv3.MarkerSizeX} / 2, {$mapv3.MarkerSizeY});
+
+        var default_album_icon = {ldelim}{rdelim};
+        default_album_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
+        default_album_icon.size = new google.maps.Size({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
+        default_album_icon.anchor = new google.maps.Point({$mapv3.AlbumMarkerSizeX} / 2,{$mapv3.AlbumMarkerSizeY});
+
+        var default_group_icon = {ldelim}{rdelim};
+        default_group_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
+        default_group_icon.size = new google.maps.Size({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
+        default_group_icon.anchor = new google.maps.Point({$mapv3.GroupMarkerSizeX} / 2,{$mapv3.GroupMarkerSizeY});
+
+    {if (isset($mapv3.regroupItems) and $mapv3.regroupItems)}
             var replaceIcon = {ldelim}{rdelim};
             replaceIcon.size = new google.maps.Size({$mapv3.ReplaceMarkerSizeX},{$mapv3.ReplaceMarkerSizeY});
             replaceIcon.anchor = new google.maps.Point({$mapv3.replaceAnchorPos});
@@ -447,28 +473,6 @@ a:hover {ldelim} outline: none; {rdelim}
             if (hide == 1) markerDisplay(marker_num - 1, 0, 'normal');
         } /* function CreateMarker */
             {/literal}
-
-       //Create the base for all icons
-       var base_icon = {ldelim}{rdelim};
-       base_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-       base_icon.anchor = new google.maps.Point(6, 20);
-       base_icon.infoWindowAnchor = new google.maps.Point(5, 1);
-        {* Variables VARIABLES *}
-
-       var default_photo_icon = {ldelim}{rdelim};
-       default_photo_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useMarkerSet`/marker_`$mapv3.defaultphotocolor`.png"}";
-       default_photo_icon.size = new google.maps.Size({$mapv3.MarkerSizeX},{$mapv3.MarkerSizeY});
-       default_photo_icon.anchor = new google.maps.Point({$mapv3.MarkerSizeX}/2, {$mapv3.MarkerSizeY});
-
-       var default_album_icon = {ldelim}{rdelim};
-       default_album_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useAlbumMarkerSet`/marker_`$mapv3.defaultalbumcolor`.png"}";
-       default_album_icon.size = new google.maps.Size({$mapv3.AlbumMarkerSizeX},{$mapv3.AlbumMarkerSizeY});
-       default_album_icon.anchor = new google.maps.Point({$mapv3.AlbumMarkerSizeX}/2,{$mapv3.AlbumMarkerSizeY});
-
-       var default_group_icon = {ldelim}{rdelim};
-       default_group_icon.url = "{g->url href="modules/mapv3/images/markers/`$mapv3.useGroupMarkerSet`/marker_`$mapv3.defaultgroupcolor`.png"}";
-       default_group_icon.size = new google.maps.Size({$mapv3.GroupMarkerSizeX},{$mapv3.GroupMarkerSizeY});
-       default_group_icon.anchor = new google.maps.Point({$mapv3.GroupMarkerSizeX}/2,{$mapv3.GroupMarkerSizeY});
 
         /* Loop over gallery items that have GPS coordinates
             and output code to add them to the map. */
@@ -566,11 +570,15 @@ a:hover {ldelim} outline: none; {rdelim}
                 var mapdiv = document.getElementById("map");
 
                 {if $barPosition eq "top" or $barPosition eq "bottom"}
-                if (sidebarsize+1 > myWidth)  sidebarheight = {$mapv3.ThumbHeight+25};
+                if (sidebarsize+1 > myWidth)  {ldelim}
+                    sidebarheight = {$mapv3.ThumbHeight+25};
+                {rdelim}
                 thumbdiv.style.height = sidebarheight+"px";
                 {else}
-                {* Should this be $mapv3.ThumbWidth? *}
-                if (sidebarsize+1 > myHeight)  sidebarwidth = {$mapv3.ThumbWeight+25};
+                {* Thumbs are squared and so there is only a ThumbHeight but no ThumbWidth *}
+                if (sidebarsize+1 > myHeight)  {ldelim}
+                    sidebarwidth = {$mapv3.ThumbHeight+25};
+                {rdelim}
                 thumbdiv.style.width = sidebarwidth+"px";
                 {/if}
 
@@ -607,152 +615,153 @@ a:hover {ldelim} outline: none; {rdelim}
         {* set the correct zoom slide notch and show/hide the regrouped item *}
         zoom = map.getZoom();
         myZoom = 19-zoom;
+	{literal}
 
-        for (var i=0; i < markers.length; i++) {ldelim} //Updating the normal items
+        /* Hide markers outside of showHigh and showLow zoom levels */
+        for (var i=0; i < markers.length; i++) { //Updating the normal items
             var marker = markers[i];
-            if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
+            if (zoom <= marker.showLow && zoom >= marker.showHigh) {
               markerDisplay(i,1,'normal'); //marker.display(true);
               var CorrectA = document.getElementById('thumb'+i);
               if (CorrectA != null ) CorrectA.style.display = "inline";
-            {rdelim}
-            else {ldelim}
+            }
+            else {
               markerDisplay(i,0,'normal'); //marker.display(false);
               var CorrectA = document.getElementById('thumb'+i);
               if (CorrectA != null) CorrectA.style.display = "none";
-            {rdelim}
-        {rdelim}
+            }
+        }
 
-        for (var i=0; i < Rmarkers.length; i++) {ldelim} //Updating the normal items
+        /* Hide route markers outside of showHigh and showLow zoom levels */
+        for (var i=0; i < Rmarkers.length; i++) { //Updating the normal items
             var marker = Rmarkers[i];
-            if (zoom <= marker.showLow && zoom >= marker.showHigh) {ldelim}
+            if (zoom <= marker.showLow && zoom >= marker.showHigh) {
               markerDisplay(i,1,'Regroup'); //marker.display(true);
-            {rdelim}
-            else {ldelim}
+            }
+            else {
               markerDisplay(i,0,'Regroup'); //marker.display(false);
-            {rdelim}
-        {rdelim}
-        
+            }
+        }
+        {/literal}
     {elseif $mapv3.mode eq "Pick"}
-        map.addListener('center_changed', function() {ldelim}
-        var center = map.getCenter();
-        center_marker.setPosition(center);
-        var latLngStr = center.toUrlValue(6);
-        document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
-        document.getElementById("coord").value = latLngStr;
-        {rdelim});
+        {literal}
+        map.addListener('center_changed', function () {
+	    var center = map.getCenter();
+	    center_marker.setPosition(center);
+	    var latLngStr = center.toUrlValue(6);
+	    document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
+	    document.getElementById("coord").value = latLngStr;
+        });
 
-        map.addListener('click', function(event) {ldelim}
-            var point = event.latLng;
-            var latitude = point.lat();
-            var longitude = point.lng();
-            console.log( latitude + ', ' + longitude );
+        map.addListener('click', function (event) {
+	    var point = event.latLng;
+	    var latitude = point.lat();
+	    var longitude = point.lng();
+	    console.log(latitude + ', ' + longitude);
 
-           if (point) {ldelim}
-            center_marker.position = point;
-            map.panTo(point);
-            var latLngStr = point.toUrlValue(6);
-            document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
-            document.getElementById("coord").value = latLngStr;
-          {rdelim}
-        {rdelim});
+	    if (point) {
+	        center_marker.position = point;
+	        map.panTo(point);
+	        var latLngStr = point.toUrlValue(6);
+	        document.getElementById("message_id").innerHTML = '(' + latLngStr + ')';
+	        document.getElementById("coord").value = latLngStr;
+            }
+        });
 
-        map.addListener('zoom_changed', function(event) {ldelim}
-            var oldZoomLevel = map.zoom;
-            var newZoomLevel = map.getZoom();
+        map.addListener('zoom_changed', function (event) {
+	    var oldZoomLevel = map.zoom;
+	    var newZoomLevel = map.getZoom();
 
-          var center = '' + newZoomLevel;
-          document.getElementById("zoom_id").innerHTML = center;
-        {rdelim});
+	    var currentZoomText = '' + newZoomLevel;
+	    document.getElementById("zoom_id").innerHTML = currentZoomText;
+        });
+        {/literal}
     {/if}
     {rdelim} /* end ShowMeTheMap() */
 
     {if $mapv3.mode eq "Normal" and $mapv3.fullScreen neq 3}
-    function togglealbumlegend()
-    {ldelim}
-        if (document.getElementById) {ldelim} // standard
-            var displaystyle = document.getElementById("albumlegend").style.display;
-            document.getElementById("albumlegend").style.display = (displaystyle == "none" ? "block":"none");
-        {rdelim} else if (document.all){ldelim} // old msie versions
-            var displaystyle = document.all["albumlegend"].style.display;
-            document.all["albumlegend"].style.display = (displaystyle == "none" ? "block":"none");
-        {rdelim} else if (document.layers){ldelim} // nn4
-            var displaystyle = document.layers["albumlegend"].style.display;
-            document.layers["albumlegend"].style.display = (displaystyle == "none" ? "block":"none");
-        {rdelim}
+    {literal}
+    function togglealbumlegend() {
+        var displaystyle;
+        if (document.getElementById) { // standard
+	    displaystyle = document.getElementById("albumlegend").style.display;
+	    document.getElementById("albumlegend").style.display = (displaystyle == "none" ? "block" : "none");
+        } else if (document.all) { // old msie versions
+	    displaystyle = document.all["albumlegend"].style.display;
+	    document.all["albumlegend"].style.display = (displaystyle == "none" ? "block" : "none");
+        } else if (document.layers) { // nn4
+	    displaystyle = document.layers["albumlegend"].style.display;
+	    document.layers["albumlegend"].style.display = (displaystyle == "none" ? "block" : "none");
+        }
         var imgsrc = document.albumarrow.id;
-        document.albumarrow.src = (imgsrc  == "down" ? "{g->url href="modules/mapv3/images/up.png"}":"{g->url href="modules/mapv3/images/down.png"}");
-        document.albumarrow.id = (imgsrc == "down" ? "up":"down");
-    {rdelim}
+        document.albumarrow.src = (imgsrc == "down" ? mapConfig.IMAGE_UP : mapConfig.IMAGE_DOWN);
+        document.albumarrow.id = (imgsrc == "down" ? "up" : "down");
+    }
 
-    function togglephotolegend()
-    {ldelim}
-        if (document.getElementById) {ldelim} // standard
-            var displaystyle = document.getElementById("photolegend").style.display;
-            document.getElementById("photolegend").style.display = (displaystyle == "none" ? "block":"none");
-        {rdelim} else if (document.all){ldelim} // old msie versions
-            var displaystyle = document.all["photolegend"].style.display;
-            document.all["photolegend"].style.display = (displaystyle == "none" ? "block":"none");
-        {rdelim} else if (document.layers){ldelim} // nn4
-            var displaystyle = document.layers["photolegend"].style.display;
-            document.layers["photolegend"].style.display = (displaystyle == "none" ? "block":"none");
-        {rdelim}
+    function togglephotolegend() {
+        if (document.getElementById) { // standard
+	    var displaystyle = document.getElementById("photolegend").style.display;
+	    document.getElementById("photolegend").style.display = (displaystyle == "none" ? "block" : "none");
+        } else if (document.all) { // old msie versions
+	    var displaystyle = document.all["photolegend"].style.display;
+	    document.all["photolegend"].style.display = (displaystyle == "none" ? "block" : "none");
+        } else if (document.layers) { // nn4
+	    var displaystyle = document.layers["photolegend"].style.display;
+	    document.layers["photolegend"].style.display = (displaystyle == "none" ? "block" : "none");
+        }
         var imgsrc = document.photoarrow.id;
-        document.photoarrow.src = (imgsrc  == "down" ? "{g->url href="modules/mapv3/images/up.png"}":"{g->url href="modules/mapv3/images/down.png"}");
-        document.photoarrow.id = (imgsrc == "down" ? "up":"down");
-    {rdelim}
+        document.photoarrow.src = (imgsrc == "down" ? mapConfig.IMAGE_UP : mapConfig.IMAGE_DOWN);
+        document.photoarrow.id = (imgsrc == "down" ? "up" : "down");
+    }
 
-    function strLeft(kstr,kchar)
-    {ldelim}
-      var retVal = "-1";
+    function strLeft(kstr, kchar) {
+        var retVal = "-1";
 
-      if (kstr.indexOf (kchar) > -1)
-        retVal =
-          kstr.substring (0, kstr.indexOf(kchar));
-      return(retVal);
+        if (kstr.indexOf(kchar) > -1){
+	    retVal = kstr.substring(0, kstr.indexOf(kchar));
+        }
+        return (retVal);
+    }
 
-    {rdelim}
-    function strRight(kstr, kchar)
-    {ldelim}
-      var   retVal = "-1";
+    function strRight(kstr, kchar) {
+        var retVal = "-1";
 
-      if (kstr.indexOf(kchar) > -1 )
-        retVal =
-          kstr.substring(kstr.indexOf(kchar) + kchar.length,
-              kstr.length);
-      return(retVal);
-    {rdelim}
+        if (kstr.indexOf(kchar) > -1){
+	    retVal = kstr.substring(kstr.indexOf(kchar) + kchar.length, kstr.length)
+        };
+        return (retVal);
+    }
 
-    function togglemarkers(number)
-    {ldelim}
-      if (DEBUGINFO) console.debug('Entering Toggle Marker');
-      var markercolor;
-      var thetd = document.getElementById(number);
-      var Itype = number.substring(0,1);
-      if (Itype=="A") var thetype = "GalleryAlbumItem";
-      else var thetype = "GalleryPhotoItem";
-      var thecheckbox = document.getElementsByName("C"+number);
-      var clickedcolor = strRight(strLeft(thetd.innerHTML,".png"),"marker_");
-      var zoom = map.getZoom();
-      if (DEBUGINFO) {ldelim}
-         console.debug(clickedcolor+' '+thetype+' '+zoom);
-         if (thecheckbox.item(0).checked) console.debug('Showing');
-         else console.debug('Hiding');
-      {rdelim}
-      for (var i=0; i<markers.length; i++) {ldelim}
-       var checktype = (markers[i]["type"] == "GalleryAlbumItem") ? "GalleryAlbumItem":"GalleryPhotoItem";
-       markercolor = strRight(strLeft(markers[i].getIcon().image,".png"),"marker_");
-       if (DEBUGINFO) console.debug('Marker: '+markers[i]["type"]+' '+markercolor+' '+markers[i].showLow+' '+markers[i].showHigh);
-       if (markercolor == clickedcolor && (checktype == thetype || markers[i]['type'] == "Regroup")){ldelim}
-         if (thecheckbox.item(0).checked && zoom <= markers[i].showLow && zoom >= markers[i].showHigh) markerDisplay(i,1,'normal'); //markers[i].display(true);
-         else
-         {ldelim}
-           if (DEBUGINFO) console.debug('Hiding');
-           markerDisplay(i,0,'normal'); //markers[i].display(false);
-         {rdelim}
-       {rdelim}
-
-      {rdelim}
-    {rdelim}
+    function togglemarkers(number) {
+        var thetype;
+        if (DEBUGINFO) console.debug('Entering Toggle Marker');
+        var markercolor;
+        var thetd = document.getElementById(number);
+        var Itype = number.substring(0, 1);
+        if (Itype == "A") thetype = "GalleryAlbumItem";
+        else thetype = "GalleryPhotoItem";
+        var thecheckbox = document.getElementsByName("C" + number);
+        var clickedcolor = strRight(strLeft(thetd.innerHTML, ".png"), "marker_");
+        var zoom = map.getZoom();
+        if (DEBUGINFO) {
+	    console.debug(clickedcolor + ' ' + thetype + ' ' + zoom);
+	    if (thecheckbox.item(0).checked) console.debug('Showing');
+	    else console.debug('Hiding');
+        }
+        for (var i = 0; i < markers.length; i++) {
+	    var checktype = (markers[i]["type"] == "GalleryAlbumItem") ? "GalleryAlbumItem" : "GalleryPhotoItem";
+	    markercolor = strRight(strLeft(markers[i].getIcon().image, ".png"), "marker_");
+	    if (DEBUGINFO) console.debug('Marker: ' + markers[i]["type"] + ' ' + markercolor + ' ' + markers[i].showLow + ' ' + markers[i].showHigh);
+	    if (markercolor == clickedcolor && (checktype == thetype || markers[i]['type'] == "Regroup")) {
+	        if (thecheckbox.item(0).checked && zoom <= markers[i].showLow && zoom >= markers[i].showHigh) markerDisplay(i, 1, 'normal'); //markers[i].display(true);
+	        else {
+		    if (DEBUGINFO) console.debug('Hiding');
+		    markerDisplay(i, 0, 'normal'); //markers[i].display(false);
+	        }
+	    }
+        }
+    }
+    {/literal}
     {/if}
 
     google.maps.event.addDomListener(window, 'load', ShowMeTheMap);
