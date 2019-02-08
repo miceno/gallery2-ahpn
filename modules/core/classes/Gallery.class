@@ -750,8 +750,11 @@ class Gallery {
 	    } else if (!strcmp($this->_debug, 'logged')) {
 		/* Don't use platform calls for these as they call debug internally! */
 		if ($fd = fopen($this->_debugLogFile, 'a')) {
-		    $date = date('Y-m-d H:i:s');
-		    $session =& $this->getSession();
+			// $date = date('Y-m-d H:i:s.u');
+			$now = DateTime::createFromFormat('U.u', microtime(true));
+			$date = $now->format("m-d-Y H:i:s.u");
+
+			$session =& $this->getSession();
 		    if (!empty($session)) {
 			$id = $session->getId();
 		    } else {
