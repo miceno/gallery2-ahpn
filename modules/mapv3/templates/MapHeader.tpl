@@ -23,7 +23,7 @@ a:hover {ldelim} outline: none; {rdelim}
 <script type="text/javascript">
     //<![CDATA[
 
-    var DEBUGINFO = 1; //set to 1 to view the Glog, 0 otherwise
+    var DEBUGINFO = 0; //set to 1 to view the Glog, 0 otherwise
     var allInfoWindows = [];
 
     var lat, lon, itemLink, title, thumbLink, thw, thh, created, summary, zoomlevel;
@@ -68,7 +68,7 @@ a:hover {ldelim} outline: none; {rdelim}
             {assign var='minusW' value="$minusW + `$mapv3.ThumbHeight` + 30"}
         {/if}
 
-
+	'minusW': '{$minusW}',
         {* Calculate the width and weight of the map div, it permits the use of percentages or fixed pixel size *}
         {if $mapv3.WidthFormat eq "%"}
         'myWidth' : getmapwidth({$mapv3.mapWidth},{$minusW});
@@ -91,6 +91,7 @@ a:hover {ldelim} outline: none; {rdelim}
 	    {assign var='minusH' value='155'}
         {/if}
 
+	'minusH': '{$minusH}',
         {if $mapv3.HeightFormat eq "%"}
         'myHeight' : getmapheight({$mapv3.mapHeight},{$minusH});
         {else}
