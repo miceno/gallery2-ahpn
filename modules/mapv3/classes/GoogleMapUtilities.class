@@ -224,41 +224,43 @@ class GoogleMapUtilities {
      *
      */
     function TableFromFiles($folder, $webpath, $imagefolder) {
-	$BASE_PATH_STRING = 'modules/mapv3/classes';
-	$basegallerydir = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
-	$base = GalleryUtilities::convertPathToUrl($basegallerydir);
 
-	$mydir = dir($folder . $imagefolder);
+		$basegallerydir = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
+		$module_path    = 'modules/mapv3/';
+		$base           = GalleryUtilities::convertPathToUrl($basegallerydir);
 
-	/* go thought the files in the basemarker folder inside the module to use them as base. */
-	while (($file = $mydir->read()) !== false) {
-	    if (GoogleMapUtilities::GoodFile($folder . $imagefolder, $file)) {
-		$mimetype = GalleryCoreApi::getMimeType($file);
-		if (($mimetype[1] == 'image/png') and ($file <> 'marker_shadow.png')) {
-		    /* 
-		     * The output from this function is surrounded by quotes, 
-		     * for use in a IMG block
-		     */
-		    $sizes = getimagesize($folder . $imagefolder . $file);
-		    $name = substr($file, 0, strrpos($file, '.'));
-		    $msie = '/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
-		    if (!isset($_SERVER['HTTP_USER_AGENT'])
-			    || !preg_match($msie,$_SERVER['HTTP_USER_AGENT'])
-			    || preg_match('/opera/i',$_SERVER['HTTP_USER_AGENT'])) {
-			$src = '"'. $base . $imagefolder . $name . '.png"';
-		    } else {
-			$src = '"'. $base . 'modules/mapv3/images/blank.gif" style="filter: '
-                      		. 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\''
-				. $base . $imagefolder . $name . '.png\');"';
-		    }
-		    $sizes[2] = $src;
-		    $filenames[$name] = $sizes;
+		$mydir = dir($folder . $imagefolder);
+
+		/* go thought the files in the basemarker folder inside the module to use them as base. */
+		while (($file = $mydir->read()) !== false) {
+			if (GoogleMapUtilities::GoodFile($folder . $imagefolder, $file)) {
+				$mimetype = GalleryCoreApi::getMimeType($file);
+				if (($mimetype[1] == 'image/png') and ($file <> 'marker_shadow.png')) {
+					/*
+                     * The output from this static function is surrounded by quotes,
+                     * for use in a IMG block
+                     */
+					$sizes = getimagesize($folder . $imagefolder . $file);
+					$name  = substr($file, 0, strrpos($file, '.'));
+					$msie  = '/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
+					if (!isset($_SERVER['HTTP_USER_AGENT'])
+						|| !preg_match($msie, $_SERVER['HTTP_USER_AGENT'])
+						|| preg_match('/opera/i', $_SERVER['HTTP_USER_AGENT'])) {
+						$src = '"' . $base . $imagefolder . $name . '.png"';
+					} else {
+						$src = '"' . $base . $module_path . 'images/blank.gif" style="filter: '
+							   . 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\''
+							   . $base . $imagefolder . $name . '.png\');"';
+					}
+					$sizes[2]         = $src;
+					$filenames[$name] = $sizes;
+				}
+			}
 		}
-	    }
+		$mydir->close();
+
+		return $filenames;
 	}
-        $mydir->close();
-        return $filenames;
-    }
 
 
     /**
@@ -269,60 +271,59 @@ class GoogleMapUtilities {
      *
      */
     function AllMarkers($imagetype = 'markers') {
-    	global $gallery;
-    	$gurl =& $gallery->getUrlGenerator();
-    	$BASE_PATH_STRING = 'modules/mapv3/classes';
-	$basegallerydir = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
-	$base = $gurl->generateUrl(array('href' => ''),
-		array('forceFullUrl' => true));
-	$mydir = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/');
-	$filenamearray = array();
-	while (($filenames = $mydir->read()) !== false) {
-	    if (is_dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/' . $filenames)
-		    && $filenames != '.' && $filenames != '..' && $filenames != 'multi' 
-		    && $filenames != 'CVS' && $filenames != '.svn') {
-		$mydir2 = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
-			      . $filenames . '/');
-		$imagearray = array();
-		while (($images = $mydir2->read()) !== false) {
-		    if (is_file($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
-			    . $filenames . '/' . $images) && $images <> 'colorlist') {
-			$imagearray[] = $images;
-		    }
+		global $gallery;
+		$gurl           =& $gallery->getUrlGenerator();
+		$basegallerydir = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
+		$base           = $gurl->generateUrl(array('href' => ''),
+			array('forceFullUrl' => true));
+		$mydir          = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/');
+		$filenamearray  = array();
+		while (($filenames = $mydir->read()) !== false) {
+			if (is_dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/' . $filenames)
+				&& $filenames != '.' && $filenames != '..' && $filenames != 'multi'
+				&& $filenames != 'CVS' && $filenames != '.svn') {
+				$mydir2     = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
+								  . $filenames . '/');
+				$imagearray = array();
+				while (($images = $mydir2->read()) !== false) {
+					if (is_file($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
+								. $filenames . '/' . $images) && $images <> 'colorlist') {
+						$imagearray[] = $images;
+					}
+				}
+				$mydir2->close();
+				sort($imagearray, SORT_STRING);
+
+				$allimagesarray = array();
+				foreach ($imagearray as $images) {
+					$msie  = '/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
+					$color = substr($images, 7, -4);
+					if (!isset($_SERVER['HTTP_USER_AGENT'])
+						|| !preg_match($msie, $_SERVER['HTTP_USER_AGENT'])
+						|| preg_match('/opera/i', $_SERVER['HTTP_USER_AGENT'])) {
+						$allimagesarray[] = $color . ': <img alt="none" src="' . $base
+											. 'modules/mapv3/images/' . $imagetype . '/'
+											. $filenames . '/' . $images . '"/>';
+					} else {
+						$allimagesarray[] = $color . ': <img alt="none" src="' . $base
+											. 'modules/mapv3/images/blank.gif" style="filter: progid:'
+											. 'DXImageTransform.Microsoft.AlphaImageLoader(src=\''
+											. $base . 'modules/mapv3/images/' . $imagetype . '/'
+											. $filenames . '/' . $images . '\');"/>';
+					}
+				}
+				$filenamearray[$filenames] = $allimagesarray;
+			}
 		}
-		$mydir2->close();
-		sort($imagearray, SORT_STRING);
+		$mydir->close();
 
-		$allimagesarray = array();
-		foreach ($imagearray as $images) {
-		    $msie='/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
-		    $color = substr ($images,7,-4);
-		    if(!isset($_SERVER['HTTP_USER_AGENT']) 
-			    || !preg_match($msie,$_SERVER['HTTP_USER_AGENT'])
-			    || preg_match('/opera/i',$_SERVER['HTTP_USER_AGENT'])) {
-			$allimagesarray[] = $color . ': <img alt="none" src="' . $base
-					    . 'modules/mapv3/images/' . $imagetype . '/'
-					    . $filenames . '/' . $images . '"/>';
-		    } else {
-			$allimagesarray[] = $color . ': <img alt="none" src="' . $base
-					    . 'modules/mapv3/images/blank.gif" style="filter: progid:'
-					    . 'DXImageTransform.Microsoft.AlphaImageLoader(src=\''
-					    . $base . 'modules/mapv3/images/' . $imagetype . '/'
-					    . $filenames . '/' . $images . '\');"/>';
-		    }
+		ksort($filenamearray, SORT_STRING);
+		foreach ($filenamearray as $filenames => $allimagesarray) {
+			$allmarkers[] = array($filenames => $allimagesarray);
 		}
-		$filenamearray[$filenames] = $allimagesarray;
-	    }
-	}
-	$mydir->close();
 
-	ksort($filenamearray, SORT_STRING);
-	foreach ($filenamearray as $filenames => $allimagesarray) {
-	    $allmarkers[]= array($filenames=>$allimagesarray);
+		return $allmarkers;
 	}
-
-	return $allmarkers;
-    }
 
     /**
      * Write the EXIF header including GPS coordinates
