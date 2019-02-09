@@ -49,7 +49,7 @@ class GoogleMapUtilities {
      *		   $maxlonmiles the maximum longitude miles for that level of zoom
      *
      */
-    function GetZoomandCenter($coords, &$zoom, &$center, $mapw, $maph, &$maxmercmiles, 
+    static function GetZoomandCenter($coords, &$zoom, &$center, $mapw, $maph, &$maxmercmiles, 
 			      &$maxlonmiles) {
 	/* 
 	 * pre: $coords is in the form (lon,lat)
@@ -124,7 +124,7 @@ class GoogleMapUtilities {
      * @return boolean true, if the file validates
      *
      */
-    function GoodFile($rep, $file) {
+    static function GoodFile($rep, $file) {
     	$good = false;
 	if (!is_dir($rep . $file) and (substr($file, -1) <> '.') and ($file != 'CVS') and ($file != '.svn')) {
 	    $good = true;
@@ -140,7 +140,7 @@ class GoogleMapUtilities {
      * @return boolean true, if the folder validates
      *
      */
-    function GoodFolder($rep, $file) {
+    static function GoodFolder($rep, $file) {
 	$good = false;
 	if (is_dir($rep . $file) and (substr($file, -1) <> '.') and ($file != 'CVS') and ($file != '.svn')) {
 	    $good = true;
@@ -157,7 +157,7 @@ class GoogleMapUtilities {
      * @return string HTML <options> items
      *
      */
-    function OptionFromColorList($folder, $selected) {
+    static function OptionFromColorList($folder, $selected) {
 	$colorlist = '';
 	if (file_exists($folder . '/colorlist'))
 	{
@@ -189,7 +189,7 @@ class GoogleMapUtilities {
      * @return string HTML <options> items
      *
      */
-    function OptionFromFolder($folder, $selected) {
+    static function OptionFromFolder($folder, $selected) {
 	$list = '';
 	$mydir = dir($folder);
 	/* Loop through all file and folder in the directory */
@@ -223,7 +223,7 @@ class GoogleMapUtilities {
      * @return list of filenames in a table format
      *
      */
-    function TableFromFiles($folder, $webpath, $imagefolder) {
+	static function TableFromFiles($folder, $webpath, $imagefolder) {
 
 		$basegallerydir = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
 		$module_path    = 'modules/mapv3/';
@@ -270,7 +270,7 @@ class GoogleMapUtilities {
      * @return array MarkerName => MarkerIcons
      *
      */
-    function AllMarkers($imagetype = 'markers') {
+	static function AllMarkers($imagetype = 'markers') {
 		global $gallery;
 		$gurl           =& $gallery->getUrlGenerator();
 		$basegallerydir = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
@@ -337,7 +337,7 @@ class GoogleMapUtilities {
 	 *				  Data
      *
      */
-    function setGPSCoordsInExif($item, $coordinates, $overwrite = false){
+    static function setGPSCoordsInExif($item, $coordinates, $overwrite = false){
         global $gallery;
         $error = array();
         $status = '';
@@ -476,7 +476,7 @@ class GoogleMapUtilities {
 	 *			      string of coordinates 'latitude, longitude'
      *
      */
-    function getGPSCoordsFromExif($item) {
+    static function getGPSCoordsFromExif($item) {
 	list($ret, $filename) = $item->fetchPath();
 	if ($ret) {
 	    return array($ret->wrap(__FILE__, __LINE__), null);
@@ -573,7 +573,7 @@ class GoogleMapUtilities {
      * @return array of points with showlow, showhigh setup.
      *
      */
-    function updateArrayForAlbumRegroup($points, $distance){
+    static function updateArrayForAlbumRegroup($points, $distance){
     	
 		for ($z = 19; $z >= 0; $z--) {
 			/* set upper bounds for items ( */
@@ -613,7 +613,7 @@ class GoogleMapUtilities {
      *				 $preload return preload with added images
      *
      */
-	function setPreloadFromFolder($preload, $set){
+	static function setPreloadFromFolder($preload, $set){
 		global $gallery;
 		$platform =& $gallery->getPlatform();
 		
