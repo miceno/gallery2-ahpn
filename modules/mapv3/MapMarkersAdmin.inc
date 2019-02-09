@@ -474,6 +474,9 @@ class MapMarkersAdminView extends GalleryView {
 		if (!array_key_exists('useMarkerSet', $form)) {
 			$form['useMarkerSet'] = 'smallpushpins';
 		}
+		if (!array_key_exists('deleteMarkerSet', $form)) {
+			$form['deleteMarkerSet'] = '';
+		}
 		if (!array_key_exists('useAlbumMarkerSet', $form)) {
 			$form['useAlbumMarkerSet'] = 'smallpushpins';
 		}
