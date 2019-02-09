@@ -483,6 +483,13 @@ a:hover {ldelim} outline: none; {rdelim}
         } /* function CreateMarker */
             {/literal}
 
+        {if (isset($map.regroupItems) and $map.regroupItems)}
+        /*Loop over the Regroup Markers and show them */
+        {foreach from=$map.RegroupItems item=Rpoint}
+        CreateRegroup({$Rpoint.gps},{$Rpoint.regroupShowLow},{$Rpoint.regroupShowHigh},{$Rpoint.directItems}, {$Rpoint.items}, {$Rpoint.groups});
+        {/foreach}
+        {/if}
+
         /* Loop over gallery items that have GPS coordinates
             and output code to add them to the map. */
         {if (!empty($mapv3.mapPoints))}
