@@ -278,10 +278,10 @@ class GoogleMapUtilities {
 			array('forceFullUrl' => true));
 		$mydir          = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/');
 		$filenamearray  = array();
+		$exclude_files = array('.', '..', 'multi', 'CVS', '.svn');
 		while (($filenames = $mydir->read()) !== false) {
 			if (is_dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/' . $filenames)
-				&& $filenames != '.' && $filenames != '..' && $filenames != 'multi'
-				&& $filenames != 'CVS' && $filenames != '.svn') {
+				&& ! in_array($filenames, $exclude_files) ) {
 				$mydir2     = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
 								  . $filenames . '/');
 				$imagearray = array();
