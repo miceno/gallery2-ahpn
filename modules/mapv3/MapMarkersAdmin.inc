@@ -44,6 +44,8 @@ class MapMarkersAdminController extends GalleryController {
 
 		global $gallery;
 		$platform = $gallery->getPlatform();
+		$basegallerydir = dirname(dirname(dirname(__FILE__))) . '/';
+		$module_path = 'modules/mapv3/';
 
 		/* If we want to "add" a marker, call the marker creation tool */
 		if (isset($form['action']['add'])) {
@@ -78,10 +80,10 @@ class MapMarkersAdminController extends GalleryController {
 				$newparam['common'] = $param['common'];
 
 				if (isset($form['useMarkerSet'])) {
-					$handle = fopen($basegallerydir . 'mapv3/images/markers/'
+					$handle = fopen($basegallerydir . $module_path . 'images/markers/'
 									. $form['useMarkerSet'] . '/colorlist', 'r');
 					$list   = explode('*', fread($handle,
-						filesize($basegallerydir . 'mapv3/images/markers/'
+						filesize($basegallerydir . $module_path . 'images/markers/'
 								 . $form['useMarkerSet'] . '/colorlist') - 1));
 					fclose($handle);
 
@@ -96,10 +98,10 @@ class MapMarkersAdminController extends GalleryController {
 				}
 
 				if (isset($form['useAlbumMarkerSet'])) {
-					$handle = fopen($basegallerydir . 'mapv3/images/markers/'
+					$handle = fopen($basegallerydir . $module_path . 'images/markers/'
 									. $form['useAlbumMarkerSet'] . '/colorlist', 'r');
 					$list   = explode('*', fread($handle,
-						filesize($basegallerydir . 'mapv3/images/markers/'
+						filesize($basegallerydir . $module_path . 'images/markers/'
 								 . $form['useAlbumMarkerSet'] . '/colorlist') - 1));
 					fclose($handle);
 
@@ -178,22 +180,22 @@ class MapMarkersAdminController extends GalleryController {
 				$setname        = $form['setname'];
 
 				/* create the marker dir */
-				if (!file_exists($basegallerydir . 'mapv3/images/markers/' . $setname)) {
-					list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($basegallerydir . 'mapv3/images/markers/' . $setname);
+				if (!file_exists($basegallerydir . $module_path . 'images/markers/' . $setname)) {
+					list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($basegallerydir . $module_path . 'images/markers/' . $setname);
 					if ($ret) {
 						$error[] = 'form[error][createdir]';
 					}
 				}
 
 				$resize     = '';
-				$basepngdir = $base . 'modules/mapv3/images/basemarkers/';
+				$basepngdir = $base . $module_path . 'images/basemarkers/';
 
 				/* Figure out if a resize is needed and create the appropriate command */
 				if ($form['size'][0] != 'same') {
 					if ($form['size'][0] == 'custom') {
 						$resize = $form['ImageHeight'] . 'x' . $form['ImageWidth'];
 					} else {
-						$currentsize = getimagesize($basegallerydir . 'mapv3/images/basemarkers/'
+						$currentsize = getimagesize($basegallerydir . $module_path . 'images/basemarkers/'
 													. $basemarkername . '.png');
 						$height50    = $currentsize[1] / 2;
 						$width50     = $currentsize[0] / 2;
@@ -258,7 +260,7 @@ class MapMarkersAdminController extends GalleryController {
 
 				/* Put the colorlist in a file for later retrieval */
 				$colorlist = array();
-				$handle    = fopen($basegallerydir . 'mapv3/images/markers/' . $setname . '/colorlist', 'w');
+				$handle    = fopen($basegallerydir . $module_path . 'images/markers/' . $setname . '/colorlist', 'w');
 				foreach ($colors as $name => $value) {
 					$colorlist[] = $name;
 					fwrite($handle, $name . '*');
@@ -283,16 +285,16 @@ class MapMarkersAdminController extends GalleryController {
 						$command[] = '-resize';
 						$command[] = $resize;
 					}
-					$command[]   = $basegallerydir . 'mapv3/images/basemarkers/' . $basemarkername
+					$command[]   = $basegallerydir . $module_path . 'images/basemarkers/' . $basemarkername
 								   . '.png';
-					$command[]   = $basegallerydir . 'mapv3/images/markers/' . $setname
+					$command[]   = $basegallerydir . $module_path . 'images/markers/' . $setname
 								   . '/marker_' . $color . '.png';
 					$returnstuff = $platform->exec(array($command));
 					/*
                      * if the marker created does not exist, then something went wrong,
                      * break out and display an error message
                      */
-					if (!$platform->file_exists($basegallerydir . 'mapv3/images/markers/' . $setname
+					if (!$platform->file_exists($basegallerydir . $module_path . 'images/markers/' . $setname
 												. '/marker_' . $color . '.png')) {
 						$statusexec = 1;
 						$error[]    = 'form[createicons][' . $returnstuff[2][0] . ']';
@@ -319,7 +321,7 @@ class MapMarkersAdminController extends GalleryController {
 
 			$status['deleted'] = 0;
 
-			$dir = $basegallerydir . 'mapv3/images/markers/' . $form['deleteMarkerSet'];
+			$dir = $basegallerydir . $module_path . 'images/markers/' . $form['deleteMarkerSet'];
 
 			/* Delete all file in the folder and then delete the folder */
 			$status['deleted'] = $platform->recursiveRmdir($dir);
@@ -343,7 +345,7 @@ class MapMarkersAdminController extends GalleryController {
 			} elseif ($form['tmp_name'][1] == '') {
 				$error[] = 'form[error][notuploaded]';
 			} elseif (!move_uploaded_file($form['tmp_name'][1], $basegallerydir
-																. 'mapv3/images/basemarkers/' . $form['name'][1])) {
+																. $module_path . 'images/basemarkers/' . $form['name'][1])) {
 				$error[] = 'form[error][rightserror]';
 			} else {
 				$status['uploaded'] = 1;
@@ -385,7 +387,7 @@ class MapMarkersAdminController extends GalleryController {
 			} elseif ($form['tmp_name'][2] == '') {
 				$error[] = 'form[error][notuploaded]';
 			} elseif (!move_uploaded_file($form['tmp_name'][2],
-				$basegallerydir . 'mapv3/images/multi/' . $form['name'][2])) {
+				$basegallerydir . $module_path . 'images/multi/' . $form['name'][2])) {
 				$error[] = 'form[error][rightserror]';
 			} else {
 				$status['uploaded'] = 1;
@@ -420,7 +422,13 @@ class MapMarkersAdminView extends GalleryView {
 		$template->head($base_path . 'includes/GoogleMap.css');
 		$template->javascript($base_path . 'GoogleMap.js');
 
+		$basegallerydir = dirname(dirname(dirname(__FILE__))) . '/';
+		$base = '/';
+
+		// Absolute path to the folder holding the PNG files.
 		$basepngdir = $basegallerydir . $base_path . 'images/basemarkers/';
+
+		// Relative path to the folder holding the PNG files.
 		$pngdir     = $base . $base_path . 'images/basemarkers/';
 
 		/* verify that the module install was done right, maybe some missing files ? */
