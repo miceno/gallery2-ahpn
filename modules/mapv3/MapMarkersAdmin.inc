@@ -46,6 +46,7 @@ class MapMarkersAdminController extends GalleryController {
 		$platform = $gallery->getPlatform();
 		$basegallerydir = dirname(dirname(dirname(__FILE__))) . '/';
 		$module_path = 'modules/mapv3/';
+		$base = '/';
 
 		/* If we want to "add" a marker, call the marker creation tool */
 		if (isset($form['action']['add'])) {
@@ -180,9 +181,9 @@ class MapMarkersAdminController extends GalleryController {
 				$setname        = $form['setname'];
 
 				/* create the marker dir */
-				if (!file_exists($basegallerydir . $module_path . 'images/markers/' . $setname)) {
-					list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($basegallerydir . $module_path . 'images/markers/' . $setname);
-					if ($ret) {
+				$markers_dir = $basegallerydir . $module_path . 'images/markers/' . $setname;
+				if (!file_exists($markers_dir)) {
+					list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($markers_dir);
 						$error[] = 'form[error][createdir]';
 					}
 				}
