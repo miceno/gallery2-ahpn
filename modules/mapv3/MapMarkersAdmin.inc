@@ -184,6 +184,7 @@ class MapMarkersAdminController extends GalleryController {
 				$markers_dir = $basegallerydir . $module_path . 'images/markers/' . $setname;
 				if (!file_exists($markers_dir)) {
 					list ($ret, $dirs) = GalleryUtilities::guaranteeDirExists($markers_dir);
+					if (!$ret) {
 						$error[] = 'form[error][createdir]';
 					}
 				}
