@@ -1187,7 +1187,7 @@ class ShowMapView extends GalleryView {
 			/* Test for the existance of a sidebar on the google map view */
 			$map['sidebar'] = 1;
 
-			$absolutegallerydir = substr(dirname(__FILE__), 0, -11);
+			$absolutegallerydir = dirname(dirname(dirname(__FILE__)));
 
 			/* Grab the Default theme value (used for the google map) */
 			list ($ret, $themeId) =
