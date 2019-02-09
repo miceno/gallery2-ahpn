@@ -202,7 +202,7 @@
                 </div>
                 <h2>{$theme.item.title|markup}</h2>
                 {* TODO: Do not add thumbnail if the item does not have one *}
-                        <img src="{$form.itemthumb}" class="giThumbnail"/>
+                        <img src="{if isset($form.itemthumb)}{$form.itemthumb}{/if}" class="giThumbnail"/>
                         <strong>{g->text text="Summary"}</strong>
                         <p>{$theme.item.summary|markup}</p>
                         <strong>{g->text text="Description"}</strong>
