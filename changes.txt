@@ -1,0 +1,82 @@
+
+List of files that upgrader process detected as changes:
+
+        lib/javascript/AutoComplete.js
+        modules/statistics/templates/StatisticsSiteAdminDisk.tpl
+        modules/ffmpeg/classes/FfmpegToolkitHelper.class
+        modules/ffmpeg/templates/AdminFfmpeg.tpl
+        modules/rewrite/data/mod_rewrite/custom/.htaccess
+        modules/rewrite/data/mod_rewrite_no_options/custom/.htaccess
+
+        modules/keyalbum/module.inc
+        modules/keyalbum/po/strings.raw
+
+        modules/bulkupload/ItemAddBulk.inc
+        modules/bulkupload/templates/ItemAddBulk.tpl
+
+        modules/core/CoreModuleExtras.inc N
+        modules/core/ItemAddAlbum.inc N
+        modules/core/ItemDeleteJs.inc N
+        modules/core/ItemEditCaptions.inc *
+        modules/core/ItemEditItem.inc *
+        modules/core/SimpleCallback.inc *
+
+        modules/core/classes/Gallery.class *
+        modules/core/classes/GalleryCoreSearch.class *
+        modules/core/classes/GalleryDerivativeImage.class *
+        modules/core/classes/GalleryPhotoItem.class *
+        modules/core/classes/GalleryPlatform.class *
+        modules/core/classes/GalleryTemplate.class N
+        modules/core/classes/GalleryTemplateAdapter.class *
+        modules/core/classes/GalleryTheme.class *
+        modules/core/classes/GalleryUtilities.class N
+        modules/core/classes/GalleryView.class *
+
+        modules/core/classes/helpers/GalleryChildEntityHelper_simple.class N
+        modules/core/classes/helpers/GalleryMimeTypeHelper_advanced.class *
+        modules/core/module.inc *
+        modules/core/po/strings.raw
+        modules/core/templates/AdminMaintenance.tpl
+
+        modules/title/Contain.inc
+        modules/jpegtran/classes/JpegtranToolkit.class
+        modules/jpegtran/classes/JpegtranToolkitHelper.class
+        modules/comment/AdminModerateSpam.inc
+        modules/comment/classes/GalleryCommentSearch.class
+        modules/captcha/CaptchaImage.inc
+        modules/tags/AdminTags.inc
+        modules/search/po/strings.raw
+        modules/watermark/ItemEditWatermark.inc
+        modules/map/GoogleEarth.inc
+        modules/map/ShowMap.inc
+        modules/map/templates/MapHeader.tpl
+        modules/map/templates/blocks/MiniMap.tpl
+        modules/map/templates/blocks/blocks.inc
+        modules/map/templates/infowindow/g3centered.inc
+        modules/map/templates/infowindow/g3default.inc
+        modules/map/templates/infowindow/g3tabbed.inc
+        modules/map/templates/infowindow/g3table.inc
+        modules/map/templates/mapItemEdit.tpl
+        modules/cart/module.inc
+        modules/exif/SwitchDetailMode.inc
+        modules/userinfo/functions.inc
+        modules/gd/classes/GdToolkitHelper.class
+        modules/integrity/classes/IntegrityCheckTask.class
+        modules/geturls/templates/GetUrls.tpl
+        modules/squarethumb/classes/SquareThumbToolkit.class
+        modules/imagemagick/classes/ImageMagickToolkitHelper.class
+        modules/share/ShareSiteAdmin.inc
+        modules/share/module.inc
+        themes/bootstrap_matrix/images/gallery_logo.png
+        themes/bootstrap_matrix/images/screenshot.png
+        themes/bootstrap_matrix/po/strings.raw
+        themes/bootstrap_matrix/templates/theme.tpl
+        themes/bootstrap_matrix/theme.css
+        themes/bootstrap_matrix/theme.inc
+        themes/carbon/templates/theme.tpl
+        themes/mobile_matrix/po/strings.raw
+        themes/mobile_matrix/templates/theme.tpl
+        themes/mobile_matrix/theme.css
+        themes/mobile_matrix/theme.inc
+        themes/matrix/templates/theme.tpl
+        themes/matrix/theme.css
