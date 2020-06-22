@@ -106,7 +106,6 @@
             <br/>
           </p>
 
-        {if !empty($item.originationTimestamp) and is_array($item.originationTimestamp)}
           <script type="text/javascript">
             // <![CDATA[
             function setOriginationTimestamp_{$item.id}() {ldelim}
@@ -133,7 +132,6 @@
           <div class="giError">
             {g->text text="You must enter a valid date and time"}
           </div>
-        {/if}
         {else}
           <div class="giError">{g->text
             text="Entity date is not available. Change it using the Edit action of the element."}</div>

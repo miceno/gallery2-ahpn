@@ -269,6 +269,7 @@ class ItemEditCaptionsView extends GalleryView {
 			if ($ret) {
 				return array($ret, null, null);
 			}
+			$originationTimestamp = $child->getOriginationTimestamp();
 			if ($originationTimestamp > 0) {
 				$form['items'][$childId]['originationTimestamp'] = array(
 						'timestamp' => $originationTimestamp,
