@@ -194,7 +194,7 @@ class ItemEditCaptionsView extends GalleryView {
 
 	if ($form['formName'] != 'ItemEditCaption') {
 	    $form['formName'] = 'ItemEditCaption';
-	    $form['numPerPage'] = 9;
+	    $form['numPerPage'] = 20;
 
 	    list ($ret, $childIds) = GalleryCoreApi::fetchChildItemIdsWithPermission(
 		$itemId, array('core.edit', 'core.view'));

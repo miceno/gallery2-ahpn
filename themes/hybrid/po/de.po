@@ -1,4 +1,4 @@
-# $Id: de.po 20936 2009-09-28 21:29:23Z mindless $
+# $Id: de.po 18175 2008-10-17 08:00:24Z andy_st $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -24,7 +24,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Gallery: Hybrid Theme 1.1.10\n"
+"Project-Id-Version: Gallery: Hybrid Theme 1.1.9\n"
 "POT-Creation-Date: 2003-02-11 03:09-0800\n"
 "PO-Revision-Date: 2008-07-25 23:15+0100\n"
 "Last-Translator: Jens Tkotz <jens@peino.de>\n"
@@ -150,12 +150,11 @@ msgstr ""
 "Element-Details zeigen:\n"
 "| Escape = Popup schließen"
 
-#, fuzzy
-msgid "Show text when available"
-msgstr "Bei den Vorschaubildern Text anzeigen"
+msgid "Show text"
+msgstr "Text zeigen"
 
-msgid "Keep text hidden"
-msgstr ""
+msgid "Hide text"
+msgstr "Text verstecken"
 
 msgid "Back to Album View"
 msgstr "Zurück zur Albumansicht"
@@ -255,9 +254,3 @@ msgstr "rückwärts"
 
 msgid "random"
 msgstr "zufällig"
-
-#~ msgid "Show text"
-#~ msgstr "Text zeigen"
-
-#~ msgid "Hide text"
-#~ msgstr "Text verstecken"

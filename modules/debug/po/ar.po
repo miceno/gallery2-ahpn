@@ -1,4 +1,4 @@
-# $Id: ar.po 20954 2009-12-14 20:10:04Z mindless $
+# $Id: ar.po 18173 2008-10-17 07:14:30Z andy_st $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Gallery: Debugging 1.0.8\n"

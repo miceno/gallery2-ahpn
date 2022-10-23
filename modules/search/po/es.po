@@ -107,3 +107,9 @@ msgstr "Caja de busqueda"
 
 msgid "Show advanced link"
 msgstr "Mostrar enlace avanzado"
+
+msgid "Search Photo"
+msgstr "Búsqueda de foto"
+
+msgid "Enter Search Word"
+msgstr "Indique la palabra buscada"

@@ -1,5 +1,5 @@
 {*
- * $Revision: 20936 $
+ * $Revision: 16931 $
  * Read this before changing templates!  http://codex.gallery2.org/Gallery2:Editing_Templates
  *}
 <div id="popup_details" class="gcBorder2"><object type="text/html"></object></div>
@@ -17,16 +17,14 @@
   <div id="textdiv" class="gcBackground1 gcBorder2">
     <div id="tools_left">
       <img id="text_on" src="{$theme.themeUrl}/images/up.png"
-       width="18" height="18" onclick="text_onoff()" style="display: none"
-       alt="{g->text text="Show text when available"}"
-       title="{g->text text="Show text when available"}"
+       width="18" height="18" onclick="text_onoff()"
+       alt="{g->text text="Show text"}" title="{g->text text="Show text"}"
      /><img id="text_none" src="{$theme.themeUrl}/images/up-off.png"
        width="18" height="18" onclick="text_onoff()" style="display: none"
-       alt="{g->text text="Show text when available"}"
-       title="{g->text text="Show text when available"}"
+       alt="{g->text text="Show text"}" title="{g->text text="Show text"}"
      /><img id="text_off" src="{$theme.themeUrl}/images/down.png"
-       width="18" height="18" onclick="text_onoff()"
-       alt="{g->text text="Keep text hidden"}" title="{g->text text="Keep text hidden"}"
+       width="18" height="18" onclick="text_onoff()" style="display: none"
+       alt="{g->text text="Hide text"}" title="{g->text text="Hide text"}"
      /><img src="{$theme.themeUrl}/images/alb.png"
        width="18" height="18" onclick="image_vis(0)"
        alt="{g->text text="Back to Album View"}" title="{g->text text="Back to Album View"}"

@@ -24,7 +24,7 @@
  * @subpackage Classes
  * @author Pierre-Luc Paour
  * @author Bharat Mediratta
- * @version $Revision: 20954 $
+ * @version $Revision: 17580 $
  * @static
  */
 class GalleryRemoteConstants {
@@ -38,7 +38,7 @@ class GalleryRemoteConstants {
 
 	if (empty($grVersionCodes)) {
 	    $grVersionCodes['MAJ'] = 2;
-	    $grVersionCodes['MIN'] = 14;
+	    $grVersionCodes['MIN'] = 13;
 	}
 
 	return $grVersionCodes;

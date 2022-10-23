@@ -6,6 +6,12 @@
  * table.gbDataTable     Table for data/form elements with styles for shading rows
  */
 
+p.giDescription + ul {
+padding-left: 20px;
+list-style-type: decimal;
+font-size: 110%;
+}
+
 #gallery h2, #gallery h3, #gallery h4, #gallery form {
     margin: 0;
     padding: 0;
@@ -618,3 +624,46 @@ td.bsw_BlockCommands {
     margin: auto;
 }
 
+/*
+ * Overriden theme styles go here
+*/
+
+#gsContent h2{
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/*
+#gsContent .gcBackground1 .giDescription, #gsContent .gcBackground1 li {
+    font-size: 1.5em;
+}
+*/
+
+#gsContent .gcBackground1 td, 
+.block-share-ShareBlock,
+.block-keyalbum-KeywordLinks,
+.block-tags-ImageTags,
+.block-map-ItemCoords{
+    font-size: 1.4em;
+}
+.block-share-ShareBlock,
+.block-keyalbum-KeywordLinks,
+.block-tags-ImageTags,
+.block-map-ItemCoords{
+    padding: 5px;
+}
+
+/*
+div#gsContent {
+    font-size: 1.1em;
+}
+*/
+#gsImageView{
+    font-size: 3em;
+}
+
+.giDescription br{
+   display: block;
+   margin: 6px 0;
+   content: " ";
+}

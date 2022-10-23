@@ -132,8 +132,8 @@ class KeyAlbumModule extends GalleryModule {
 		$links = array();
 		foreach ($this->splitKeywords($keywords, $params['split']) as $raw => $keyword) {
 		    $links[] = ' <a href="' . $urlGenerator->generateUrl(
-			array('view' => 'keyalbum.KeywordAlbum', 'keyword' => $raw,
-			      'highlightId' => $itemId)) . '">' . $keyword . '</a>';
+			array('view' => 'keyalbum.KeywordAlbum', 'keyword' => str_replace(array('/'), '_', $raw),
+			      'highlightId' => $itemId)) . '">' . $keyword. '</a>';
 		}
 		$summaries[$itemId] = $label . implode(',', $links);
 	    }
