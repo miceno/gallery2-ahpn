@@ -1,4 +1,4 @@
-# $Id: ca.po 20123 2009-02-17 18:08:19Z mindless $
+# $Id: sv.po 17580 2008-04-13 00:38:13Z tnalmdal $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -17,130 +17,130 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# Previous translators (as far as known, add yourself here, please):
-# - Oscar Garcia Amor <oscar.garcia@moire.org>
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Gallery: Carbon Theme 1.2.6\n"
 "Report-Msgid-Bugs-To: gallery-translations@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-06-14 17:52-0700\n"
-"PO-Revision-Date: 2006-06-15 15:08+0100\n"
-"Last-Translator: Juan Vega Aiguadé <joan.vega@andornet.ad>\n"
-"Language-Team: Spanish <gallery-translations@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2003-02-11 03:09-0800\n"
+"PO-Revision-Date: 2007-01-02 19:20+0100\n"
+"Last-Translator: Anders Lindquist <andersl@saaf.se>\n"
+"Language-Team: Swedish <gallery-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Carbon"
-msgstr ""
+msgstr "Carbon"
 
 msgid "Gallery2 theme by mincel.com"
-msgstr ""
+msgstr "Gallery2 tema från mincel.com"
 
 msgid "Show top photo navigator"
-msgstr ""
+msgstr "Visa foto-navigatorn överst"
 
 msgid "Show bottom photo navigator"
-msgstr ""
+msgstr "Visa foto-navigatorn underst"
 
 msgid "Show 'Photo Properties' icon"
-msgstr ""
+msgstr "Visa 'Fotoegenskaps' ikon"
 
 msgid "Show 'Full Size' icon"
-msgstr ""
+msgstr "Visa 'Fullstorleks' ikon"
 
 msgid "Show item details on album pages"
-msgstr ""
+msgstr "Visa objektdetaljer på albumsidorna"
 
 msgid "Blocks to show on album pages (below description)"
-msgstr ""
+msgstr "Block för att visa på albumsidor (under beskrivning)"
 
 msgid "Blocks to show on photo pages (below description)"
-msgstr ""
+msgstr "Block för att visa på bildsidor (under beskrivning)"
 
 msgid "Sidebar top position"
-msgstr ""
+msgstr "Överst i sidomeny"
 
 msgid "Maximum number of micro navigation thumbnails"
-msgstr ""
+msgstr "Maximalt antal av mikronavigations miniatyrbilder"
 
 msgid "URL or path to alternate logo image"
-msgstr ""
+msgstr "URL eller sökväg till alternativ logobild"
 
 msgid "Extra link for top navigation bar"
-msgstr ""
+msgstr "Extra länk till överliggande navigationslist"
 
 msgid "URL for the extra link"
-msgstr ""
+msgstr "URL till extra länk"
 
 msgid "Copyright message to display on footer"
-msgstr ""
+msgstr "Copyright medelande att visas som fotnot"
 
 msgid "You must enter a number greater than 0"
-msgstr "Has d'escriure un número major que zero"
+msgstr "Du måste ange ett nummer större än 0"
 
 msgid "Format: [module.BlockName param=value] ..."
-msgstr "Format: [módul.NomdelBloc param=valor] ..."
+msgstr "Format: [modul.BlockNamn parameter=värde]..."
 
 msgid "Show Sidebar"
-msgstr ""
+msgstr "Visa Sidomeny"
 
 msgid "This album is empty."
-msgstr "Aquest &agrave;lbum &eacute;s buit "
+msgstr "Detta album är tomt."
 
 msgid "Add a photo!"
-msgstr "Afegeix una foto!"
+msgstr "Lägg till ett fotografi"
 
 msgid "no thumbnail"
-msgstr "sense miniatura"
+msgstr "ingen miniatyrbild"
 
 msgid "Error!"
-msgstr "&iexcl;Error!"
+msgstr "Fel!"
 
 msgid "First"
-msgstr ""
+msgstr "Först"
 
 msgid "Previous"
-msgstr ""
+msgstr "Föregående"
 
 msgid "Photo Properties"
-msgstr "Propietats de la Foto"
+msgstr "Fotoegenskaper"
 
 msgid "Full Size"
-msgstr ""
+msgstr "Full Storlek"
 
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
 msgid "Last"
-msgstr ""
+msgstr "Sist"
 
 msgid "Exif"
-msgstr ""
+msgstr "Exif"
 
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #, c-format
 msgid "Download %s"
-msgstr "Descarregar %s"
+msgstr "Ladda ned detta %s"
 
 msgid "There is nothing to view for this item."
-msgstr "No hi ha res a veure per aquest element."
+msgstr "Det finns ingenting att visa för detta objekt."
 
 msgid "View in original album"
-msgstr ""
+msgstr "Vy i orginal-albumet"
 
 #, c-format
 msgid "Download %s in original format"
-msgstr "Descarrega %s en format original"
+msgstr "Ladda ner %s i orginal formatet"
 
 msgid "Continue..."
-msgstr "Continuar..."
+msgstr "Fortsätt..."
 
 msgid "Actions"
-msgstr "Accions"
+msgstr "Händelser"
 
 msgid "Sidebar"
-msgstr ""
+msgstr "Sidolist"

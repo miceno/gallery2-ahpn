@@ -1,4 +1,4 @@
-# $Id: ca.po 20123 2009-02-17 18:08:19Z mindless $
+# $Id: lv.po 17580 2008-04-13 00:38:13Z tnalmdal $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -17,41 +17,41 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# Previous translators (as far as known, add yourself here, please):
-# - Oscar Garcia Amor <oscar.garcia@moire.org>
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Gallery: Carbon Theme 1.2.6\n"
-"Report-Msgid-Bugs-To: gallery-translations@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-06-14 17:52-0700\n"
-"PO-Revision-Date: 2006-06-15 15:08+0100\n"
-"Last-Translator: Juan Vega Aiguadé <joan.vega@andornet.ad>\n"
-"Language-Team: Spanish <gallery-translations@lists.sourceforge.net>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-01 16:32+0300\n"
+"PO-Revision-Date: 2006-10-01 16:39+0200\n"
+"Last-Translator: Jānis Baiža <jbaiza@inbox.lv>\n"
+"Language-Team: Latvian <gallery-translations@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Latvian\n"
+"X-Poedit-Country: LATVIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Carbon"
-msgstr ""
+msgstr "Ogle"
 
 msgid "Gallery2 theme by mincel.com"
-msgstr ""
+msgstr "mincel.com galerija2 tēma"
 
 msgid "Show top photo navigator"
-msgstr ""
+msgstr "Rādīt augšējo foto navigatoru"
 
 msgid "Show bottom photo navigator"
-msgstr ""
+msgstr "Rādīt apakšējo foto navigāciju"
 
 msgid "Show 'Photo Properties' icon"
-msgstr ""
+msgstr "Rādīt 'Foto īpašības' ikonu"
 
 msgid "Show 'Full Size' icon"
-msgstr ""
+msgstr "Rādīt 'Pilns izmērs' ikonu"
 
 msgid "Show item details on album pages"
-msgstr ""
+msgstr "Rādīt attēlu detaļas albuma lapās"
 
 msgid "Blocks to show on album pages (below description)"
 msgstr ""
@@ -60,87 +60,87 @@ msgid "Blocks to show on photo pages (below description)"
 msgstr ""
 
 msgid "Sidebar top position"
-msgstr ""
+msgstr "Sānjoslas augšējā pozīcija"
 
 msgid "Maximum number of micro navigation thumbnails"
-msgstr ""
+msgstr "Maksimālais mikro navigācijas sīktēlu skaits"
 
 msgid "URL or path to alternate logo image"
-msgstr ""
+msgstr "Saite vai ceļšs uz alternatīvo logo attēlu"
 
 msgid "Extra link for top navigation bar"
-msgstr ""
+msgstr "Papildus saite augšējai navigācijas joslai"
 
 msgid "URL for the extra link"
-msgstr ""
+msgstr "Saite papildus saitei"
 
 msgid "Copyright message to display on footer"
-msgstr ""
+msgstr "Autortiesību teksts, kuru atrādīt kājenē"
 
 msgid "You must enter a number greater than 0"
-msgstr "Has d'escriure un número major que zero"
+msgstr "Jums jāievada skaitlis, kurš lielāks par 0"
 
 msgid "Format: [module.BlockName param=value] ..."
-msgstr "Format: [módul.NomdelBloc param=valor] ..."
+msgstr "Formāts: [modulis.BlokaNosaukums parametrs=vērtība]..."
 
 msgid "Show Sidebar"
-msgstr ""
+msgstr "Rādīt sānjoslu"
 
 msgid "This album is empty."
-msgstr "Aquest &agrave;lbum &eacute;s buit "
+msgstr "Šis albums ir tukšs."
 
 msgid "Add a photo!"
-msgstr "Afegeix una foto!"
+msgstr "Pievienot foto!"
 
 msgid "no thumbnail"
-msgstr "sense miniatura"
+msgstr "nav sīktēla"
 
 msgid "Error!"
-msgstr "&iexcl;Error!"
+msgstr "Kļūda!"
 
 msgid "First"
-msgstr ""
+msgstr "Pirmais"
 
 msgid "Previous"
-msgstr ""
+msgstr "Iepriekšējais"
 
 msgid "Photo Properties"
-msgstr "Propietats de la Foto"
+msgstr "Foto īpašības"
 
 msgid "Full Size"
-msgstr ""
+msgstr "Pilnā izmērā"
 
 msgid "Next"
-msgstr ""
+msgstr "Nākamais"
 
 msgid "Last"
-msgstr ""
+msgstr "Pēdējais"
 
 msgid "Exif"
-msgstr ""
+msgstr "Exif informācija"
 
 msgid "Close"
-msgstr ""
+msgstr "Aizvērt"
 
 #, c-format
 msgid "Download %s"
-msgstr "Descarregar %s"
+msgstr "Lejuplādēt %s"
 
 msgid "There is nothing to view for this item."
-msgstr "No hi ha res a veure per aquest element."
+msgstr "Šim vienumam nav ko apskatīties."
 
 msgid "View in original album"
 msgstr ""
 
 #, c-format
 msgid "Download %s in original format"
-msgstr "Descarrega %s en format original"
+msgstr "Lejuplādēt %s orģinālā formātā"
 
 msgid "Continue..."
-msgstr "Continuar..."
+msgstr "Turpināt..."
 
 msgid "Actions"
-msgstr "Accions"
+msgstr "Darbības"
 
 msgid "Sidebar"
-msgstr ""
+msgstr "Sānjosla"
