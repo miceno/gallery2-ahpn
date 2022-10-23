@@ -1,4 +1,7 @@
 
+RewriteEngine On
+RewriteCond %{SERVER_PORT} !=443
+RewriteRule ^(.*)$ https://fotos.arxiuhistoricpoblenou.cat/$1 [R=301,L]
 
 # BEGIN Url Rewrite section
 # (Automatically generated.  Do not edit this section)
@@ -15,47 +18,57 @@
 
     RewriteCond %{QUERY_STRING} g2_view=core.DownloadItem
     RewriteCond %{QUERY_STRING} g2_itemId=([0-9]+)
+    RewriteCond %{HTTP:Referer} !^[a-zA-Z0-9\+\.\-]+://fotos.arxiuhistoricpoblenou.es/   [NC]
     RewriteCond %{HTTP:Referer} !^[a-zA-Z0-9\+\.\-]+://fotos.arxiuhistoricpoblenou.cat/   [NC]
+    RewriteCond %{HTTP:Referer} !^$
+    RewriteRule .   /main.php?g2_view=rewrite.DownloadItem&g2_itemId=%1   [L]
+
+    RewriteCond %{QUERY_STRING} g2_view=core.DownloadItem
+    RewriteCond %{QUERY_STRING} g2_itemId=([0-9]+)
     RewriteCond %{HTTP:Referer} !^[a-zA-Z0-9\+\.\-]+://fotos.arxiuhistoricpoblenou.es/   [NC]
     RewriteCond %{HTTP:Referer} !^[a-zA-Z0-9\+\.\-]+://fotos.arxiuhistoricpoblenou.cat/   [NC]
     RewriteCond %{HTTP:Referer} !^$
     RewriteRule .   /main.php?g2_view=watermark.DownloadItem&g2_itemId=%1   [L]
-    RewriteCond %{THE_REQUEST} /populares(\?.|\ .)
-    RewriteCond %{REQUEST_URI} !/main\.php$
-    RewriteRule .   /main.php?g2_view=dynamicalbum.PopularAlbum   [QSA,L]
-    RewriteCond %{THE_REQUEST} /aleatorio(\?.|\ .)
-    RewriteCond %{REQUEST_URI} !/main\.php$
-    RewriteRule .   /main.php?g2_view=dynamicalbum.RandomAlbum   [QSA,L]
-    RewriteCond %{THE_REQUEST} /ultimos(\?.|\ .)
+
+    RewriteCond %{THE_REQUEST} /novetats(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_view=dynamicalbum.UpdatesAlbum   [QSA,L]
+
+    RewriteCond %{THE_REQUEST} /aleatori(\?.|\ .)
+    RewriteCond %{REQUEST_URI} !/main\.php$
+    RewriteRule .   /main.php?g2_view=dynamicalbum.RandomAlbum   [QSA,L]
+
+    RewriteCond %{THE_REQUEST} /popular(\?.|\ .)
+    RewriteCond %{REQUEST_URI} !/main\.php$
+    RewriteRule .   /main.php?g2_view=dynamicalbum.PopularAlbum   [QSA,L]
+
     RewriteCond %{THE_REQUEST} /sitemap(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_view=sitemap.Sitemap   [QSA,L]
+
     RewriteCond %{THE_REQUEST} /admin/(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_view=core.SiteAdmin   [QSA,L]
+
     RewriteCond %{THE_REQUEST} /download/([0-9]+)\-([0-9]+)/([^/?]+)(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_view=core.DownloadItem&g2_itemId=%1&g2_serialNumber=%2&g2_fileName=%3   [QSA,L]
-    RewriteCond %{THE_REQUEST} /comentario/ver/([0-9]+)\.html(\?.|\ .)
+
+    RewriteCond %{THE_REQUEST} /comentari/veure/([0-9]+)\.html(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_view=comment.ShowAllComments&g2_itemId=%1   [QSA,L]
+
+    RewriteCond %{THE_REQUEST} /mapa/(G{1}[0-9]+)*(\?.|\ .)
+    RewriteCond %{REQUEST_URI} !/main\.php$
+    RewriteRule .   /main.php?g2_view=mapv3.ShowMap&g2_Group=%1   [QSA,L]
+
     RewriteCond %{THE_REQUEST} /fotografia/([^?]+)(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_path=%1   [QSA,L]
-    RewriteCond %{THE_REQUEST} /mapa/(G{1}[0-9]+)*(\?.|\ .)
-    RewriteCond %{REQUEST_URI} !/main\.php$
-    RewriteRule .   /main.php?g2_view=map.ShowMap&g2_Group=%1   [QSA,L]
-    RewriteCond %{THE_REQUEST} /palabras/([^?/]+)(\?.|\ .)
+
+    RewriteCond %{THE_REQUEST} /paraules/([^?/]+)(\?.|\ .)
     RewriteCond %{REQUEST_URI} !/main\.php$
     RewriteRule .   /main.php?g2_view=keyalbum.KeywordAlbum&g2_keyword=%1   [QSA,L]
-    RewriteCond %{THE_REQUEST} /rss/([^\/\?]+)(\?.|\ .)
-    RewriteCond %{REQUEST_URI} !/main\.php$
-    RewriteRule .   /main.php?g2_view=rss.Render&g2_name=%1   [QSA,L]
-    RewriteCond %{THE_REQUEST} /srss/([0-9]+)(\?.|\ .)
-    RewriteCond %{REQUEST_URI} !/main\.php$
-    RewriteRule .   /main.php?g2_view=rss.SimpleRender&g2_itemId=%1   [QSA,L]
 </IfModule>
 
 # END Url Rewrite section
