@@ -1,4 +1,4 @@
-# $Id: es_MX.po 20123 2009-02-17 18:08:19Z mindless $
+# $Id: ko.po 18175 2008-10-17 08:00:24Z andy_st $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -20,55 +20,54 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gallery: Matrix Theme 1.1.6\n"
-"POT-Creation-Date: 2005-01-01 16:56-0600\n"
-"PO-Revision-Date: 2005-01-01 17:20-0600\n"
-"Last-Translator: Wieland E. Kublun <wieland.kublun@gmx.net>, www.kublun.com\n"
-"Language-Team: Mexican Spanish <gallery-devel@lists.sourceforge.net>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-04-04 15:35+0900\n"
+"PO-Revision-Date: 2006-04-06 08:57+0900\n"
+"Last-Translator: Juice <blackmantle@gmail.com>\n"
+"Language-Team: Korean <gallery-translations@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Mexican Spanish\n"
-"X-Poedit-Country: MEXICO\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Korean\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Matrix"
-msgstr "Matrix"
+msgstr ""
 
-#, fuzzy
 msgid "Standard Gallery2 look and feel"
-msgstr "Look&Feel cl&aacute;sico de Gallery 2"
+msgstr "Gallery2 기분 좋은 테마"
 
-#, fuzzy
 msgid "This album is empty."
-msgstr "Este &aacute;lbum contiene %d elementos."
+msgstr "이 사진은 비어 있습니다."
 
 msgid "Add a photo!"
-msgstr "&iexcl;Añade una foto!"
+msgstr "사진 더하기"
 
-#, fuzzy
 msgid "no thumbnail"
-msgstr "Sin miniatura"
+msgstr "썸네일이 없습니다."
 
 #, c-format
 msgid "Album: %s"
-msgstr "Album: %s"
+msgstr "사진첩 : %s"
 
 msgid "Error!"
-msgstr "&iexcl;Error!"
+msgstr "오류!"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download %s"
-msgstr "Descargar este %s"
+msgstr "%s 내려 받기"
 
 msgid "There is nothing to view for this item."
-msgstr "No hay nada que ver en este elemento."
+msgstr ""
 
 msgid "View in original album"
-msgstr "Ver en el álbum original"
+msgstr ""
 
 #, c-format
 msgid "Download %s in original format"
-msgstr "Descarga %s en formato original"
+msgstr "%s 원본 형식으로 내려 받기"
 
 msgid "Continue..."
-msgstr "Continuar..."
+msgstr "계속...."
