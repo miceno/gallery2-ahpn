@@ -68,7 +68,7 @@ msgid "Display"
 msgstr "Visualizació"
 
 msgid "Keywords:"
-msgstr "Paraulas clau:"
+msgstr ""
 
 msgid "Short URL for Keyword Albums"
 msgstr ""
@@ -105,8 +105,9 @@ msgstr ""
 msgid "Commas"
 msgstr ""
 
+#, fuzzy
 msgid "Spaces"
-msgstr "Espacios"
+msgstr "Guardar"
 
 msgid "Select at least one separator"
 msgstr ""
