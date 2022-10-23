@@ -1,4 +1,4 @@
-# $Id: fr.po 20954 2009-12-14 20:10:04Z mindless $
+# $Id: fr.po 20123 2009-02-17 18:08:19Z mindless $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
