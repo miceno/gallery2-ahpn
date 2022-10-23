@@ -1,4 +1,4 @@
-# $Id: es_MX.po 20123 2009-02-17 18:08:19Z mindless $
+# $Id: he.po 20123 2009-02-17 18:08:19Z mindless $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
@@ -20,67 +20,64 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gallery: Siriux Theme 1.1.5\n"
-"POT-Creation-Date: 2005-01-01 16:56-0600\n"
-"PO-Revision-Date: 2005-01-01 17:20-0600\n"
-"Last-Translator: Wieland E. Kublun <wieland.kublun@gmx.net>, www.kublun.com\n"
-"Language-Team: Mexican Spanish <gallery-devel@lists.sourceforge.net>\n"
+"Report-Msgid-Bugs-To: gallery-translations@lists.sourceforge.net\n"
+"POT-Creation-Date: 2007-06-14 17:55-0700\n"
+"PO-Revision-Date: 2005-01-09 11:20+0200\n"
+"Last-Translator: Omri Amos <omriamos@hwzone.co.il>\n"
+"Language-Team: Hebrew <gallery-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Mexican Spanish\n"
-"X-Poedit-Country: MEXICO\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Siriux"
-msgstr "Siriux"
+msgstr ""
 
 msgid "Siriux.net Gallery theme"
-msgstr "Tema de Gallery de Siriux.net"
+msgstr ""
 
 msgid "Width of page content in pixels"
-msgstr "Ancho del contenido de la página en píxeles"
+msgstr ""
 
 msgid "Group sub-albums by year (album must be sorted by date!)"
-msgstr "Agurpar sub-álbumes por año (&iexcl;El álbum debe de estar ordenado por fecha!)"
+msgstr ""
 
 msgid "Enable prev/next navigation by clicking in the left/right half of the image"
 msgstr ""
-"Habilitar navegación anterior/siguiente haciendo click en la mitad izquierda/derecha de la "
-"imagen"
 
 msgid "You must enter a number"
-msgstr "Debes introducir un número"
+msgstr "עליך להקליד מספר"
 
 msgid "This album is empty."
-msgstr "Este ábum está vacío."
+msgstr "האלבום ריק"
 
 msgid "Add a photo!"
-msgstr "&iexcl;Añade una foto!"
+msgstr "הוסף תמונה לאלבום!"
 
 msgid "no thumbnail"
-msgstr "sin miniatura"
+msgstr "ללא תמונה מוקטנתד"
 
 #, c-format
 msgid "%d Images"
-msgstr "%d Imágenes"
+msgstr ""
 
 msgid "Error!"
-msgstr "&iexcl;Error!"
+msgstr "שגיאה!"
 
-#, c-format
+#, fuzzy, c-format
 msgid "Download %s"
-msgstr "Descargar este %s"
+msgstr "הורד את %s"
 
 msgid "There is nothing to view for this item."
-msgstr "No hay nada que ver en este elemento."
+msgstr "אין מה לראות בפריט זה"
 
 #, c-format
 msgid "Download %s in original format"
-msgstr "Descarga %s en formato original"
+msgstr "הורד את %s המקורי"
 
 #, c-format
 msgid "(%dx%d)"
-msgstr "(%dx%d)"
+msgstr ""
 
 msgid "Continue..."
-msgstr "Continuar..."
+msgstr "המשך..."
