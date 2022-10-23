@@ -1,4 +1,4 @@
-# $Id: zh_TW.po 20954 2009-12-14 20:10:04Z mindless $
+# $Id: zh_TW.po 18950 2008-11-28 17:26:00Z mindless $
 #
 # Gallery - a web based photo album viewer and editor
 # Copyright (C) 2000-2008 Bharat Mediratta
